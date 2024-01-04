@@ -12,6 +12,7 @@ public abstract class TruongSingleton<T> : TruongChild
 {
     private static T instance;
     public static T Instance => instance;
+    public static bool IsAvailable => Instance != null;
 
     protected override void SetVarToDefault()
     {

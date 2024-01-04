@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public abstract class TruongChild : TruongMonoBehaviour
 {
@@ -8,8 +11,10 @@ public abstract class TruongChild : TruongMonoBehaviour
     {
         if (string.IsNullOrEmpty(objName)) return null;
         if (transform.Find(objName) != null) return null;
+        if (this.gameObject.scene != SceneManager.GetActiveScene()) return null;
 
-        var newGo = new GameObject
+        GameObject newGo = null;
+        newGo = new GameObject
         {
             name = objName,
             transform =
@@ -17,7 +22,6 @@ public abstract class TruongChild : TruongMonoBehaviour
                 parent = this.transform
             }
         };
-
         ResetTransformObj(newGo);
         return newGo.gameObject;
     }
