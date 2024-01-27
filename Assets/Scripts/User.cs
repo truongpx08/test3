@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class User : TruongSingleton<User>
 {
-    [SerializeField] private TileSpawner tileSpawner;
-    public TileSpawner TileSpawner => tileSpawner;
+    [SerializeField] private CellSpawner cellSpawner;
+    public CellSpawner CellSpawner => cellSpawner;
 
     protected override void LoadComponents()
     {
@@ -15,6 +15,6 @@ public class User : TruongSingleton<User>
 
     private void LoadTileSpawner()
     {
-        this.tileSpawner = GetComponentInChildren<TileSpawner>();
+        this.cellSpawner = GetComponentInChildren<CellSpawner>();
     }
 }

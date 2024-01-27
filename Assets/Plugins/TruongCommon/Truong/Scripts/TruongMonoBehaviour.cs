@@ -172,7 +172,13 @@ public abstract class TruongMonoBehaviour : MonoBehaviour
         return obj == null;
     }
 
-    protected GameObject GetChildWithName(string goName)
+    protected T GetComponentInChildrenWithName<T>(string goName)
+    {
+        return GetComponentInChildrenWithName(goName).GetComponent<T>();
+    }
+
+
+    protected GameObject GetComponentInChildrenWithName(string goName)
     {
         var list = GetAllChild();
         return list.Find(item => item.name == goName)?.gameObject;

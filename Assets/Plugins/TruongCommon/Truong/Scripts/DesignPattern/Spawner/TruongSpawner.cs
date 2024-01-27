@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using DG.Tweening;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
-using Component = UnityEngine.Component;
-using Random = UnityEngine.Random;
 
 public abstract class TruongSpawner : TruongChild
 {

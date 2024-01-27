@@ -16,4 +16,5 @@ public class TruongFolderName
     public const string LEVEL = "Level";
     public const string LOAD_ON_LOAD_SCENE = "LoadOnLoadScene";
     public const string POPUP = "Popup";
+    public const string Button = "Button";
 }
