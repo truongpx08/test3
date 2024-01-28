@@ -19,7 +19,7 @@ public class Hero : GameObj
 
     private void Jump()
     {
-        var target = User.Instance.CellSpawner.GetNextTile(atTile);
+        var target = PlayObjects.Instance.CellSpawner.GetNextTile(atTile);
         if (target == null) return;
         this.transform.DOMove(target.gameObject.transform.position, 0.25f).OnComplete(() => SetAtTile(target));
     }
