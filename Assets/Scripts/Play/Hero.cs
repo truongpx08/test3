@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Hero : GameObj
 {
-    [SerializeField] private Tile atTile;
+    [SerializeField] private Cell atCell;
 
-    public void SetAtTile(Tile value)
+    public void SetAtTile(Cell value)
     {
-        this.atTile = value;
+        this.atCell = value;
     }
 
     protected override void OnTimeChange(int value)
@@ -19,7 +19,7 @@ public class Hero : GameObj
 
     private void Jump()
     {
-        var target = PlayObjects.Instance.CellSpawner.GetNextTile(atTile);
+        var target = PlayObjects.Instance.CellSpawner.GetTileToJump(atCell);
         if (target == null) return;
         this.transform.DOMove(target.gameObject.transform.position, 0.25f).OnComplete(() => SetAtTile(target));
     }
