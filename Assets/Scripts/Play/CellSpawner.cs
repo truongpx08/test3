@@ -34,7 +34,8 @@ public class CellSpawner : SpawnerObj
         if (value != GameState.OnStart) return;
         SpawnCells(4, 4);
         SetTypeCells();
-        SetCellIdCanToCells();
+        SetAllyCellIdToJumpCells();
+        SetEnemyCellIdToJumpCells();
     }
 
 
@@ -103,53 +104,102 @@ public class CellSpawner : SpawnerObj
         });
     }
 
-    private void SetCellIdCanToCells()
+    private void SetEnemyCellIdToJumpCells()
+    {
+        var allySpawnPoint = this.cells.Find(c => c.Data.type == CellData.EnemySpawnPoint);
+        SetEnemyCellIdToJumpCell(allySpawnPoint);
+
+        void SetEnemyCellIdToJumpCell(Cell cell)
+        {
+            var cellsSameRow = new List<Cell>();
+            // Set Cells Same Row
+            this.cells.ForEach(c =>
+            {
+                if (c.Data.row != cell.Data.row) return;
+                if (c == cell) return;
+                if (c.Data.nextCellToJumpOfEnemies != -1) return;
+                cellsSameRow.Add(c);
+            });
+            // Set CellId To Jump
+            if (cellsSameRow.Count == 0)
+            {
+                var cellNextRow =
+                    this.cells.Find(c => c.Data.column == cell.Data.column && c.Data.row == cell.Data.row + 1);
+                if (cellNextRow == null) return;
+                cell.SetEnemyIdCellToJump(cellNextRow.Data.id);
+                SetEnemyCellIdToJumpCell(cellNextRow);
+                return;
+            }
+
+            Cell nextCellInRow = null;
+            cellsSameRow.ForEach(c =>
+            {
+                if (c.Data.column == cell.Data.column + 1)
+                {
+                    cell.SetEnemyIdCellToJump(c.Data.id);
+                    nextCellInRow = c;
+                }
+
+                if (c.Data.column == cell.Data.column - 1)
+                {
+                    cell.SetEnemyIdCellToJump(c.Data.id);
+                    nextCellInRow = c;
+                }
+            });
+            // Again Next Cell
+            if (nextCellInRow == null) return;
+            SetEnemyCellIdToJumpCell(nextCellInRow);
+        }
+    }
+
+    private void SetAllyCellIdToJumpCells()
     {
         var allySpawnPoint = this.cells.Find(c => c.Data.type == CellData.AllySpawnPoint);
-        SetCellIdToJumpCell(allySpawnPoint);
-    }
+        SetAllyCellIdToJumpCell(allySpawnPoint);
 
-    private void SetCellIdToJumpCell(Cell cell)
-    {
-        var cellsSameRow = new List<Cell>();
-        // Set Cells Same Row
-        this.cells.ForEach(c =>
+        void SetAllyCellIdToJumpCell(Cell cell)
         {
-            if (c.Data.row != cell.Data.row) return;
-            if (c == cell) return;
-            if (c.Data.nextCellToJumpOfAlly != -1) return;
-            cellsSameRow.Add(c);
-        });
-        // Set CellId To Jump
-        if (cellsSameRow.Count == 0)
-        {
-            var cellNextRow =
-                this.cells.Find(c => c.Data.column == cell.Data.column && c.Data.row == cell.Data.row - 1);
-            if (cellNextRow == null) return;
-            cell.SetAllyIdCellToJump(cellNextRow.Data.id);
-            SetCellIdToJumpCell(cellNextRow);
-            return;
+            var cellsSameRow = new List<Cell>();
+            // Set Cells Same Row
+            this.cells.ForEach(c =>
+            {
+                if (c.Data.row != cell.Data.row) return;
+                if (c == cell) return;
+                if (c.Data.nextCellToJumpOfAlly != -1) return;
+                cellsSameRow.Add(c);
+            });
+            // Set CellId To Jump
+            if (cellsSameRow.Count == 0)
+            {
+                var cellNextRow =
+                    this.cells.Find(c => c.Data.column == cell.Data.column && c.Data.row == cell.Data.row - 1);
+                if (cellNextRow == null) return;
+                cell.SetAllyIdCellToJump(cellNextRow.Data.id);
+                SetAllyCellIdToJumpCell(cellNextRow);
+                return;
+            }
+
+            Cell nextCellInRow = null;
+            cellsSameRow.ForEach(c =>
+            {
+                if (c.Data.column == cell.Data.column + 1)
+                {
+                    cell.SetAllyIdCellToJump(c.Data.id);
+                    nextCellInRow = c;
+                }
+
+                if (c.Data.column == cell.Data.column - 1)
+                {
+                    cell.SetAllyIdCellToJump(c.Data.id);
+                    nextCellInRow = c;
+                }
+            });
+            // Again Next Cell
+            if (nextCellInRow == null) return;
+            SetAllyCellIdToJumpCell(nextCellInRow);
         }
-
-        Cell nextCellInRow = null;
-        cellsSameRow.ForEach(c =>
-        {
-            if (c.Data.column == cell.Data.column + 1)
-            {
-                cell.SetAllyIdCellToJump(c.Data.id);
-                nextCellInRow = c;
-            }
-
-            if (c.Data.column == cell.Data.column - 1)
-            {
-                cell.SetAllyIdCellToJump(c.Data.id);
-                nextCellInRow = c;
-            }
-        });
-        // Again Next Cell
-        if (nextCellInRow == null) return;
-        SetCellIdToJumpCell(nextCellInRow);
     }
+
 
     public Cell GetTileToJump(Cell atCell)
     {

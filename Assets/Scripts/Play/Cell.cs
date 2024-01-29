@@ -8,14 +8,21 @@ public class Cell : SpawnerObj
 {
     [SerializeField] private CellData data;
     public CellData Data => data;
-    [SerializeField] private TextMeshPro tileIdToJumpTMP;
+    [SerializeField] private TextMeshPro tileAllyIdToJumpTMP;
+    [SerializeField] private TextMeshPro tileEnemyIdToJumpTMP;
     [SerializeField] private TextMeshPro idTMP;
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadTileIdToJump();
+        LoadAllyTileIdToJump();
+        LoadEnemyTileIdToJump();
         LoadIdTMP();
+    }
+
+    private void LoadEnemyTileIdToJump()
+    {
+        this.tileEnemyIdToJumpTMP = transform.Find("TileEnemyIdToJump").GetComponent<TextMeshPro>();
     }
 
     private void LoadIdTMP()
@@ -23,9 +30,9 @@ public class Cell : SpawnerObj
         this.idTMP = transform.Find("IdTMP").GetComponent<TextMeshPro>();
     }
 
-    private void LoadTileIdToJump()
+    private void LoadAllyTileIdToJump()
     {
-        this.tileIdToJumpTMP = transform.Find("TileIdToJump").GetComponent<TextMeshPro>();
+        this.tileAllyIdToJumpTMP = transform.Find("TileAllyIdToJump").GetComponent<TextMeshPro>();
     }
 
     public void SetData(CellData cellData)
@@ -56,7 +63,7 @@ public class Cell : SpawnerObj
     public void SetName()
     {
         this.name = $"Cell c{this.data.column}, y{this.data.row}, id{this.data.id}";
-        this.idTMP.text = this.data.id.ToString() ;
+        this.idTMP.text = this.data.id.ToString();
     }
 
     public void SetType(string value)
@@ -67,6 +74,12 @@ public class Cell : SpawnerObj
     public void SetAllyIdCellToJump(int value)
     {
         this.data.nextCellToJumpOfAlly = value;
-        this.tileIdToJumpTMP.text = value.ToString();
+        this.tileAllyIdToJumpTMP.text = value.ToString();
+    }
+
+    public void SetEnemyIdCellToJump(int value)
+    {
+        this.data.nextCellToJumpOfEnemies = value;
+        this.tileEnemyIdToJumpTMP.text = value.ToString();
     }
 }
