@@ -61,8 +61,8 @@ public class CellSpawner : SpawnerObj
                     id = count,
                     row = r,
                     column = c,
-                    nextCellToJumpOfAlly = -1,
-                    nextCellToJumpOfEnemy = -1
+                    cellToJumpOfAlly = -1,
+                    cellToJumpOfEnemy = -1
                 });
                 cell.SetName();
 
@@ -117,7 +117,7 @@ public class CellSpawner : SpawnerObj
             {
                 if (c.Data.row != cell.Data.row) return;
                 if (c == cell) return;
-                if (c.Data.nextCellToJumpOfEnemy != -1) return;
+                if (c.Data.cellToJumpOfEnemy != -1) return;
                 cellsSameRow.Add(c);
             });
             // Set CellId To Jump
@@ -165,7 +165,7 @@ public class CellSpawner : SpawnerObj
             {
                 if (c.Data.row != cell.Data.row) return;
                 if (c == cell) return;
-                if (c.Data.nextCellToJumpOfAlly != -1) return;
+                if (c.Data.cellToJumpOfAlly != -1) return;
                 cellsSameRow.Add(c);
             });
             // Set CellId To Jump
@@ -200,14 +200,8 @@ public class CellSpawner : SpawnerObj
         }
     }
 
-
-    public Cell GetCellToJumpOfAlly(Cell atCell)
+    public Cell GetCellWithId(int id)
     {
-        return cells.Find(item => item.Data.id == atCell.Data.nextCellToJumpOfAlly);
-    }
-
-    public Cell GetCellToJumpOfEnemy(Cell atCell)
-    {
-        return cells.Find(item => item.Data.id == atCell.Data.nextCellToJumpOfEnemy);
+        return cells.Find(item => item.Data.id == id);
     }
 }

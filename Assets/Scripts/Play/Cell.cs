@@ -4,13 +4,21 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
-public class Cell : SpawnerObj
+public class Cell : PlayObject
 {
-    [SerializeField] private CellData data;
-    public CellData Data => data;
+    [TitleGroup("Ref")]
+    [SerializeField] private CellHeroSpawner heroSpawner;
+    public CellHeroSpawner HeroSpawner => heroSpawner;
+    [SerializeField] private CellHeroDespawner heroDespawner;
+    public CellHeroDespawner HeroDespawner => heroDespawner;
     [SerializeField] private TextMeshPro tileAllyIdToJumpTMP;
     [SerializeField] private TextMeshPro tileEnemyIdToJumpTMP;
     [SerializeField] private TextMeshPro idTMP;
+    [TitleGroup("Data")]
+    [SerializeField] private CellData data;
+    public CellData Data => data;
+    public bool HasHero => heroSpawner.Holder.Items.Count != 0;
+    public Hero Hero => heroSpawner.Holder.Items[0].GetComponent<Hero>();
 
     protected override void LoadComponents()
     {
@@ -18,6 +26,18 @@ public class Cell : SpawnerObj
         LoadAllyTileIdToJump();
         LoadEnemyTileIdToJump();
         LoadIdTMP();
+        LoadHeroSpawner();
+        LoadHeroDespawner();
+    }
+
+    private void LoadHeroDespawner()
+    {
+        this.heroDespawner = GetComponentInChildren<CellHeroDespawner>();
+    }
+
+    private void LoadHeroSpawner()
+    {
+        this.heroSpawner = GetComponentInChildren<CellHeroSpawner>();
     }
 
     private void LoadEnemyTileIdToJump()
@@ -40,37 +60,6 @@ public class Cell : SpawnerObj
         this.data = cellData;
     }
 
-    protected override void LoadPrefabInResource()
-    {
-        LoadPrefabInResourceWithPrefabName("Hero");
-    }
-
-    protected override void OnTimeChange(int value)
-    {
-    }
-
-    protected override void OnStateChange(string value)
-    {
-    }
-
-    [Button]
-    private void SpawnAlly()
-    {
-        var go = SpawnObjectWithName("Ally");
-        SetUpGo(go);
-    }
-
-    [Button]
-    private void SpawnEnemy()
-    {
-        var go = SpawnObjectWithName("Enemy");
-        SetUpGo(go);
-    }
-
-    private void SetUpGo(Transform go)
-    {
-        go.GetComponent<Hero>().SetAtTile(this);
-    }
 
     public void SetName()
     {
@@ -85,13 +74,13 @@ public class Cell : SpawnerObj
 
     public void SetAllyIdCellToJump(int value)
     {
-        this.data.nextCellToJumpOfAlly = value;
+        this.data.cellToJumpOfAlly = value;
         this.tileAllyIdToJumpTMP.text = value.ToString();
     }
 
     public void SetEnemyIdCellToJump(int value)
     {
-        this.data.nextCellToJumpOfEnemy = value;
+        this.data.cellToJumpOfEnemy = value;
         this.tileEnemyIdToJumpTMP.text = value.ToString();
     }
 }

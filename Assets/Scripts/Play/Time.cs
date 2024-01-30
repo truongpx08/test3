@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Time : GameObj
+public class Time : PlayObject
 {
     [SerializeField] private int time;
     [SerializeField] private int maxTime;
@@ -10,7 +10,7 @@ public class Time : GameObj
     protected override void SetVarToDefault()
     {
         base.SetVarToDefault();
-        maxTime = 90;
+        maxTime = 9000;
     }
 
     protected override void OnTimeChange(int value)

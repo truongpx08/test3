@@ -11,6 +11,11 @@ public class Ally : Hero
 
     protected override Cell GetCellToJump()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellToJumpOfAlly(atCell);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.data.currentCell.Data.cellToJumpOfAlly);
+    }
+
+    protected override Cell GetNextCellToJump()
+    {
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.data.cellToJump.Data.cellToJumpOfAlly);
     }
 }

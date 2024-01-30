@@ -12,6 +12,11 @@ public class Enemy : Hero
 
     protected override Cell GetCellToJump()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellToJumpOfEnemy(atCell);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.data.currentCell.Data.cellToJumpOfEnemy);
+    }
+
+    protected override Cell GetNextCellToJump()
+    {
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.data.cellToJump.Data.cellToJumpOfEnemy);
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class GameObj : TruongMonoBehaviour, IMessageHandler
+public abstract class PlayObject : TruongMonoBehaviour, IMessageHandler
 {
     protected override void OnEnable()
     {

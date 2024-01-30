@@ -51,7 +51,7 @@ public abstract class TruongSpawner : TruongChild
     }
 
     [Button]
-    protected Transform SpawnObjectWithName(string prefabName)
+    public Transform SpawnObjectWithName(string prefabName)
     {
         var prefab = prefabs.GetPrefabWithName(prefabName);
         return SpawnObjectWithPrefab(prefab);

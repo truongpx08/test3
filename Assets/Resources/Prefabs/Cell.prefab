@@ -33,8 +33,8 @@ Transform:
   - {fileID: 4356823139067335534}
   - {fileID: 7687568061342485278}
   - {fileID: 1476470238842779840}
-  - {fileID: 8890254720963780231}
-  - {fileID: 5091391064946598732}
+  - {fileID: 1526567932990262594}
+  - {fileID: 8059515946609293032}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,18 +50,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c4f12554f96aef4e982a91af61fe03d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holder: {fileID: 3083698552997853180}
-  prefabs: {fileID: 2584910278178064110}
+  heroSpawner: {fileID: 4712832983731580793}
+  heroDespawner: {fileID: 5911838644387350390}
+  tileAllyIdToJumpTMP: {fileID: 7867333978803485138}
+  tileEnemyIdToJumpTMP: {fileID: 8603037088663119986}
+  idTMP: {fileID: 1175455558090173213}
   data:
     id: 0
     row: 0
     column: 0
-    nextCellToJumpOfAlly: 0
-    nextCellToJumpOfEnemies: 0
+    cellToJumpOfAlly: 0
+    cellToJumpOfEnemy: 0
     type: 
-  tileAllyIdToJumpTMP: {fileID: 7867333978803485138}
-  tileEnemyIdToJumpTMP: {fileID: 8603037088663119986}
-  idTMP: {fileID: 1175455558090173213}
 --- !u!1 &1365138042950121518
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,13 +86,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365138042950121518}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7647495603582160457}
-  m_RootOrder: 5
+  m_Father: {fileID: 1526567932990262594}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2584910278178064110
 MonoBehaviour:
@@ -109,6 +109,8 @@ MonoBehaviour:
   prefabName: Hero
   prefabPath: Prefabs\Hero
   items:
+  - {fileID: 6910739313901093078, guid: f4f996c3c473a1c4ea72ac119cf519e2, type: 3}
+  - {fileID: 6910739313901093078, guid: 6ed48d8cf0497c04593edd33b3be6b68, type: 3}
   - {fileID: 138824370882388670, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
 --- !u!1 &3235096314078158630
 GameObject:
@@ -218,13 +220,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3517013862715245400}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7647495603582160457}
-  m_RootOrder: 4
+  m_Father: {fileID: 1526567932990262594}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3083698552997853180
 MonoBehaviour:
@@ -411,6 +413,54 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 8211206740628391144}
   m_maskType: 0
+--- !u!1 &4854104663244042404
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1526567932990262594}
+  - component: {fileID: 4712832983731580793}
+  m_Layer: 0
+  m_Name: HeroSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1526567932990262594
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854104663244042404}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8890254720963780231}
+  - {fileID: 5091391064946598732}
+  m_Father: {fileID: 7647495603582160457}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4712832983731580793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854104663244042404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fe134d023c6d74091f94a6671c8a44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holder: {fileID: 3083698552997853180}
+  prefabs: {fileID: 2584910278178064110}
 --- !u!1 &5457081116248672508
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,3 +805,48 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 5833102139050171382}
   m_maskType: 0
+--- !u!1 &7492529405508507500
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8059515946609293032}
+  - component: {fileID: 5911838644387350390}
+  m_Layer: 0
+  m_Name: HeroDespawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8059515946609293032
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492529405508507500}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7647495603582160457}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5911838644387350390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7492529405508507500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67724a65ed9d93f4495a3c33ea2752fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawner: {fileID: 4712832983731580793}
