@@ -62,7 +62,7 @@ public class CellSpawner : SpawnerObj
                     row = r,
                     column = c,
                     nextCellToJumpOfAlly = -1,
-                    nextCellToJumpOfEnemies = -1
+                    nextCellToJumpOfEnemy = -1
                 });
                 cell.SetName();
 
@@ -117,7 +117,7 @@ public class CellSpawner : SpawnerObj
             {
                 if (c.Data.row != cell.Data.row) return;
                 if (c == cell) return;
-                if (c.Data.nextCellToJumpOfEnemies != -1) return;
+                if (c.Data.nextCellToJumpOfEnemy != -1) return;
                 cellsSameRow.Add(c);
             });
             // Set CellId To Jump
@@ -201,8 +201,13 @@ public class CellSpawner : SpawnerObj
     }
 
 
-    public Cell GetTileToJump(Cell atCell)
+    public Cell GetCellToJumpOfAlly(Cell atCell)
     {
         return cells.Find(item => item.Data.id == atCell.Data.nextCellToJumpOfAlly);
+    }
+
+    public Cell GetCellToJumpOfEnemy(Cell atCell)
+    {
+        return cells.Find(item => item.Data.id == atCell.Data.nextCellToJumpOfEnemy);
     }
 }

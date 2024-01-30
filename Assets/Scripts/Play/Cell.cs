@@ -54,9 +54,21 @@ public class Cell : SpawnerObj
     }
 
     [Button]
-    private void SpawnHero()
+    private void SpawnAlly()
     {
-        var go = SpawnDefaultObject();
+        var go = SpawnObjectWithName("Ally");
+        SetUpGo(go);
+    }
+
+    [Button]
+    private void SpawnEnemy()
+    {
+        var go = SpawnObjectWithName("Enemy");
+        SetUpGo(go);
+    }
+
+    private void SetUpGo(Transform go)
+    {
         go.GetComponent<Hero>().SetAtTile(this);
     }
 
@@ -79,7 +91,7 @@ public class Cell : SpawnerObj
 
     public void SetEnemyIdCellToJump(int value)
     {
-        this.data.nextCellToJumpOfEnemies = value;
+        this.data.nextCellToJumpOfEnemy = value;
         this.tileEnemyIdToJumpTMP.text = value.ToString();
     }
 }

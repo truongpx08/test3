@@ -3,9 +3,29 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class Hero : GameObj
+public abstract class Hero : GameObj
 {
-    [SerializeField] private Cell atCell;
+    [SerializeField] protected Cell atCell;
+    [SerializeField] protected SpriteRenderer model;
+
+    protected override void LoadComponents()
+    {
+        base.LoadComponents();
+        LoadModel();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        SetColor();
+    }
+
+    protected abstract void SetColor(); 
+
+    private void LoadModel()
+    {
+        this.model = this.transform.Find(TruongChildName.Model).GetComponent<SpriteRenderer>();
+    }
 
     public void SetAtTile(Cell value)
     {
@@ -17,12 +37,14 @@ public class Hero : GameObj
         Jump();
     }
 
-    private void Jump()
+    protected void Jump()
     {
-        var target = PlayObjects.Instance.CellSpawner.GetTileToJump(atCell);
+        var target = GetCellToJump();
         if (target == null) return;
         this.transform.DOMove(target.gameObject.transform.position, 0.25f).OnComplete(() => SetAtTile(target));
     }
+
+    protected abstract Cell GetCellToJump();
 
     protected override void OnStateChange(string value)
     {

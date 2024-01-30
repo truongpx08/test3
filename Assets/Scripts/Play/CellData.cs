@@ -5,7 +5,7 @@ public class CellData
     public int row;
     public int column;
     public int nextCellToJumpOfAlly;
-    public int nextCellToJumpOfEnemies;
+    public int nextCellToJumpOfEnemy;
     public string type;
     public const string EnemySpawnPoint = "EnemySpawnPoint";
     public const string AllySpawnPoint = "AllySpawnPoint";
