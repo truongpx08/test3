@@ -22,7 +22,7 @@ public abstract class AmountAbstract : GameObj
     {
     }
 
-    protected override void OnStateChange(string value)
+    protected override void OnGameStateChange(string value)
     {
         if (value != GameState.OnStart) return;
         SetAmountOnStart();

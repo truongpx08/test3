@@ -18,7 +18,7 @@ public class Time : GameObj
         this.time = value;
     }
 
-    protected override void OnStateChange(string value)
+    protected override void OnGameStateChange(string value)
     {
         if (value != GameState.OnStart) return;
         StartCoroutine(CountDown());

@@ -12,8 +12,9 @@ public abstract class GameObj : TruongMonoBehaviour, IMessageHandler
         IEnumerator Wait()
         {
             yield return new WaitUntil(() => TruongObserver.IsAvailable);
-            TruongObserver.Instance.AddSubscriber(MessageType.OnStateChange, this);
+            TruongObserver.Instance.AddSubscriber(MessageType.OnGameStateChange, this);
             TruongObserver.Instance.AddSubscriber(MessageType.OnTimeChange, this);
+            TruongObserver.Instance.AddSubscriber(MessageType.OnHeroStateChange, this);
         }
     }
 
@@ -21,26 +22,41 @@ public abstract class GameObj : TruongMonoBehaviour, IMessageHandler
     {
         base.OnDisable();
         if (!TruongObserver.IsAvailable) return;
-        TruongObserver.Instance.RemoveSubscriber(MessageType.OnStateChange, this);
+        TruongObserver.Instance.RemoveSubscriber(MessageType.OnGameStateChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnTimeChange, this);
+        TruongObserver.Instance.RemoveSubscriber(MessageType.OnHeroStateChange, this);
     }
 
     public void HandleMessage(Message message)
     {
         switch (message.type)
         {
-            case MessageType.OnStateChange:
-                OnStateChange(message.data[0].ToString());
+            case MessageType.OnGameStateChange:
+                OnGameStateChange(message.data[0].ToString());
                 break;
 
             case MessageType.OnTimeChange:
                 OnTimeChange((int)message.data[0]);
                 break;
+            case MessageType.OnHeroStateChange:
+                OnHeroStateChange(message.data[0].ToString());
+                break;
         }
     }
 
 
-    protected abstract void OnTimeChange(int value);
+    protected virtual void OnGameStateChange(string value)
+    {
+        // For Override
+    }
 
-    protected abstract void OnStateChange(string value);
+    protected virtual void OnTimeChange(int value)
+    {
+        // For Override
+    }
+
+    protected virtual void OnHeroStateChange(string value)
+    {
+        // For Override
+    }
 }

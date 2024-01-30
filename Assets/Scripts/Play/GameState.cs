@@ -4,38 +4,36 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class GameState : GameObj
+public class GameState : State
 {
     public const string OnStart = "OnStart";
     public const string OnUpdate = "OnUpdate";
     public const string OnEnd = "OnEnd";
-    [SerializeField] private string currentState;
 
     protected override void Start()
     {
         base.Start();
         //wait objects subscribe observer
-        DOVirtual.DelayedCall(0.5f, () => SetCurrentState(OnStart)).OnComplete(() =>
+        DOVirtual.DelayedCall(0.5f, () => SendStateToSubscribers(OnStart)).OnComplete(() =>
         {
-            DOVirtual.DelayedCall(1f, () => SetCurrentState(OnUpdate));
+            DOVirtual.DelayedCall(1f, () => SendStateToSubscribers(OnUpdate));
         });
-    }
-
-    [Button]
-    private void SetCurrentState(string value)
-    {
-        TruongObserver.Instance.Notify(new Message(MessageType.OnStateChange,
-            new object[] { value }));
     }
 
     protected override void OnTimeChange(int value)
     {
         if (value != 0) return;
-        SetCurrentState(OnEnd);
+        SendStateToSubscribers(OnEnd);
     }
 
-    protected override void OnStateChange(string value)
+    protected override void OnGameStateChange(string value)
     {
-        this.currentState = value;
+        SetCurrentState(value);
+    }
+
+    protected override void SendStateToSubscribers(string value)
+    {
+        TruongObserver.Instance.Notify(new Message(MessageType.OnGameStateChange,
+            new object[] { value }));
     }
 }

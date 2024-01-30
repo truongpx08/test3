@@ -12,7 +12,7 @@ public abstract class SpawnerObj : TruongSpawner, IMessageHandler
         IEnumerator Wait()
         {
             yield return new WaitUntil(() => TruongObserver.IsAvailable);
-            TruongObserver.Instance.AddSubscriber(MessageType.OnStateChange, this);
+            TruongObserver.Instance.AddSubscriber(MessageType.OnGameStateChange, this);
             TruongObserver.Instance.AddSubscriber(MessageType.OnTimeChange, this);
         }
     }
@@ -21,7 +21,7 @@ public abstract class SpawnerObj : TruongSpawner, IMessageHandler
     {
         base.OnDisable();
         if (!TruongObserver.IsAvailable) return;
-        TruongObserver.Instance.RemoveSubscriber(MessageType.OnStateChange, this);
+        TruongObserver.Instance.RemoveSubscriber(MessageType.OnGameStateChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnTimeChange, this);
     }
 
@@ -29,7 +29,7 @@ public abstract class SpawnerObj : TruongSpawner, IMessageHandler
     {
         switch (message.type)
         {
-            case MessageType.OnStateChange:
+            case MessageType.OnGameStateChange:
                 OnStateChange(message.data[0].ToString());
                 break;
 
