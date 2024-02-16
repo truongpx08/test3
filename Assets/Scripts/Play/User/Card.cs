@@ -5,13 +5,19 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
-    class CardData
+    [Button]
+    void UseAlly()
     {
-        public int heroIndex;
+        var cell = PlayObjects.Instance.CellSpawner.Cells.Find(c => c.Data.type == CellType.ReserveAlly && !c.HasHero);
+        if (!cell) return;
+        cell.HeroSpawner.SpawnAlly();
     }
 
     [Button]
-    void Use()
+    void UseEnemy()
     {
+        var cell = PlayObjects.Instance.CellSpawner.Cells.Find(c => c.Data.type == CellType.ReserveEnemy && !c.HasHero);
+        if (!cell) return;
+        cell.HeroSpawner.SpawnEnemy();
     }
 }

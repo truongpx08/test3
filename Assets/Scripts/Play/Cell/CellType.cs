@@ -1,7 +1,8 @@
-public class CellDataType
+public class CellType
 {
     public const string EnemySpawnPoint = "EnemySpawnPoint";
     public const string AllySpawnPoint = "AllySpawnPoint";
     public const string Combat = "Combat";
-    public const string Reserve = "Reserve";
+    public const string ReserveAlly = "ReserveAlly";
+    public const string ReserveEnemy = "ReserveEnemy";
 }

@@ -26,14 +26,14 @@ public class CellHeroSpawner : TruongSpawner
     }
 
     [Button]
-    private void SpawnAlly()
+    public void SpawnAlly()
     {
         var go = SpawnObjectWithName("Ally");
         SetUpGo(go);
     }
 
     [Button]
-    private void SpawnEnemy()
+    public void SpawnEnemy()
     {
         var go = SpawnObjectWithName("Enemy");
         SetUpGo(go);

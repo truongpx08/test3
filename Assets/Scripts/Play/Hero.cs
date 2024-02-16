@@ -30,13 +30,13 @@ public abstract class Hero : PlayObject
 
     protected abstract void SetColor();
 
-    public void SetAtTile(Cell value)
+    private void SetCurrentCell(Cell value)
     {
         this.data.currentCell = value;
     }
 
-    protected abstract Cell GetCellToJump();
-    protected abstract Cell GetNextCellToJump();
+    protected abstract Cell GetNextCell();
+    protected abstract Cell GetSubsequentCell();
 
     public void Spawn(Cell cell)
     {
@@ -45,42 +45,55 @@ public abstract class Hero : PlayObject
             hp = 10,
             atk = 1
         };
-        SetAtTile(cell);
+        SetCurrentCell(cell);
     }
 
-    protected void Jump()
+    protected override void OnTimeChange(int value)
     {
-        // this.data.cellToJump = GetCellToJump();
-        // if (this.data.cellToJump == null) return;
-        // if (this.data.cellToJump.HasHero) return;
-        //
-        // this.data.nextCellToJump = GetNextCellToJump();
-        // if (this.data.nextCellToJump == null) return;
-        // if (this.data.nextCellToJump.HasHero) return;
-        //
-        // this.transform.DOMove(this.data.cellToJump.gameObject.transform.position, HeroState.TimeJump).OnComplete(() =>
-        // {
-        //     var thisTransform = this.transform;
-        //     thisTransform.parent = this.data.cellToJump.HeroSpawner.Holder.transform;
-        //     this.data.currentCell.HeroSpawner.Holder.Items.Clear();
-        //     this.data.cellToJump.HeroSpawner.Holder.Items.Add(thisTransform);
-        //     SetAtTile(this.data.cellToJump);
-        // });
+        base.OnTimeChange(value);
+        Jump();
     }
 
-    private void Attack()
+    protected abstract void Jump();
+
+    protected void JumpNextCell()
     {
-        if (this.data.cellToJump == null && this.data.nextCellToJump == null) return;
-        Hero hero;
-        if (this.data.cellToJump.HasHero)
+        this.data.nextCell = GetNextCell();
+        if (this.data.nextCell == null) return;
+        if (this.data.nextCell.Data.type == CellType.ReserveEnemy) return;
+        if (this.data.nextCell.Data.type == CellType.ReserveAlly) return;
+        if (this.data.nextCell.HasHero)
         {
-            hero = this.data.cellToJump.Hero;
-            hero.Hurt(this.data.atk);
+            Attack(this.data.nextCell.Hero);
             return;
         }
 
-        hero = this.data.nextCellToJump.Hero;
-        hero.Hurt(this.data.atk);
+        this.data.subsequentCell = GetSubsequentCell();
+        if (this.data.subsequentCell == null) return;
+        if (this.data.subsequentCell.HasHero)
+        {
+            Attack(this.data.subsequentCell.Hero);
+            return;
+        }
+
+        JumpToCell(this.data.nextCell);
+    }
+
+    protected void JumpToCell(Cell cell)
+    {
+        this.transform.DOMove(cell.gameObject.transform.position, 0.25f).OnComplete(() =>
+        {
+            var thisTransform = this.transform;
+            thisTransform.parent = cell.HeroSpawner.Holder.transform;
+            this.data.currentCell.HeroSpawner.Holder.Items.Clear();
+            cell.HeroSpawner.Holder.Items.Add(thisTransform);
+            SetCurrentCell(cell);
+        });
+    }
+
+    private void Attack(Hero target)
+    {
+        target.Hurt(this.data.atk);
     }
 
     private void Hurt(int value)

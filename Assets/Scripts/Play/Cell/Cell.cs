@@ -19,7 +19,7 @@ public abstract class Cell : PlayObject
     [TitleGroup("Data")]
     [SerializeField] private CellData data;
     public CellData Data => data;
-    public bool HasHero => heroSpawner.Holder.Items.Count != 0;
+    public bool HasHero => heroSpawner.Holder.Items.Count != 0 && heroSpawner.Holder.Items[0].gameObject.activeSelf;
     public Hero Hero => heroSpawner.Holder.Items[0].GetComponent<Hero>();
 
     protected override void LoadComponents()
@@ -110,28 +110,28 @@ public abstract class Cell : PlayObject
     {
         if (Data.row == 0)
         {
-            SetType(CellDataType.Reserve);
+            SetType(CellType.ReserveEnemy);
             return;
         }
 
-        if (Data.row == CellSpawner.row - 1)
+        if (Data.row == CellSpawner.Row - 1)
         {
-            SetType(CellDataType.Reserve);
+            SetType(CellType.ReserveAlly);
             return;
         }
 
         if (Data.row == 1 && Data.column == 0)
         {
-            SetType(CellDataType.EnemySpawnPoint);
+            SetType(CellType.EnemySpawnPoint);
             return;
         }
 
-        if (Data.row == CellSpawner.row - 2 && Data.column == 0)
+        if (Data.row == CellSpawner.Row - 2 && Data.column == 0)
         {
-            SetType(CellDataType.AllySpawnPoint);
+            SetType(CellType.AllySpawnPoint);
             return;
         }
 
-        SetType(CellDataType.Combat);
+        SetType(CellType.Combat);
     }
 }

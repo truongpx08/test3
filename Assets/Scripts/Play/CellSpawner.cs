@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class CellSpawner : SpawnerObj
 {
-    public static int row = 6;
-    public static int column = 4;
+    public const int Row = 6;
+    public const int Column = 4;
     [SerializeField] private float spacing;
     [SerializeField] private float top;
     [SerializeField] private float left;
     [SerializeField] private int count;
     [SerializeField] private List<Cell> cells;
+    public List<Cell> Cells => cells;
 
     protected override void SetVarToDefault()
     {
@@ -32,8 +33,7 @@ public class CellSpawner : SpawnerObj
     protected override void OnStateChange(string value)
     {
         if (value != GameState.OnStart) return;
-        SpawnCells(row, column);
-        SetTypeCells();
+        SpawnCells(Row, Column);
         SetAllyCellIdToJumpCells();
         SetEnemyCellIdToJumpCells();
     }
@@ -53,7 +53,7 @@ public class CellSpawner : SpawnerObj
                 var obj = SpawnCellWithRow(r);
                 SetPositionCell(obj, r, c);
                 var cell = obj.GetComponent<Cell>();
-                this.cells.Add(cell);
+
                 cell.AddData(new CellData()
                 {
                     id = count,
@@ -65,7 +65,7 @@ public class CellSpawner : SpawnerObj
                 cell.AddName();
                 cell.AddType();
 
-
+                this.cells.Add(cell);
                 count++;
             }
         }
@@ -75,15 +75,15 @@ public class CellSpawner : SpawnerObj
     {
         if (r == 0)
             return SpawnObjectWithName("ReserveCell");
-        if (r == row - 1)
+        if (r == Row - 1)
             return SpawnObjectWithName("ReserveCell");
         return SpawnObjectWithName("CombatCell");
     }
 
     private void InitVarToSetPosition()
     {
-        float maxHeight = (row - 1) * this.spacing;
-        float maxWidth = (column - 1) * this.spacing;
+        float maxHeight = (Row - 1) * this.spacing;
+        float maxWidth = (Column - 1) * this.spacing;
         this.top = maxHeight / 2;
         this.left = maxWidth / 2;
     }
@@ -93,14 +93,10 @@ public class CellSpawner : SpawnerObj
         obj.transform.position = new Vector3(c * spacing - left, r * -spacing + top, 0);
     }
 
-    private void SetTypeCells()
-    {
-        cells.ForEach(cell => { });
-    }
 
     private void SetEnemyCellIdToJumpCells()
     {
-        var allySpawnPoint = this.cells.Find(c => c.Data.type == CellDataType.EnemySpawnPoint);
+        var allySpawnPoint = this.cells.Find(c => c.Data.type == CellType.EnemySpawnPoint);
         SetEnemyCellIdToJumpCell(allySpawnPoint);
 
         void SetEnemyCellIdToJumpCell(Cell cell)
@@ -148,7 +144,7 @@ public class CellSpawner : SpawnerObj
 
     private void SetAllyCellIdToJumpCells()
     {
-        var allySpawnPoint = this.cells.Find(c => c.Data.type == CellDataType.AllySpawnPoint);
+        var allySpawnPoint = this.cells.Find(c => c.Data.type == CellType.AllySpawnPoint);
         SetAllyCellIdToJumpCell(allySpawnPoint);
 
         void SetAllyCellIdToJumpCell(Cell cell)
