@@ -8,5 +8,4 @@ public abstract class MessageType
     public const string OnTimeChange = "OnTimeChange";
     public const string OnManaChange = "OnManaChange";
     public const string OnHpChange = "OnHpChange";
-    public const string OnHeroStateChange = "OnHeroStateChange";
 }

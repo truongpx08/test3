@@ -14,7 +14,6 @@ public abstract class PlayObject : TruongMonoBehaviour, IMessageHandler
             yield return new WaitUntil(() => TruongObserver.IsAvailable);
             TruongObserver.Instance.AddSubscriber(MessageType.OnGameStateChange, this);
             TruongObserver.Instance.AddSubscriber(MessageType.OnTimeChange, this);
-            TruongObserver.Instance.AddSubscriber(MessageType.OnHeroStateChange, this);
         }
     }
 
@@ -24,7 +23,6 @@ public abstract class PlayObject : TruongMonoBehaviour, IMessageHandler
         if (!TruongObserver.IsAvailable) return;
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnGameStateChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnTimeChange, this);
-        TruongObserver.Instance.RemoveSubscriber(MessageType.OnHeroStateChange, this);
     }
 
     public void HandleMessage(Message message)
@@ -38,9 +36,6 @@ public abstract class PlayObject : TruongMonoBehaviour, IMessageHandler
             case MessageType.OnTimeChange:
                 OnTimeChange((int)message.data[0]);
                 break;
-            case MessageType.OnHeroStateChange:
-                OnHeroStateChange(message.data[0].ToString());
-                break;
         }
     }
 
@@ -51,11 +46,6 @@ public abstract class PlayObject : TruongMonoBehaviour, IMessageHandler
     }
 
     protected virtual void OnTimeChange(int value)
-    {
-        // For Override
-    }
-
-    protected virtual void OnHeroStateChange(string value)
     {
         // For Override
     }

@@ -4,13 +4,15 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
-public class Cell : PlayObject
+public abstract class Cell : PlayObject
 {
     [TitleGroup("Ref")]
     [SerializeField] private CellHeroSpawner heroSpawner;
     public CellHeroSpawner HeroSpawner => heroSpawner;
     [SerializeField] private CellHeroDespawner heroDespawner;
     public CellHeroDespawner HeroDespawner => heroDespawner;
+
+    [SerializeField] public SpriteRenderer model;
     [SerializeField] private TextMeshPro tileAllyIdToJumpTMP;
     [SerializeField] private TextMeshPro tileEnemyIdToJumpTMP;
     [SerializeField] private TextMeshPro idTMP;
@@ -26,8 +28,15 @@ public class Cell : PlayObject
         LoadAllyTileIdToJump();
         LoadEnemyTileIdToJump();
         LoadIdTMP();
+        LoadModel();
         LoadHeroSpawner();
         LoadHeroDespawner();
+    }
+
+
+    private void LoadModel()
+    {
+        this.model = transform.Find(TruongConstants.MODEL).GetComponent<SpriteRenderer>();
     }
 
     private void LoadHeroDespawner()
@@ -55,19 +64,27 @@ public class Cell : PlayObject
         this.tileAllyIdToJumpTMP = transform.Find("TileAllyIdToJump").GetComponent<TextMeshPro>();
     }
 
-    public void SetData(CellData cellData)
+    protected override void Start()
+    {
+        base.Start();
+        AddColor();
+    }
+
+
+    protected abstract void AddColor();
+
+    public void AddData(CellData cellData)
     {
         this.data = cellData;
     }
 
-
-    public void SetName()
+    public void AddName()
     {
         this.name = $"Cell c{this.data.column}, y{this.data.row}, id{this.data.id}";
         this.idTMP.text = this.data.id.ToString();
     }
 
-    public void SetType(string value)
+    private void SetType(string value)
     {
         this.data.type = value;
     }
@@ -82,5 +99,39 @@ public class Cell : PlayObject
     {
         this.data.cellToJumpOfEnemy = value;
         this.tileEnemyIdToJumpTMP.text = value.ToString();
+    }
+
+    protected void AddColor(Color value)
+    {
+        this.model.color = value;
+    }
+
+    public void AddType()
+    {
+        if (Data.row == 0)
+        {
+            SetType(CellDataType.Reserve);
+            return;
+        }
+
+        if (Data.row == CellSpawner.row - 1)
+        {
+            SetType(CellDataType.Reserve);
+            return;
+        }
+
+        if (Data.row == 1 && Data.column == 0)
+        {
+            SetType(CellDataType.EnemySpawnPoint);
+            return;
+        }
+
+        if (Data.row == CellSpawner.row - 2 && Data.column == 0)
+        {
+            SetType(CellDataType.AllySpawnPoint);
+            return;
+        }
+
+        SetType(CellDataType.Combat);
     }
 }

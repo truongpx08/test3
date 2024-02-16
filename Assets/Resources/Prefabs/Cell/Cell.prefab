@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7647495603582160457}
-  - component: {fileID: 6440508327284774738}
   m_Layer: 0
   m_Name: Cell
   m_TagString: Untagged
@@ -38,30 +37,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6440508327284774738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264667392905089340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c4f12554f96aef4e982a91af61fe03d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  heroSpawner: {fileID: 4712832983731580793}
-  heroDespawner: {fileID: 5911838644387350390}
-  tileAllyIdToJumpTMP: {fileID: 7867333978803485138}
-  tileEnemyIdToJumpTMP: {fileID: 8603037088663119986}
-  idTMP: {fileID: 1175455558090173213}
-  data:
-    id: 0
-    row: 0
-    column: 0
-    cellToJumpOfAlly: 0
-    cellToJumpOfEnemy: 0
-    type: 
 --- !u!1 &1365138042950121518
 GameObject:
   m_ObjectHideFlags: 0

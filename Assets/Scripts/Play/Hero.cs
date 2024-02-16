@@ -28,21 +28,6 @@ public abstract class Hero : PlayObject
         SetColor();
     }
 
-    protected override void OnHeroStateChange(string value)
-    {
-        base.OnHeroStateChange(value);
-        switch (value)
-        {
-            case HeroState.OnJump:
-                Jump();
-                break;
-
-            case HeroState.OnAttack:
-                Attack();
-                break;
-        }
-    }
-
     protected abstract void SetColor();
 
     public void SetAtTile(Cell value)
@@ -65,22 +50,22 @@ public abstract class Hero : PlayObject
 
     protected void Jump()
     {
-        this.data.cellToJump = GetCellToJump();
-        if (this.data.cellToJump == null) return;
-        if (this.data.cellToJump.HasHero) return;
-
-        this.data.nextCellToJump = GetNextCellToJump();
-        if (this.data.nextCellToJump == null) return;
-        if (this.data.nextCellToJump.HasHero) return;
-
-        this.transform.DOMove(this.data.cellToJump.gameObject.transform.position, HeroState.TimeJump).OnComplete(() =>
-        {
-            var thisTransform = this.transform;
-            thisTransform.parent = this.data.cellToJump.HeroSpawner.Holder.transform;
-            this.data.currentCell.HeroSpawner.Holder.Items.Clear();
-            this.data.cellToJump.HeroSpawner.Holder.Items.Add(thisTransform);
-            SetAtTile(this.data.cellToJump);
-        });
+        // this.data.cellToJump = GetCellToJump();
+        // if (this.data.cellToJump == null) return;
+        // if (this.data.cellToJump.HasHero) return;
+        //
+        // this.data.nextCellToJump = GetNextCellToJump();
+        // if (this.data.nextCellToJump == null) return;
+        // if (this.data.nextCellToJump.HasHero) return;
+        //
+        // this.transform.DOMove(this.data.cellToJump.gameObject.transform.position, HeroState.TimeJump).OnComplete(() =>
+        // {
+        //     var thisTransform = this.transform;
+        //     thisTransform.parent = this.data.cellToJump.HeroSpawner.Holder.transform;
+        //     this.data.currentCell.HeroSpawner.Holder.Items.Clear();
+        //     this.data.cellToJump.HeroSpawner.Holder.Items.Add(thisTransform);
+        //     SetAtTile(this.data.cellToJump);
+        // });
     }
 
     private void Attack()
