@@ -31,9 +31,9 @@ public class GameState : State
         SetCurrentState(value);
     }
 
-    protected override void SendStateToSubscribers(string value)
+    protected override void SendStateToSubscribers(object value)
     {
         TruongObserver.Instance.Notify(new Message(MessageType.OnGameStateChange,
-            new object[] { value }));
+            new object[] { value.ToString() }));
     }
 }

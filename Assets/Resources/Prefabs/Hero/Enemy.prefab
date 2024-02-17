@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   model: {fileID: 7306168432989669942}
   data:
-    heroName: Enemy
+    name: Enemy
     hp: 10
     atk: 2
     currentCell: {fileID: 0}

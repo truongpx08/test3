@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -29,6 +31,21 @@ public abstract class Hero : PlayObject
         AddColor();
         AddHp(10);
         AddAtk(2);
+    }
+
+    protected override void OnHeroStateChange(HeroState.StateType value)
+    {
+        base.OnHeroStateChange(value);
+        switch (value)
+        {
+            case HeroState.StateType.Move:
+                Move();
+                break;
+
+            case HeroState.StateType.Attack:
+                Attack();
+                break;
+        }
     }
 
     protected abstract void AddName();
@@ -61,18 +78,12 @@ public abstract class Hero : PlayObject
         this.data.hp = i;
     }
 
-    protected override void OnTimeChange(int value)
-    {
-        base.OnTimeChange(value);
-        Jump();
-    }
-
     public void Spawn(Cell cell)
     {
         AddCurrentCell(cell);
     }
 
-    protected abstract void Jump();
+    protected abstract void Move();
 
     protected void JumpNextCell()
     {
@@ -80,45 +91,69 @@ public abstract class Hero : PlayObject
         if (this.data.nextCell == null) return;
         if (this.data.nextCell.Data.type == CellType.ReserveEnemy) return;
         if (this.data.nextCell.Data.type == CellType.ReserveAlly) return;
-        if (this.data.nextCell.HasHero)
-        {
-            Attack(this.data.nextCell.Hero);
-            return;
-        }
+        if (this.data.nextCell.HasHero) return;
 
         this.data.subsequentCell = GetSubsequentCell();
         if (this.data.subsequentCell == null) return;
-        if (this.data.subsequentCell.HasHero)
-        {
-            Attack(this.data.subsequentCell.Hero);
-            return;
-        }
+        if (this.data.subsequentCell.HasHero) return;
 
-        JumpToCell(this.data.nextCell);
+        PlayAnimJump(this.data.nextCell);
     }
 
     protected abstract Cell GetNextCell();
     protected abstract Cell GetSubsequentCell();
 
-    protected void JumpToCell(Cell cell)
+    protected void PlayAnimJump(Cell nextCell)
     {
-        this.transform.DOMove(cell.gameObject.transform.position, 0.25f).OnComplete(() =>
-        {
-            var thisTransform = this.transform;
-            thisTransform.parent = cell.HeroSpawner.Holder.transform;
-            this.data.currentCell.HeroSpawner.Holder.Items.Clear();
-            cell.HeroSpawner.Holder.Items.Add(thisTransform);
-            AddCurrentCell(cell);
-        });
+        NotifyHeroState(HeroState.FeedbackType.StartState);
+        this.transform.DOMove(nextCell.gameObject.transform.position, 0.25f)
+            .OnComplete(() =>
+            {
+                var thisTransform = this.transform;
+                thisTransform.parent = nextCell.HeroSpawner.Holder.transform;
+                this.data.currentCell.HeroSpawner.Holder.Items.Clear();
+                nextCell.HeroSpawner.Holder.Items.Add(thisTransform);
+                AddCurrentCell(nextCell);
+                NotifyHeroState(HeroState.FeedbackType.EndState);
+            });
     }
 
-    private void Attack(Hero target)
+    private void NotifyHeroState(HeroState.FeedbackType value)
     {
-        target.Hurt(this.data.atk);
+        PlayObjects.Instance.HeroState.GetFeedback(value);
+    }
+
+    private void Attack()
+    {
+        this.data.nextCell = GetNextCell();
+        if (this.data.nextCell == null) return;
+        if (this.data.nextCell.HasHero)
+        {
+            PlayAnimAttack(this.data.nextCell.Hero);
+            return;
+        }
+
+        this.data.subsequentCell = GetSubsequentCell();
+        if (this.data.subsequentCell == null) return;
+        if (!this.data.subsequentCell.HasHero) return;
+
+        PlayAnimAttack(this.data.subsequentCell.Hero);
+    }
+
+    private void PlayAnimAttack(Hero target)
+    {
+        Debug.Log("Attack ");
+        NotifyHeroState(HeroState.FeedbackType.StartState);
+        DOVirtual.DelayedCall(0.25f, () =>
+        {
+            target.Hurt(this.data.atk);
+            NotifyHeroState(HeroState.FeedbackType.EndState);
+        });
     }
 
     private void Hurt(int value)
     {
+        Debug.Log("Hurt " + value);
         this.data.hp -= value;
         if (this.data.hp == 0) Died();
     }

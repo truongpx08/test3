@@ -37,27 +37,16 @@ public class TruongObserver : TruongSingleton<TruongObserver>, ISerializationCal
             subscribers[message.type][i].HandleMessage(message);
     }
 
-    private void LogNotify(string messageType)
-    {
-        if (!this.isLogNotify) return;
-        Debug.Log($"Observer notify: {messageType}");
-    }
-
-    public void Notify(string messageType, object[] data)
+    public void Notify(string messageType, object[] data = null)
     {
         var message = new Message(messageType, data);
         Notify(message);
     }
 
-    public void NotifyWithDelay(Message message, float delay)
+    private void LogNotify(string messageType)
     {
-        StartCoroutine(_DelaySendMessage(message, delay));
-    }
-
-    private IEnumerator _DelaySendMessage(Message message, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Notify(message);
+        if (!this.isLogNotify) return;
+        Debug.Log($"Observer notify: {messageType}");
     }
 
     public void OnBeforeSerialize()

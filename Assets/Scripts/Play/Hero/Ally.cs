@@ -25,14 +25,14 @@ public class Ally : Hero
         return PlayObjects.Instance.CellSpawner.GetCellWithId(this.data.nextCell.Data.cellToJumpOfAlly);
     }
 
-    protected override void Jump()
+    protected override void Move()
     {
         if (this.data.currentCell.Data.type == CellType.ReserveAlly)
         {
             var cell = PlayObjects.Instance.CellSpawner.Cells.Find(c =>
                 c.Data.type == CellType.AllySpawnPoint && !c.HasHero);
             if (!cell) return;
-            JumpToCell(cell);
+            PlayAnimJump(cell);
             return;
         }
 
