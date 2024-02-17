@@ -55,8 +55,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ally
       objectReference: {fileID: 0}
+    - target: {fileID: 4282480931937183838, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282480931937183838, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4282480931937183838, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
+--- !u!212 &7306168432989669942 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4282480931937183838, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
+  m_PrefabInstance: {fileID: 6776462567154541160}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8777598738224079084 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2871782838623601284, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
@@ -74,3 +91,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c13e5c948e050b41852f378a3a7a264, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 7306168432989669942}
+  data:
+    heroName: Ally
+    hp: 10
+    atk: 2
+    currentCell: {fileID: 0}
+    nextCell: {fileID: 0}
+    subsequentCell: {fileID: 0}

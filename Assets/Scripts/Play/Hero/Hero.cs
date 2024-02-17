@@ -22,36 +22,54 @@ public abstract class Hero : PlayObject
         this.model = this.transform.Find(TruongChildName.Model).GetComponent<SpriteRenderer>();
     }
 
-    protected override void Start()
+    protected override void SetVarToDefault()
     {
-        base.Start();
-        SetColor();
+        base.SetVarToDefault();
+        AddName();
+        AddColor();
+        AddHp(10);
+        AddAtk(2);
     }
 
-    protected abstract void SetColor();
+    protected abstract void AddName();
 
-    private void SetCurrentCell(Cell value)
+    protected void SetName(string value)
+    {
+        Debug.Log("Setting name");
+        this.data.name = value;
+    }
+
+    protected abstract void AddColor();
+
+    protected void SetColor(Color red)
+    {
+        this.model.color = red;
+    }
+
+    private void AddCurrentCell(Cell value)
     {
         this.data.currentCell = value;
     }
 
-    protected abstract Cell GetNextCell();
-    protected abstract Cell GetSubsequentCell();
-
-    public void Spawn(Cell cell)
+    private void AddAtk(int i)
     {
-        this.data = new HeroData
-        {
-            hp = 10,
-            atk = 1
-        };
-        SetCurrentCell(cell);
+        this.data.atk = i;
+    }
+
+    private void AddHp(int i)
+    {
+        this.data.hp = i;
     }
 
     protected override void OnTimeChange(int value)
     {
         base.OnTimeChange(value);
         Jump();
+    }
+
+    public void Spawn(Cell cell)
+    {
+        AddCurrentCell(cell);
     }
 
     protected abstract void Jump();
@@ -79,6 +97,9 @@ public abstract class Hero : PlayObject
         JumpToCell(this.data.nextCell);
     }
 
+    protected abstract Cell GetNextCell();
+    protected abstract Cell GetSubsequentCell();
+
     protected void JumpToCell(Cell cell)
     {
         this.transform.DOMove(cell.gameObject.transform.position, 0.25f).OnComplete(() =>
@@ -87,7 +108,7 @@ public abstract class Hero : PlayObject
             thisTransform.parent = cell.HeroSpawner.Holder.transform;
             this.data.currentCell.HeroSpawner.Holder.Items.Clear();
             cell.HeroSpawner.Holder.Items.Add(thisTransform);
-            SetCurrentCell(cell);
+            AddCurrentCell(cell);
         });
     }
 
@@ -102,8 +123,9 @@ public abstract class Hero : PlayObject
         if (this.data.hp == 0) Died();
     }
 
+    [Button]
     private void Died()
     {
-        this.data.currentCell.HeroDespawner.DespawnDefaultObject();
+        DOVirtual.DelayedCall(0.1f, () => { this.data.currentCell.HeroDespawner.DespawnObject(this.transform); });
     }
 }

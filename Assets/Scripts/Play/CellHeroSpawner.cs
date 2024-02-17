@@ -28,14 +28,14 @@ public class CellHeroSpawner : TruongSpawner
     [Button]
     public void SpawnAlly()
     {
-        var go = SpawnObjectWithName("Ally");
+        var go = SpawnObjectWithName(HeroName.Ally);
         SetUpGo(go);
     }
 
     [Button]
     public void SpawnEnemy()
     {
-        var go = SpawnObjectWithName("Enemy");
+        var go = SpawnObjectWithName(HeroName.Enemy);
         SetUpGo(go);
     }
 

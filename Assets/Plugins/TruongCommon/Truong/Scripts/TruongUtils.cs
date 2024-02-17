@@ -5,6 +5,7 @@ using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+// using Spine.Unity;
 using Random = UnityEngine.Random;
 
 public abstract class TruongUtils
@@ -237,4 +238,9 @@ public abstract class TruongUtils
     {
         return "<color=#" + colorHex + ">" + content + " </color > ";
     }
+
+    // public static void PlaySpineSkeletonAnimation(GameObject obj)
+    // {
+    //     obj.GetComponentInChildren<SkeletonAnimation>().Initialize(true);
+    // }
 }

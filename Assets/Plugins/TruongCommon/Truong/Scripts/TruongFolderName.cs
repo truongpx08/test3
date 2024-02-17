@@ -17,4 +17,5 @@ public class TruongFolderName
     public const string LOAD_ON_LOAD_SCENE = "LoadOnLoadScene";
     public const string POPUP = "Popup";
     public const string Button = "Button";
+    public const string TextTMP = "Text (TMP)";
 }

@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class Ally : Hero
 {
-    protected override void SetColor()
+    protected override void AddName()
+    {
+        SetName(HeroName.Ally);
+    }
+
+
+    protected override void AddColor()
     {
         this.model.color = Color.green;
     }

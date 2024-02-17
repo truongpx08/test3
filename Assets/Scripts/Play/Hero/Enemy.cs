@@ -5,9 +5,14 @@ using DG.Tweening;
 
 public class Enemy : Hero
 {
-    protected override void SetColor()
+    protected override void AddName()
     {
-        this.model.color = Color.red;
+        SetName(HeroName.Enemy);
+    }
+
+    protected override void AddColor()
+    {
+        SetColor(Color.red);
     }
 
     protected override Cell GetNextCell()
