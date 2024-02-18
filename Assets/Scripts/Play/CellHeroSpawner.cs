@@ -41,6 +41,8 @@ public class CellHeroSpawner : TruongSpawner
 
     private void SetUpGo(Transform go)
     {
-        go.GetComponent<Hero>().Spawn(this.cell);
+        var hero = go.GetComponent<Hero>();
+        hero.Spawn(this.cell);
+        HeroReference.Instance.heroes.Add(hero);
     }
 }

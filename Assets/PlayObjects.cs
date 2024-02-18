@@ -9,11 +9,20 @@ public class PlayObjects : TruongSingleton<PlayObjects>
     [SerializeField] private HeroState heroState;
     public HeroState HeroState => heroState;
 
+    [SerializeField] private Time time;
+    public Time Time => time;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
         LoadTileSpawner();
         LoadHeroState();
+        LoadTime();
+    }
+
+    private void LoadTime()
+    {
+        this.time = GetComponentInChildren<Time>();
     }
 
     private void LoadHeroState()

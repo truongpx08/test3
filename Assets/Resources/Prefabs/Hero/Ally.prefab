@@ -99,3 +99,5 @@ MonoBehaviour:
     currentCell: {fileID: 0}
     nextCell: {fileID: 0}
     subsequentCell: {fileID: 0}
+    isInStatus: 0
+    durationAnim: 0.5

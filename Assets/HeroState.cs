@@ -2,27 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.TestTools;
 
 public class HeroState : State
 {
-    [SerializeField] private bool isAllowedNextState;
     [SerializeField] private List<StateType> stateOrder;
 
     protected override void SetVarToDefault()
     {
         base.SetVarToDefault();
-        SetIsAllowedNextState(true);
         SetStateOrder();
     }
 
-    public enum FeedbackType
-    {
-        StartState,
-        EndState,
-    }
 
     public enum StateType
     {
@@ -34,52 +28,60 @@ public class HeroState : State
     }
 
 
-    protected override void OnTimeChange(int value)
-    {
-        base.OnTimeChange(value);
-        SendStateToSubscribers(StateType.Move);
-    }
-
     protected override void OnHeroStateChange(HeroState.StateType value)
     {
         base.OnHeroStateChange(value);
-        if (this.isAllowedNextState)
-            SetCurrentState(value.ToString());
+        SetCurrentState(value.ToString());
     }
 
-    protected override void SendStateToSubscribers(object value)
+    protected override void OnGameStateChange(string value)
+    {
+        base.OnGameStateChange(value);
+        if (value != GameState.OnUpdate) return;
+        CheckNextState();
+    }
+
+    [Button]
+    private void CheckNextState()
+    {
+        StartCoroutine(IECheckNextState());
+    }
+
+    private IEnumerator IECheckNextState()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(0.1f);
+            if (!ShouldTransitionToNextState()) continue;
+            TransitionToNextState();
+        }
+    }
+
+    private void TransitionToNextState()
+    {
+        StateType nextState = GetNextState();
+        SendStateToSubscribers(nextState.ToString());
+    }
+
+    [Button]
+    private bool ShouldTransitionToNextState()
+    {
+        return HeroReference.Instance.heroes.All(hero => !hero.Data.isInStatus);
+    }
+
+    protected override void SendStateToSubscribers(string value)
     {
         TruongObserver.Instance.Notify(new Message(MessageType.OnHeroStateChange,
-            new object[] { (StateType)value }));
-    }
-
-    public void GetFeedback(FeedbackType value)
-    {
-        switch (value)
-        {
-            case FeedbackType.StartState:
-                SetIsAllowedNextState(false);
-                break;
-            case FeedbackType.EndState:
-                SetIsAllowedNextState(true);
-                StateType nextState = GetNextState();
-                Debug.LogWarning("next state" + nextState.ToString());
-                SendStateToSubscribers(nextState);
-                break;
-        }
+            new object[] { value }));
     }
 
     private StateType GetNextState()
     {
         Enum.TryParse(currentState, out StateType item);
         var indexOfCurrentState = this.stateOrder.IndexOf(item);
-        return stateOrder[indexOfCurrentState + 1];
+        return indexOfCurrentState == this.stateOrder.Count - 1 ? stateOrder[0] : stateOrder[indexOfCurrentState + 1];
     }
 
-    private void SetIsAllowedNextState(bool value)
-    {
-        this.isAllowedNextState = value;
-    }
 
     private void SetStateOrder()
     {

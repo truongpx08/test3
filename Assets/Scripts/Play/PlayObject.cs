@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,7 +51,8 @@ public abstract class PlayObject : TruongMonoBehaviour, IMessageHandler
                 break;
 
             case MessageType.OnHeroStateChange:
-                OnHeroStateChange((HeroState.StateType)message.data[0]);
+                Enum.TryParse(message.data[0].ToString(), out HeroState.StateType value);
+                OnHeroStateChange(value);
                 break;
         }
     }

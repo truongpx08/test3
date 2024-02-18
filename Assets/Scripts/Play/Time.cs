@@ -6,6 +6,7 @@ public class Time : PlayObject
 {
     [SerializeField] private int time;
     [SerializeField] private int maxTime;
+    public int MaxTime => maxTime;
 
     protected override void SetVarToDefault()
     {
@@ -33,6 +34,7 @@ public class Time : PlayObject
             }
         }
     }
+    
 
     private void SetValue(int value)
     {

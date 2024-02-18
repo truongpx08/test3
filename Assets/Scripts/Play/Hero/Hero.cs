@@ -12,6 +12,7 @@ public abstract class Hero : PlayObject
     [SerializeField] protected SpriteRenderer model;
     [TitleGroup("Data")]
     [SerializeField] protected HeroData data;
+    public HeroData Data => data;
 
     protected override void LoadComponents()
     {
@@ -29,9 +30,11 @@ public abstract class Hero : PlayObject
         base.SetVarToDefault();
         AddName();
         AddColor();
-        AddHp(10);
-        AddAtk(2);
+        AddHp();
+        AddAtk();
+        AddDurationAnim();
     }
+
 
     protected override void OnHeroStateChange(HeroState.StateType value)
     {
@@ -68,14 +71,19 @@ public abstract class Hero : PlayObject
         this.data.currentCell = value;
     }
 
-    private void AddAtk(int i)
+    private void AddAtk()
     {
-        this.data.atk = i;
+        this.data.atk = 2;
     }
 
-    private void AddHp(int i)
+    private void AddHp()
     {
-        this.data.hp = i;
+        this.data.hp = 10;
+    }
+
+    private void AddDurationAnim()
+    {
+        this.data.durationAnim = 0.5f;
     }
 
     public void Spawn(Cell cell)
@@ -105,8 +113,8 @@ public abstract class Hero : PlayObject
 
     protected void PlayAnimJump(Cell nextCell)
     {
-        NotifyHeroState(HeroState.FeedbackType.StartState);
-        this.transform.DOMove(nextCell.gameObject.transform.position, 0.25f)
+        SetIsInStatus(true);
+        this.transform.DOMove(nextCell.gameObject.transform.position, data.durationAnim)
             .OnComplete(() =>
             {
                 var thisTransform = this.transform;
@@ -114,13 +122,13 @@ public abstract class Hero : PlayObject
                 this.data.currentCell.HeroSpawner.Holder.Items.Clear();
                 nextCell.HeroSpawner.Holder.Items.Add(thisTransform);
                 AddCurrentCell(nextCell);
-                NotifyHeroState(HeroState.FeedbackType.EndState);
+                SetIsInStatus(false);
             });
     }
 
-    private void NotifyHeroState(HeroState.FeedbackType value)
+    private void SetIsInStatus(bool value)
     {
-        PlayObjects.Instance.HeroState.GetFeedback(value);
+        this.data.isInStatus = value;
     }
 
     private void Attack()
@@ -143,11 +151,11 @@ public abstract class Hero : PlayObject
     private void PlayAnimAttack(Hero target)
     {
         Debug.Log("Attack ");
-        NotifyHeroState(HeroState.FeedbackType.StartState);
-        DOVirtual.DelayedCall(0.25f, () =>
+        SetIsInStatus(true);
+        DOVirtual.DelayedCall(data.durationAnim, () =>
         {
             target.Hurt(this.data.atk);
-            NotifyHeroState(HeroState.FeedbackType.EndState);
+            SetIsInStatus(false);
         });
     }
 
