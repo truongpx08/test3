@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
@@ -19,8 +20,9 @@ public abstract class Cell : PlayObject
     [TitleGroup("Data")]
     [SerializeField] private CellData data;
     public CellData Data => data;
-    public bool HasHero => heroSpawner.Holder.Items.Count != 0 && heroSpawner.Holder.Items[0].gameObject.activeSelf;
-    public Hero Hero => heroSpawner.Holder.Items[0].GetComponent<Hero>();
+    public bool HasHero =>
+        heroSpawner.Holder.Items.Count != 0 && heroSpawner.Holder.Items.Any(h => h.gameObject.activeSelf);
+    public Hero Hero => heroSpawner.Holder.Items.Find(h => h.gameObject.activeSelf).GetComponent<Hero>();
 
     protected override void LoadComponents()
     {

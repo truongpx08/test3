@@ -12,7 +12,7 @@ public class Ally : Hero
 
     protected override void AddColor()
     {
-        this.model.color = Color.green;
+        this.model.color = Color.blue;
     }
 
     protected override Cell GetNextCell()

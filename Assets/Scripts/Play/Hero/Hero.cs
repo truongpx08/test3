@@ -4,12 +4,16 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using DG.Tweening;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public abstract class Hero : PlayObject
 {
     [TitleGroup("Ref")]
     [SerializeField] protected SpriteRenderer model;
+    [SerializeField] protected HpText hpText;
+    [SerializeField] protected AtkText atkText;
     [TitleGroup("Data")]
     [SerializeField] protected HeroData data;
     public HeroData Data => data;
@@ -18,6 +22,18 @@ public abstract class Hero : PlayObject
     {
         base.LoadComponents();
         LoadModel();
+        LoadHpText();
+        LoadAtkText();
+    }
+
+    private void LoadAtkText()
+    {
+        this.atkText = GetComponentInChildren<AtkText>();
+    }
+
+    private void LoadHpText()
+    {
+        this.hpText = GetComponentInChildren<HpText>();
     }
 
     private void LoadModel()
@@ -73,13 +89,15 @@ public abstract class Hero : PlayObject
 
     private void AddAtk()
     {
-        this.data.atk = 2;
+        atkText.UpdateText(Random.Range(2, 4).ToString());
     }
+
 
     private void AddHp()
     {
-        this.data.hp = 10;
+        hpText.UpdateText(Random.Range(10, 15).ToString());
     }
+
 
     private void AddDurationAnim()
     {
@@ -157,8 +175,8 @@ public abstract class Hero : PlayObject
     private void Hurt(int value)
     {
         Debug.Log("Hurt " + value);
-        this.data.hp -= value;
-        if (this.data.hp == 0) Died();
+        hpText.UpdateText(Mathf.Clamp(this.data.hp - value, 0, 50).ToString());
+        if (this.data.hp <= 0) Died();
     }
 
     [Button]
