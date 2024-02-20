@@ -66,7 +66,7 @@ public abstract class Hero : PlayObject
         this.model.color = red;
     }
 
-    private void AddCurrentCell(Cell value)
+    public void AddCurrentCell(Cell value)
     {
         this.data.currentCell = value;
     }
@@ -84,11 +84,6 @@ public abstract class Hero : PlayObject
     private void AddDurationAnim()
     {
         this.data.durationAnim = 0.5f;
-    }
-
-    public void Spawn(Cell cell)
-    {
-        AddCurrentCell(cell);
     }
 
     protected abstract void Move();

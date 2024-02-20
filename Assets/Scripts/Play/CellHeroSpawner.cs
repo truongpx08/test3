@@ -42,7 +42,7 @@ public class CellHeroSpawner : TruongSpawner
     private void SetUpGo(Transform go)
     {
         var hero = go.GetComponent<Hero>();
-        hero.Spawn(this.cell);
+        hero.AddCurrentCell(cell);
         HeroReference.Instance.heroes.Add(hero);
     }
 }
