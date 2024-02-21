@@ -17,12 +17,12 @@ public class Enemy : Hero
 
     public override Cell GetNextCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Init.Data.currentCell.Data.cellToJumpOfEnemy);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.cellToJumpOfEnemy);
     }
 
     public override Cell GetSubsequentCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Init.Data.nextCell.Data.cellToJumpOfEnemy);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.cellToJumpOfEnemy);
     }
 
     public override string GetReserveCellType()

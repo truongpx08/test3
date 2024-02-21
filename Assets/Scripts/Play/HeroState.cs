@@ -1,11 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 public class HeroState : State
 {
@@ -17,16 +15,13 @@ public class HeroState : State
         SetStateOrder();
     }
 
-
     public enum StateType
     {
-        // Appear,
-        Movement,
+        Move,
         Attack,
-        Injury
-        // Disappear,
+        Injury,
+        Faint,
     }
-
 
     protected override void OnHeroStateChange(HeroState.StateType value)
     {
@@ -51,7 +46,7 @@ public class HeroState : State
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
             if (!ShouldTransitionToNextState()) continue;
             TransitionToNextState();
         }
@@ -66,7 +61,7 @@ public class HeroState : State
     [Button]
     private bool ShouldTransitionToNextState()
     {
-        return HeroReference.Instance.heroes.All(hero => !hero.Init.Data.isActive);
+        return HeroReference.Instance.heroes.All(hero => !hero.Data.isActive);
     }
 
     protected override void SendStateToSubscribers(string value)
@@ -81,7 +76,6 @@ public class HeroState : State
         var indexOfCurrentState = this.stateOrder.IndexOf(item);
         return indexOfCurrentState == this.stateOrder.Count - 1 ? stateOrder[0] : stateOrder[indexOfCurrentState + 1];
     }
-
 
     private void SetStateOrder()
     {

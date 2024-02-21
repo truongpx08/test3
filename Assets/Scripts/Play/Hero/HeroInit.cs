@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class HeroInit : HeroRefAbstract
 {
-    [SerializeField] protected HeroData data;
-    public HeroData Data => data;
-
     public void Init()
     {
         AddPosition();
@@ -31,7 +28,7 @@ public class HeroInit : HeroRefAbstract
     public void SetName(string value)
     {
         Debug.Log("Setting name");
-        this.data.name = value;
+        this.Data.name = value;
     }
 
     public void SetColor(Color red)
@@ -41,7 +38,7 @@ public class HeroInit : HeroRefAbstract
 
     public void AddCurrentCell(Cell value)
     {
-        this.data.currentCell = value;
+        this.Data.currentCell = value;
     }
 
     private void AddAtk()
@@ -56,11 +53,11 @@ public class HeroInit : HeroRefAbstract
 
     private void AddDurationAnim()
     {
-        this.data.durationAnim = 0.5f;
+        this.Data.durationAnim = 0.5f;
     }
 
     public void SetIsActive(bool value)
     {
-        this.data.isActive = value;
+        this.Data.isActive = value;
     }
 }

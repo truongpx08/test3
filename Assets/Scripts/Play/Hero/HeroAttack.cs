@@ -3,31 +3,31 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class HeroAttack : HeroRefAbstract
+public class HeroAttack : HeroAction
 {
     public void TryAttack()
     {
-        this.data.nextCell = this.hero.GetNextCell();
-        if (this.data.nextCell == null) return;
-        if (this.data.nextCell.HasHero)
+        this.Data.nextCell = this.hero.GetNextCell();
+        if (this.Data.nextCell == null) return;
+        if (this.Data.nextCell.HasHero)
         {
-            Attack(this.data.nextCell.Hero);
+            Attack(this.Data.nextCell.Hero);
             return;
         }
 
-        this.data.subsequentCell = this.hero.GetSubsequentCell();
-        if (this.data.subsequentCell == null) return;
-        if (!this.data.subsequentCell.HasHero) return;
+        this.Data.subsequentCell = this.hero.GetSubsequentCell();
+        if (this.Data.subsequentCell == null) return;
+        if (!this.Data.subsequentCell.HasHero) return;
 
-        Attack(this.data.subsequentCell.Hero);
+        Attack(this.Data.subsequentCell.Hero);
     }
 
     private void Attack(Hero target)
     {
-        this.hero.Action.CallActionWithDelay(() =>
+        CallActionWithDelay(() =>
         {
             target.Injury.SetWasAttacked(true);
-            target.Injury.SetDamageReceived(this.data.atk);
+            target.Injury.SetDamageReceived(this.Data.atk);
         });
     }
 }

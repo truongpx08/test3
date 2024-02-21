@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class HeroMovement : HeroRefAbstract
+public class HeroMovement : HeroAction
 {
     public void TryMove()
     {
-        if (this.hero.Init.Data.currentCell.Data.type == this.hero.GetReserveCellType())
+        if (this.hero.Data.currentCell.Data.type == this.hero.GetReserveCellType())
         {
             var cell = PlayObjects.Instance.CellSpawner.Cells.Find(c =>
                 c.Data.type == this.hero.GetSpawnPointCellType() && !c.HasHero);
@@ -16,29 +16,29 @@ public class HeroMovement : HeroRefAbstract
             return;
         }
 
-        this.data.nextCell = this.hero.GetNextCell();
-        if (this.data.nextCell == null) return;
-        if (this.data.nextCell.Data.type == CellType.ReserveEnemy) return;
-        if (this.data.nextCell.Data.type == CellType.ReserveAlly) return;
-        if (this.data.nextCell.HasHero) return;
+        this.Data.nextCell = this.hero.GetNextCell();
+        if (this.Data.nextCell == null) return;
+        if (this.Data.nextCell.Data.type == CellType.ReserveEnemy) return;
+        if (this.Data.nextCell.Data.type == CellType.ReserveAlly) return;
+        if (this.Data.nextCell.HasHero) return;
 
-        this.data.subsequentCell = this.hero.GetSubsequentCell();
-        if (this.data.subsequentCell == null) return;
-        if (this.data.subsequentCell.HasHero) return;
+        this.Data.subsequentCell = this.hero.GetSubsequentCell();
+        if (this.Data.subsequentCell == null) return;
+        if (this.Data.subsequentCell.HasHero) return;
 
-        Move(this.data.nextCell);
+        Move(this.Data.nextCell);
     }
 
     private void Move(Cell nextCell)
     {
-        this.hero.Action.CallAction(() =>
+        CallAction(() =>
         {
-            this.hero.transform.DOMove(nextCell.gameObject.transform.position, data.durationAnim)
+            this.hero.transform.DOMove(nextCell.gameObject.transform.position, Data.durationAnim)
                 .OnComplete(() =>
                 {
                     var thisTransform = this.hero.transform;
                     thisTransform.parent = nextCell.HeroSpawner.Holder.transform;
-                    this.data.currentCell.HeroSpawner.Holder.Items.Clear();
+                    this.Data.currentCell.HeroSpawner.Holder.Items.Clear();
                     nextCell.HeroSpawner.Holder.Items.Add(thisTransform);
                     this.hero.Init.AddCurrentCell(nextCell);
                     this.hero.Init.SetIsActive(false);

@@ -7,6 +7,6 @@ public class HpText : HeroText
 {
     protected override void SaveData()
     {
-        this.hero.Init.Data.hp = int.Parse(text);
+        this.hero.Data.hp = int.Parse(text);
     }
 }

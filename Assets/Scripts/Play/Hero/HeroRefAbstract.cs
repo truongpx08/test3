@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeroRefAbstract : TruongMonoBehaviour
 {
     [SerializeField] protected Hero hero;
-    protected HeroData data => this.hero.Init.Data;
+    protected HeroData Data => this.hero.Data;
 
     protected override void LoadComponents()
     {

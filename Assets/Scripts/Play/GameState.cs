@@ -7,16 +7,9 @@ using UnityEngine;
 
 public class GameState : State
 {
-    [SerializeField] private bool isFirstS;
     public const string OnStart = "OnStart";
     public const string OnUpdate = "OnUpdate";
     public const string OnEnd = "OnEnd";
-
-    protected override void SetVarToDefault()
-    {
-        base.SetVarToDefault();
-        isFirstS = true;
-    }
 
     protected override void Start()
     {

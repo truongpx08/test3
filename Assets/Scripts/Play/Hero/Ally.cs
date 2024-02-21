@@ -16,12 +16,12 @@ public class Ally : Hero
 
     public override Cell GetNextCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Init.Data.currentCell.Data.cellToJumpOfAlly);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.cellToJumpOfAlly);
     }
 
     public override Cell GetSubsequentCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Init.Data.nextCell.Data.cellToJumpOfAlly);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.cellToJumpOfAlly);
     }
 
     public override string GetReserveCellType()

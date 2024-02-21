@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class HeroInjury : HeroRefAbstract
+public class HeroInjury : HeroAction
 {
     [SerializeField] private bool wasAttacked;
     [SerializeField] private int damageReceived;
@@ -16,19 +16,14 @@ public class HeroInjury : HeroRefAbstract
 
     private void Hurt()
     {
-        this.hero.HpText.UpdateText(Mathf.Clamp(this.data.hp - this.damageReceived, 0, 50).ToString());
-        this.wasAttacked = false;
-        if (this.data.hp <= 0) Died();
-    }
-
-    private void Died()
-    {
-        DOVirtual.DelayedCall(0.1f, () =>
+        CallActionWithDelay(() =>
         {
-            var cell = PlayObjects.Instance.CellSpawner.GetCellWithType(this.hero.GetReserveCellType());
-            cell.HeroDespawner.DespawnObject(this.hero.transform);
+            this.hero.HpText.UpdateText(Mathf.Clamp(this.Data.hp - this.damageReceived, 0, 50).ToString());
+            this.wasAttacked = false;
         });
     }
+
+    
 
     public void SetWasAttacked(bool value)
     {

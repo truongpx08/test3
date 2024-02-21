@@ -22,10 +22,13 @@ public abstract class Hero : PlayObject
     public HeroAttack Attack => attack;
     [SerializeField] private HeroInjury injury;
     public HeroInjury Injury => injury;
-    [SerializeField] private HeroAction action;
-    public HeroAction Action => action;
+    [SerializeField] private HeroFaintness faintness;
+    public HeroFaintness Faintness => faintness;
 
-    [TitleGroup("Other")]
+    [TitleGroup("Data")]
+    [SerializeField] protected HeroData data;
+    public HeroData Data => data;
+
     protected override void LoadComponents()
     {
         base.LoadComponents();
@@ -36,12 +39,12 @@ public abstract class Hero : PlayObject
         LoadMovement();
         LoadAttacker();
         LoadInjury();
-        LoadAction();
+        LoadFaintness();
     }
 
-    private void LoadAction()
+    private void LoadFaintness()
     {
-        this.action = GetComponentInChildren<HeroAction>();
+        this.faintness = GetComponentInChildren<HeroFaintness>();
     }
 
     private void LoadInjury()
@@ -84,7 +87,7 @@ public abstract class Hero : PlayObject
         base.OnHeroStateChange(value);
         switch (value)
         {
-            case HeroState.StateType.Movement:
+            case HeroState.StateType.Move:
                 this.Movement.TryMove();
                 break;
 
@@ -95,11 +98,16 @@ public abstract class Hero : PlayObject
             case HeroState.StateType.Injury:
                 this.Injury.TryHurt();
                 break;
-            
+
+            case HeroState.StateType.Faint:
+                this.Faintness.TryFaint();
+                break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(value), value, null);
         }
     }
+
 
     public abstract void AddName();
     public abstract void AddColor();
