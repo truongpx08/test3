@@ -80,14 +80,10 @@ public abstract class TruongSpawner : TruongChild
     {
         Transform newObj = Instantiate(prefab);
         TruongUtils.SetNameObject(newObj, prefab.name);
-        AddItemToHolder(newObj);
+        holder.AddItem(newObj);
+        holder.EnableGo(newObj);
         ResetTransformObj(newObj);
         TruongUtils.AddIdToObject(prefab.GetInstanceID(), newObj);
         return newObj;
-    }
-
-    private void AddItemToHolder(Transform newObj)
-    {
-        holder.AddItem(newObj);
     }
 }

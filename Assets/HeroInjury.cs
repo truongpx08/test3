@@ -23,7 +23,11 @@ public class HeroInjury : HeroRefAbstract
 
     private void Died()
     {
-        DOVirtual.DelayedCall(0.1f, () => { this.data.currentCell.HeroDespawner.DespawnObject(this.hero.transform); });
+        DOVirtual.DelayedCall(0.1f, () =>
+        {
+            var cell = PlayObjects.Instance.CellSpawner.GetCellWithType(this.hero.GetReserveCellType());
+            cell.HeroDespawner.DespawnObject(this.hero.transform);
+        });
     }
 
     public void SetWasAttacked(bool value)

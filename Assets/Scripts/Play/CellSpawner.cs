@@ -194,4 +194,9 @@ public class CellSpawner : SpawnerObj
     {
         return cells.Find(item => item.Data.id == id);
     }
+
+    public Cell GetCellWithType(string type)
+    {
+        return cells.Find(item => item.Data.type == type);
+    }
 }

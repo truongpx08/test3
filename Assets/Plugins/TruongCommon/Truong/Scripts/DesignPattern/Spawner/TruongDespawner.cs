@@ -30,6 +30,9 @@ public abstract class TruongDespawner : TruongMonoBehaviour
     {
         if (obj == null) return;
         obj.gameObject.SetActive(false);
+        if (obj.parent != this.spawner.Holder.transform)
+            this.spawner.Holder.AddItem(obj);
+
         onDespawn?.Invoke(obj);
     }
 

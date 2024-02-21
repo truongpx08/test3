@@ -79,13 +79,6 @@ public abstract class Hero : PlayObject
         this.model = this.transform.Find(TruongChildName.Model).GetComponent<SpriteRenderer>();
     }
 
-    public abstract void AddName();
-    public abstract void AddColor();
-    public abstract Cell GetNextCell();
-    public abstract Cell GetSubsequentCell();
-    public abstract string GetReserveCellType();
-    public abstract string GetSpawnPointCellType();
-
     protected override void OnHeroStateChange(HeroState.StateType value)
     {
         base.OnHeroStateChange(value);
@@ -98,10 +91,20 @@ public abstract class Hero : PlayObject
             case HeroState.StateType.Attack:
                 this.Attack.TryAttack();
                 break;
-            
+
             case HeroState.StateType.Injury:
                 this.Injury.TryHurt();
                 break;
+            
+            default:
+                throw new ArgumentOutOfRangeException(nameof(value), value, null);
         }
     }
+
+    public abstract void AddName();
+    public abstract void AddColor();
+    public abstract Cell GetNextCell();
+    public abstract Cell GetSubsequentCell();
+    public abstract string GetReserveCellType();
+    public abstract string GetSpawnPointCellType();
 }

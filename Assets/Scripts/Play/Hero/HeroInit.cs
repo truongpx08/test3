@@ -7,15 +7,20 @@ public class HeroInit : HeroRefAbstract
     [SerializeField] protected HeroData data;
     public HeroData Data => data;
 
-    protected override void SetVarToDefault()
+    public void Init()
     {
-        base.SetVarToDefault();
+        AddPosition();
         this.hero.AddName();
         this.hero.AddColor();
         AddHp();
         AddAtk();
         AddDurationAnim();
         AddIsInStatus();
+    }
+
+    private void AddPosition()
+    {
+        this.hero.transform.localPosition = Vector3.zero;
     }
 
     private void AddIsInStatus()

@@ -21,7 +21,6 @@ public class TruongHolder : TruongGameObject
     [Button]
     public void AddItem(Transform item)
     {
-        EnableGo(item);
         item.transform.SetParent(this.transform);
         items.Add(item);
     }

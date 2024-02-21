@@ -43,6 +43,7 @@ public class CellHeroSpawner : TruongSpawner
     {
         var hero = go.GetComponent<Hero>();
         hero.Init.AddCurrentCell(cell);
+        hero.Init.Init();
         HeroReference.Instance.heroes.Add(hero);
     }
 }
