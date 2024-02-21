@@ -6,6 +6,6 @@ public class AtkText : HeroText
 {
     protected override void SaveData()
     {
-        this.hero.Data.atk = int.Parse(text);
+        this.hero.Init.Data.atk = int.Parse(text);
     }
 }

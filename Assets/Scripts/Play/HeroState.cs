@@ -66,7 +66,7 @@ public class HeroState : State
     [Button]
     private bool ShouldTransitionToNextState()
     {
-        return HeroReference.Instance.heroes.All(hero => !hero.Data.isInStatus);
+        return HeroReference.Instance.heroes.All(hero => !hero.Init.Data.isInStatus);
     }
 
     protected override void SendStateToSubscribers(string value)

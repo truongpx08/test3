@@ -1,29 +1,51 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using DG.Tweening;
 using Sirenix.OdinInspector;
-using TMPro;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public abstract class Hero : PlayObject
 {
     [TitleGroup("Ref")]
     [SerializeField] protected SpriteRenderer model;
+    public SpriteRenderer Model => model;
     [SerializeField] protected HpText hpText;
+    public HpText HpText => hpText;
     [SerializeField] protected AtkText atkText;
-    [TitleGroup("Data")]
-    [SerializeField] protected HeroData data;
-    public HeroData Data => data;
+    public AtkText AtkText => atkText;
+    [SerializeField] private HeroInit init;
+    public HeroInit Init => init;
+    [SerializeField] private HeroMovement movement;
+    public HeroMovement Movement => movement;
+    [SerializeField] private HeroAttacker attacker;
+    public HeroAttacker Attacker => attacker;
 
+    [TitleGroup("Other")]
     protected override void LoadComponents()
     {
         base.LoadComponents();
         LoadModel();
         LoadHpText();
         LoadAtkText();
+        LoadInit();
+        LoadMovement();
+        LoadAttacker();
+    }
+
+    private void LoadMovement()
+    {
+        this.movement = GetComponentInChildren<HeroMovement>();
+    }
+
+    private void LoadAttacker()
+    {
+        this.attacker = GetComponentInChildren<HeroAttacker>();
+    }
+
+
+    private void LoadInit()
+    {
+        this.init = GetComponentInChildren<HeroInit>();
     }
 
     private void LoadAtkText()
@@ -41,16 +63,11 @@ public abstract class Hero : PlayObject
         this.model = this.transform.Find(TruongChildName.Model).GetComponent<SpriteRenderer>();
     }
 
-    protected override void SetVarToDefault()
-    {
-        base.SetVarToDefault();
-        AddName();
-        AddColor();
-        AddHp();
-        AddAtk();
-        AddDurationAnim();
-    }
-
+    public abstract void AddName();
+    public abstract void AddColor();
+    protected abstract void Move();
+    public abstract Cell GetNextCell();
+    public abstract Cell GetSubsequentCell();
 
     protected override void OnHeroStateChange(HeroState.StateType value)
     {
@@ -62,126 +79,8 @@ public abstract class Hero : PlayObject
                 break;
 
             case HeroState.StateType.Attack:
-                Attack();
+                this.attacker.Attack();
                 break;
         }
-    }
-
-    protected abstract void AddName();
-
-    protected void SetName(string value)
-    {
-        Debug.Log("Setting name");
-        this.data.name = value;
-    }
-
-    protected abstract void AddColor();
-
-    protected void SetColor(Color red)
-    {
-        this.model.color = red;
-    }
-
-    public void AddCurrentCell(Cell value)
-    {
-        this.data.currentCell = value;
-    }
-
-    private void AddAtk()
-    {
-        atkText.UpdateText(Random.Range(2, 4).ToString());
-    }
-
-
-    private void AddHp()
-    {
-        hpText.UpdateText(Random.Range(10, 15).ToString());
-    }
-
-
-    private void AddDurationAnim()
-    {
-        this.data.durationAnim = 0.5f;
-    }
-
-    protected abstract void Move();
-
-    protected void JumpNextCell()
-    {
-        this.data.nextCell = GetNextCell();
-        if (this.data.nextCell == null) return;
-        if (this.data.nextCell.Data.type == CellType.ReserveEnemy) return;
-        if (this.data.nextCell.Data.type == CellType.ReserveAlly) return;
-        if (this.data.nextCell.HasHero) return;
-
-        this.data.subsequentCell = GetSubsequentCell();
-        if (this.data.subsequentCell == null) return;
-        if (this.data.subsequentCell.HasHero) return;
-
-        PlayAnimJump(this.data.nextCell);
-    }
-
-    protected abstract Cell GetNextCell();
-    protected abstract Cell GetSubsequentCell();
-
-    protected void PlayAnimJump(Cell nextCell)
-    {
-        SetIsInStatus(true);
-        this.transform.DOMove(nextCell.gameObject.transform.position, data.durationAnim)
-            .OnComplete(() =>
-            {
-                var thisTransform = this.transform;
-                thisTransform.parent = nextCell.HeroSpawner.Holder.transform;
-                this.data.currentCell.HeroSpawner.Holder.Items.Clear();
-                nextCell.HeroSpawner.Holder.Items.Add(thisTransform);
-                AddCurrentCell(nextCell);
-                SetIsInStatus(false);
-            });
-    }
-
-    private void SetIsInStatus(bool value)
-    {
-        this.data.isInStatus = value;
-    }
-
-    private void Attack()
-    {
-        this.data.nextCell = GetNextCell();
-        if (this.data.nextCell == null) return;
-        if (this.data.nextCell.HasHero)
-        {
-            PlayAnimAttack(this.data.nextCell.Hero);
-            return;
-        }
-
-        this.data.subsequentCell = GetSubsequentCell();
-        if (this.data.subsequentCell == null) return;
-        if (!this.data.subsequentCell.HasHero) return;
-
-        PlayAnimAttack(this.data.subsequentCell.Hero);
-    }
-
-    private void PlayAnimAttack(Hero target)
-    {
-        Debug.Log("Attack ");
-        SetIsInStatus(true);
-        DOVirtual.DelayedCall(data.durationAnim, () =>
-        {
-            target.Hurt(this.data.atk);
-            SetIsInStatus(false);
-        });
-    }
-
-    private void Hurt(int value)
-    {
-        Debug.Log("Hurt " + value);
-        hpText.UpdateText(Mathf.Clamp(this.data.hp - value, 0, 50).ToString());
-        if (this.data.hp <= 0) Died();
-    }
-
-    [Button]
-    private void Died()
-    {
-        DOVirtual.DelayedCall(0.1f, () => { this.data.currentCell.HeroDespawner.DespawnObject(this.transform); });
     }
 }

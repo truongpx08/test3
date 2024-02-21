@@ -5,37 +5,37 @@ using DG.Tweening;
 
 public class Enemy : Hero
 {
-    protected override void AddName()
+    public override void AddName()
     {
-        SetName(HeroName.Enemy);
+        this.Init.SetName(HeroName.Enemy);
     }
 
-    protected override void AddColor()
+    public override void AddColor()
     {
-        SetColor(Color.red);
+        this.Init.SetColor(Color.red);
     }
 
-    protected override Cell GetNextCell()
+    public override Cell GetNextCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.data.currentCell.Data.cellToJumpOfEnemy);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Init.Data.currentCell.Data.cellToJumpOfEnemy);
     }
 
-    protected override Cell GetSubsequentCell()
+    public override Cell GetSubsequentCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.data.nextCell.Data.cellToJumpOfEnemy);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Init.Data.nextCell.Data.cellToJumpOfEnemy);
     }
 
     protected override void Move()
     {
-        if (this.data.currentCell.Data.type == CellType.ReserveEnemy)
+        if (this.Init.Data.currentCell.Data.type == CellType.ReserveEnemy)
         {
             var cell = PlayObjects.Instance.CellSpawner.Cells.Find(c =>
                 c.Data.type == CellType.EnemySpawnPoint && !c.HasHero);
             if (!cell) return;
-            PlayAnimJump(cell);
+            this.Movement.PlayAnimJump(cell);
             return;
         }
 
-        JumpNextCell();
+        this.Movement.JumpNextCell();
     }
 }
