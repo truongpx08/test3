@@ -21,9 +21,9 @@ public class HeroState : State
     public enum StateType
     {
         // Appear,
-        Move,
+        Movement,
         Attack,
-        // Hurt,
+        Injury
         // Disappear,
     }
 
@@ -66,7 +66,7 @@ public class HeroState : State
     [Button]
     private bool ShouldTransitionToNextState()
     {
-        return HeroReference.Instance.heroes.All(hero => !hero.Init.Data.isInStatus);
+        return HeroReference.Instance.heroes.All(hero => !hero.Init.Data.isActive);
     }
 
     protected override void SendStateToSubscribers(string value)

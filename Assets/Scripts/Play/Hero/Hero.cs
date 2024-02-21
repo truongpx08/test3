@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -17,8 +18,12 @@ public abstract class Hero : PlayObject
     public HeroInit Init => init;
     [SerializeField] private HeroMovement movement;
     public HeroMovement Movement => movement;
-    [SerializeField] private HeroAttacker attacker;
-    public HeroAttacker Attacker => attacker;
+    [SerializeField] private HeroAttack attack;
+    public HeroAttack Attack => attack;
+    [SerializeField] private HeroInjury injury;
+    public HeroInjury Injury => injury;
+    [SerializeField] private HeroAction action;
+    public HeroAction Action => action;
 
     [TitleGroup("Other")]
     protected override void LoadComponents()
@@ -30,6 +35,18 @@ public abstract class Hero : PlayObject
         LoadInit();
         LoadMovement();
         LoadAttacker();
+        LoadInjury();
+        LoadAction();
+    }
+
+    private void LoadAction()
+    {
+        this.action = GetComponentInChildren<HeroAction>();
+    }
+
+    private void LoadInjury()
+    {
+        this.injury = GetComponentInChildren<HeroInjury>();
     }
 
     private void LoadMovement()
@@ -39,9 +56,8 @@ public abstract class Hero : PlayObject
 
     private void LoadAttacker()
     {
-        this.attacker = GetComponentInChildren<HeroAttacker>();
+        this.attack = GetComponentInChildren<HeroAttack>();
     }
-
 
     private void LoadInit()
     {
@@ -65,21 +81,26 @@ public abstract class Hero : PlayObject
 
     public abstract void AddName();
     public abstract void AddColor();
-    protected abstract void Move();
     public abstract Cell GetNextCell();
     public abstract Cell GetSubsequentCell();
+    public abstract string GetReserveCellType();
+    public abstract string GetSpawnPointCellType();
 
     protected override void OnHeroStateChange(HeroState.StateType value)
     {
         base.OnHeroStateChange(value);
         switch (value)
         {
-            case HeroState.StateType.Move:
-                Move();
+            case HeroState.StateType.Movement:
+                this.Movement.TryMove();
                 break;
 
             case HeroState.StateType.Attack:
-                this.attacker.Attack();
+                this.Attack.TryAttack();
+                break;
+            
+            case HeroState.StateType.Injury:
+                this.Injury.TryHurt();
                 break;
         }
     }

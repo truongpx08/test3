@@ -7,6 +7,6 @@ public class HeroData
     public Cell currentCell;
     public Cell nextCell;
     public Cell subsequentCell;
-    public bool isInStatus;
+    public bool isActive;
     public float durationAnim;
 }

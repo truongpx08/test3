@@ -20,7 +20,7 @@ public class HeroInit : HeroRefAbstract
 
     private void AddIsInStatus()
     {
-        SetIsInStatus(false);
+        SetIsActive(false);
     }
 
     public void SetName(string value)
@@ -54,8 +54,8 @@ public class HeroInit : HeroRefAbstract
         this.data.durationAnim = 0.5f;
     }
 
-    public void SetIsInStatus(bool value)
+    public void SetIsActive(bool value)
     {
-        this.data.isInStatus = value;
+        this.data.isActive = value;
     }
 }

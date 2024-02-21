@@ -25,17 +25,13 @@ public class Enemy : Hero
         return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Init.Data.nextCell.Data.cellToJumpOfEnemy);
     }
 
-    protected override void Move()
+    public override string GetReserveCellType()
     {
-        if (this.Init.Data.currentCell.Data.type == CellType.ReserveEnemy)
-        {
-            var cell = PlayObjects.Instance.CellSpawner.Cells.Find(c =>
-                c.Data.type == CellType.EnemySpawnPoint && !c.HasHero);
-            if (!cell) return;
-            this.Movement.PlayAnimJump(cell);
-            return;
-        }
+        return CellType.ReserveEnemy;
+    }
 
-        this.Movement.JumpNextCell();
+    public override string GetSpawnPointCellType()
+    {
+        return CellType.EnemySpawnPoint;
     }
 }
