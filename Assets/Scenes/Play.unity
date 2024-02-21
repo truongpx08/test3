@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 
-  stateOrder: 0000000001000000
+  stateOrder: 00000000010000000200000003000000
 --- !u!1 &370622160
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,7 +457,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 
-  isFirstS: 1
 --- !u!1001 &970445913
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -872,8 +871,9 @@ MonoBehaviour:
   prefabPath: Prefabs\Cell
   items:
   - {fileID: 7647495603582160457, guid: 04162f08155fd7f439ea8a311c38981f, type: 3}
-  - {fileID: 2135426179283461679, guid: e32507a84cae8d54fb37a04a9923d4ca, type: 3}
-  - {fileID: 2135426179283461679, guid: 6a2e3a4b656fdd2469e38228dd247229, type: 3}
+  - {fileID: 7647495603582160457, guid: f7904d47cd415e94fa4ff85afca99b64, type: 3}
+  - {fileID: 2747531320779051829, guid: e32507a84cae8d54fb37a04a9923d4ca, type: 3}
+  - {fileID: 7208556683125913848, guid: c969d87c3be8ede4586e95258cb04b1b, type: 3}
 --- !u!1 &2074336907
 GameObject:
   m_ObjectHideFlags: 0

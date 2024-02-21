@@ -27,6 +27,7 @@ public abstract class TruongConstants
     //Object
     public const string MODEL = "Model";
     public const string COMMON_GO_SPAWNER = "CommonGoSpawner";
+    public const string Bullet = "Bullet";
 }
 
 [System.Serializable]

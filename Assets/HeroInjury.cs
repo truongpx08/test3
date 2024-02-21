@@ -23,8 +23,6 @@ public class HeroInjury : HeroAction
         });
     }
 
-    
-
     public void SetWasAttacked(bool value)
     {
         this.wasAttacked = value;

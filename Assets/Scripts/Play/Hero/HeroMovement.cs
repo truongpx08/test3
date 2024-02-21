@@ -24,7 +24,11 @@ public class HeroMovement : HeroAction
 
         this.Data.subsequentCell = this.hero.GetSubsequentCell();
         if (this.Data.subsequentCell == null) return;
-        if (this.Data.subsequentCell.HasHero) return;
+        if (this.Data.subsequentCell.HasHero)
+        {
+            if (!HasAllyAtCell(this.Data.subsequentCell))
+                return;
+        }
 
         Move(this.Data.nextCell);
     }
@@ -36,10 +40,9 @@ public class HeroMovement : HeroAction
             this.hero.transform.DOMove(nextCell.gameObject.transform.position, Data.durationAnim)
                 .OnComplete(() =>
                 {
-                    var thisTransform = this.hero.transform;
-                    thisTransform.parent = nextCell.HeroSpawner.Holder.transform;
                     this.Data.currentCell.HeroSpawner.Holder.Items.Clear();
-                    nextCell.HeroSpawner.Holder.Items.Add(thisTransform);
+                    nextCell.HeroSpawner.Holder.AddItem(this.hero.transform);
+
                     this.hero.Init.AddCurrentCell(nextCell);
                     this.hero.Init.SetIsActive(false);
                 });

@@ -46,7 +46,7 @@ public class HeroState : State
     {
         while (true)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return null;
             if (!ShouldTransitionToNextState()) continue;
             TransitionToNextState();
         }

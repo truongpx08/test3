@@ -27,7 +27,11 @@ public abstract class Hero : PlayObject
 
     [TitleGroup("Data")]
     [SerializeField] protected HeroData data;
+    [SerializeField] private HeroBulletSpawner bulletSpawner;
+    public HeroBulletSpawner BulletSpawner => bulletSpawner;
     public HeroData Data => data;
+    [SerializeField] private HeroBulletDespawner bulletDespawner;
+    public HeroBulletDespawner BulletDespawner => bulletDespawner;
 
     protected override void LoadComponents()
     {
@@ -40,6 +44,18 @@ public abstract class Hero : PlayObject
         LoadAttacker();
         LoadInjury();
         LoadFaintness();
+        LoadBulletSpawner();
+        LoadBulletDespawner();
+    }
+
+    private void LoadBulletDespawner()
+    {
+        this.bulletDespawner = GetComponentInChildren<HeroBulletDespawner>();
+    }
+
+    private void LoadBulletSpawner()
+    {
+        this.bulletSpawner = GetComponentInChildren<HeroBulletSpawner>();
     }
 
     private void LoadFaintness()

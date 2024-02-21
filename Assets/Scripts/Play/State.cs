@@ -10,10 +10,9 @@ public abstract class State : PlayObject
     [Button]
     protected abstract void SendStateToSubscribers(string value);
 
-    protected virtual void SetCurrentState(string value)
+    protected void SetCurrentState(string value)
     {
-        
-        Debug.Log("SetCurrentState: " + value);
+        // Debug.Log("SetCurrentState: " + value);
         this.currentState = value;
     }
 }
