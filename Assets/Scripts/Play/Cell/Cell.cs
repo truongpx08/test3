@@ -20,8 +20,7 @@ public abstract class Cell : PlayObject
     [TitleGroup("Data")]
     [SerializeField] private CellData data;
     public CellData Data => data;
-    public bool HasHero =>
-        heroSpawner.Holder.Items.Count != 0 && heroSpawner.Holder.Items.Any(h => h.gameObject.activeSelf);
+    public bool HasHero => heroSpawner.Holder.Items.Any(h => h.gameObject.activeSelf);
     public Hero Hero => heroSpawner.Holder.Items.Find(h => h.gameObject.activeSelf).GetComponent<Hero>();
 
     protected override void LoadComponents()
@@ -82,7 +81,8 @@ public abstract class Cell : PlayObject
 
     public void AddName()
     {
-        this.name = $"Cell c{this.data.column}, y{this.data.row}, id{this.data.id}";
+        this.name =
+            $"Cell c{this.data.column}, r{this.data.row}, id{this.data.id}, allyPath{this.data.allyPathId}, enemyPath{this.data.enemyPathId}";
         this.idTMP.text = this.data.id.ToString();
     }
 
@@ -91,15 +91,15 @@ public abstract class Cell : PlayObject
         this.data.type = value;
     }
 
-    public void SetAllyIdCellToJump(int value)
+    public void SetAllyNextCell(int value)
     {
-        this.data.cellToJumpOfAlly = value;
+        this.data.allyNextCell = value;
         this.tileAllyIdToJumpTMP.text = value.ToString();
     }
 
-    public void SetEnemyIdCellToJump(int value)
+    public void SetEnemyNextCell(int value)
     {
-        this.data.cellToJumpOfEnemy = value;
+        this.data.enemyNextCell = value;
         this.tileEnemyIdToJumpTMP.text = value.ToString();
     }
 
@@ -135,5 +135,15 @@ public abstract class Cell : PlayObject
         }
 
         SetType(CellType.Combat);
+    }
+
+    public void SetAllyPathId(int value)
+    {
+        this.Data.allyPathId = value;
+    }
+
+    public void SetEnemyPathId(int value)
+    {
+        this.Data.enemyPathId = value;
     }
 }

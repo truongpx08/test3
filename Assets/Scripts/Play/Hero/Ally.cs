@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Ally : Hero
 {
-    public override void AddName()
+    public override void AddType()
     {
-        this.Init.SetName(HeroName.Ally);
+        this.Init.SetType(HeroType.Ally);
     }
 
     public override void AddColor()
@@ -16,21 +16,16 @@ public class Ally : Hero
 
     public override Cell GetNextCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.cellToJumpOfAlly);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.allyNextCell);
     }
 
     public override Cell GetSubsequentCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.cellToJumpOfAlly);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.allyNextCell);
     }
 
-    public override string GetReserveCellType()
+    public override string GetReserveType()
     {
         return CellType.ReserveAlly;
-    }
-
-    public override string GetSpawnPointCellType()
-    {
-        return CellType.AllySpawnPoint;
     }
 }

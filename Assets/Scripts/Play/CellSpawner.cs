@@ -14,6 +14,15 @@ public class CellSpawner : SpawnerObj
     [SerializeField] private List<Cell> cells;
     public List<Cell> Cells => cells;
 
+    [SerializeField] private List<Cell> allyPath;
+    public List<Cell> AllyPath => allyPath;
+    [SerializeField] private List<Cell> enemyPath;
+    public List<Cell> EnemyPath => enemyPath;
+    [SerializeField] private List<Cell> reserveAllyCells;
+    public List<Cell> ReserveAllyCells => reserveAllyCells;
+    [SerializeField] private List<Cell> reserveEnemyCells;
+    public List<Cell> ReserveEnemyCells => reserveEnemyCells;
+
     protected override void SetVarToDefault()
     {
         base.SetVarToDefault();
@@ -34,8 +43,32 @@ public class CellSpawner : SpawnerObj
     {
         if (value != GameState.OnStart) return;
         SpawnCells(Row, Column);
-        SetAllyCellIdToJumpCells();
-        SetEnemyCellIdToJumpCells();
+        SetAlliesNextCell();
+        SetEnemiesNextCell();
+        SetNameCells();
+        this.allyPath.ForEach(c =>
+        {
+            if (c.Data.type == CellType.ReserveAlly) this.reserveAllyCells.Add(c);
+        });
+        this.enemyPath.ForEach(c =>
+        {
+            if (c.Data.type == CellType.ReserveEnemy) this.reserveEnemyCells.Add(c);
+        });
+    }
+
+    private void SetAlliesNextCell()
+    {
+        SetNextCell(HeroType.Ally, allyPath, -1);
+    }
+
+    private void SetEnemiesNextCell()
+    {
+        SetNextCell(HeroType.Enemy, enemyPath, 1);
+    }
+
+    private void SetNameCells()
+    {
+        this.Cells.ForEach(c => c.AddName());
     }
 
 
@@ -59,10 +92,9 @@ public class CellSpawner : SpawnerObj
                     id = count,
                     row = r,
                     column = c,
-                    cellToJumpOfAlly = -1,
-                    cellToJumpOfEnemy = -1
+                    allyNextCell = CellData.DefaultNextCellId,
+                    enemyNextCell = CellData.DefaultNextCellId
                 });
-                cell.AddName();
                 cell.AddType();
 
                 this.cells.Add(cell);
@@ -93,102 +125,136 @@ public class CellSpawner : SpawnerObj
         obj.transform.position = new Vector3(c * spacing - left, r * -spacing + top, 0);
     }
 
-
-    private void SetEnemyCellIdToJumpCells()
+    private void SetNextCell(string heroType, List<Cell> cellPathList, int nextRow)
     {
-        var allySpawnPoint = this.cells.Find(c => c.Data.type == CellType.EnemySpawnPoint);
-        SetEnemyCellIdToJumpCell(allySpawnPoint);
+        cellPathList.Clear();
+        var firstCell = GetFirstCellOfHero(heroType);
+        var lastCell = GetLastCellOfHero(heroType);
 
-        void SetEnemyCellIdToJumpCell(Cell cell)
+        int countLoop = 0;
+        Loop(firstCell);
+
+        void Loop(Cell cell)
         {
+            if (cell == lastCell)
+            {
+                SetUpPath();
+                return;
+            }
+
+            // Get Cell Same Raw
             var cellsSameRow = new List<Cell>();
-            // Set Cells Same Row
             this.cells.ForEach(c =>
             {
                 if (c.Data.row != cell.Data.row) return;
                 if (c == cell) return;
-                if (c.Data.cellToJumpOfEnemy != -1) return;
+
+                switch (heroType)
+                {
+                    case HeroType.Ally:
+                        if (c.Data.allyNextCell != CellData.DefaultNextCellId) return;
+                        break;
+
+                    case HeroType.Enemy:
+                        if (c.Data.enemyNextCell != CellData.DefaultNextCellId) return;
+                        break;
+                    default:
+                        Debug.LogError("Error");
+                        break;
+                }
+
                 cellsSameRow.Add(c);
             });
-            // Set CellId To Jump
+            // Cell at NextRow
             if (cellsSameRow.Count == 0)
             {
                 var cellNextRow =
-                    this.cells.Find(c => c.Data.column == cell.Data.column && c.Data.row == cell.Data.row + 1);
+                    this.cells.Find(c => c.Data.column == cell.Data.column && c.Data.row == cell.Data.row + nextRow);
                 if (cellNextRow == null) return;
-                cell.SetEnemyIdCellToJump(cellNextRow.Data.id);
-                SetEnemyCellIdToJumpCell(cellNextRow);
+                SetUpPath(cellNextRow);
+                Loop(cellNextRow);
                 return;
             }
 
+            // Cell at NextColumn   
             Cell nextCellInRow = null;
             cellsSameRow.ForEach(c =>
             {
                 if (c.Data.column == cell.Data.column + 1)
                 {
-                    cell.SetEnemyIdCellToJump(c.Data.id);
+                    SetUpPath(c);
                     nextCellInRow = c;
                 }
 
                 if (c.Data.column == cell.Data.column - 1)
                 {
-                    cell.SetEnemyIdCellToJump(c.Data.id);
+                    SetUpPath(c);
                     nextCellInRow = c;
                 }
             });
-            // Again Next Cell
             if (nextCellInRow == null) return;
-            SetEnemyCellIdToJumpCell(nextCellInRow);
-        }
-    }
+            Loop(nextCellInRow);
 
-    private void SetAllyCellIdToJumpCells()
-    {
-        var allySpawnPoint = this.cells.Find(c => c.Data.type == CellType.AllySpawnPoint);
-        SetAllyCellIdToJumpCell(allySpawnPoint);
+            void SetUpPath(Cell nextCell = null)
+            {
+                switch (heroType)
+                {
+                    case HeroType.Ally:
+                        if (nextCell != null)
+                            cell.SetAllyNextCell(nextCell.Data.id);
+                        cell.SetAllyPathId(countLoop);
+                        break;
 
-        void SetAllyCellIdToJumpCell(Cell cell)
-        {
-            var cellsSameRow = new List<Cell>();
-            // Set Cells Same Row
-            this.cells.ForEach(c =>
-            {
-                if (c.Data.row != cell.Data.row) return;
-                if (c == cell) return;
-                if (c.Data.cellToJumpOfAlly != -1) return;
-                cellsSameRow.Add(c);
-            });
-            // Set CellId To Jump
-            if (cellsSameRow.Count == 0)
-            {
-                var cellNextRow =
-                    this.cells.Find(c => c.Data.column == cell.Data.column && c.Data.row == cell.Data.row - 1);
-                if (cellNextRow == null) return;
-                cell.SetAllyIdCellToJump(cellNextRow.Data.id);
-                SetAllyCellIdToJumpCell(cellNextRow);
-                return;
+                    case HeroType.Enemy:
+                        if (nextCell != null)
+                            cell.SetEnemyNextCell(nextCell.Data.id);
+                        cell.SetEnemyPathId(countLoop);
+                        break;
+                    default:
+                        Debug.LogError("Error");
+                        break;
+                }
+
+                cellPathList.Add(cell);
+                countLoop++;
             }
-
-            Cell nextCellInRow = null;
-            cellsSameRow.ForEach(c =>
-            {
-                if (c.Data.column == cell.Data.column + 1)
-                {
-                    cell.SetAllyIdCellToJump(c.Data.id);
-                    nextCellInRow = c;
-                }
-
-                if (c.Data.column == cell.Data.column - 1)
-                {
-                    cell.SetAllyIdCellToJump(c.Data.id);
-                    nextCellInRow = c;
-                }
-            });
-            // Again Next Cell
-            if (nextCellInRow == null) return;
-            SetAllyCellIdToJumpCell(nextCellInRow);
         }
     }
+
+    private Cell GetFirstCellOfHero(string heroType)
+    {
+        switch (heroType)
+        {
+            case HeroType.Enemy:
+                return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
+                    cell.Data.row == 0 && cell.Data.column == Column - 1);
+
+            case HeroType.Ally:
+                return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
+                    cell.Data.row == Row - 1 && cell.Data.column == Column - 1);
+        }
+
+        Debug.LogError("Error");
+        return null;
+    }
+
+    public Cell GetLastCellOfHero(string heroType)
+    {
+        switch (heroType)
+        {
+            case HeroType.Enemy:
+                return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
+                    cell.Data.row == Row - 1 && cell.Data.column == Column - 1);
+
+            case HeroType.Ally:
+                return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
+                    cell.Data.row == 0 && cell.Data.column == Column - 1);
+        }
+
+        Debug.LogError("Error");
+        return null;
+    }
+
 
     public Cell GetCellWithId(int id)
     {

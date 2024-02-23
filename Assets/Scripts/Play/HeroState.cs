@@ -17,6 +17,7 @@ public class HeroState : State
 
     public enum StateType
     {
+        BeforeMove,
         Move,
         Attack,
         Injury,
@@ -46,7 +47,7 @@ public class HeroState : State
     {
         while (true)
         {
-            yield return null;
+            yield return null; //1 frame
             if (!ShouldTransitionToNextState()) continue;
             TransitionToNextState();
         }

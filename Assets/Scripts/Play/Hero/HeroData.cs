@@ -1,7 +1,8 @@
 [System.Serializable]
 public class HeroData
 {
-    public string name;
+    public int id;
+    public string type;
     public int hp;
     public int atk;
     public Cell currentCell;
@@ -9,4 +10,5 @@ public class HeroData
     public Cell subsequentCell;
     public bool isActive;
     public float durationAnim;
+    public bool canMove;
 }

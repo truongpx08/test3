@@ -27,13 +27,13 @@ public abstract class HeroAction : HeroRefAbstract
     {
         return cell.HeroSpawner.Holder.Items.Count != 0 &&
                cell.HeroSpawner.Holder.Items.Any(h =>
-                   h.gameObject.activeSelf && h.GetComponent<Hero>().name != this.Data.name);
+                   h.gameObject.activeSelf && h.GetComponent<Hero>().name != this.Data.type);
     }
 
     protected bool HasAllyAtCell(Cell cell)
     {
         return cell.HeroSpawner.Holder.Items.Count != 0 &&
                cell.HeroSpawner.Holder.Items.Any(h =>
-                   h.gameObject.activeSelf && h.GetComponent<Hero>().name == this.Data.name);
+                   h.gameObject.activeSelf && h.GetComponent<Hero>().name == this.Data.type);
     }
 }

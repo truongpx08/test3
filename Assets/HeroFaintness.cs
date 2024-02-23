@@ -14,7 +14,7 @@ public class HeroFaintness : HeroAction
         CallActionWithDelay(() =>
         {
             this.Data.currentCell.HeroSpawner.Holder.Items.Clear();
-            var cell = PlayObjects.Instance.CellSpawner.GetCellWithType(this.hero.GetReserveCellType());
+            var cell = PlayObjects.Instance.CellSpawner.GetCellWithType(this.hero.GetReserveType());
             cell.HeroDespawner.DespawnObject(this.hero.transform);
             HeroReference.Instance.heroes.Remove(this.hero);
         });

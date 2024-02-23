@@ -103,6 +103,9 @@ public abstract class Hero : PlayObject
         base.OnHeroStateChange(value);
         switch (value)
         {
+            case HeroState.StateType.BeforeMove:
+                break;
+            
             case HeroState.StateType.Move:
                 this.Movement.TryMove();
                 break;
@@ -125,10 +128,19 @@ public abstract class Hero : PlayObject
     }
 
 
-    public abstract void AddName();
+    public abstract void AddType();
     public abstract void AddColor();
     public abstract Cell GetNextCell();
     public abstract Cell GetSubsequentCell();
-    public abstract string GetReserveCellType();
-    public abstract string GetSpawnPointCellType();
+    public abstract string GetReserveType();
+
+    public bool IsTeammate(Hero hero)
+    {
+        return this.Data.type == hero.Data.type;
+    }
+
+    public bool IsOpponent(Hero hero)
+    {
+        return this.Data.type != hero.Data.type;
+    }
 }

@@ -8,6 +8,13 @@ using UnityEngine;
 public class CellHeroSpawner : TruongSpawner
 {
     private Cell cell;
+    [SerializeField] private int count;
+
+    protected override void SetVarToDefault()
+    {
+        base.SetVarToDefault();
+        count = 0;
+    }
 
     protected override void LoadComponents()
     {
@@ -28,14 +35,14 @@ public class CellHeroSpawner : TruongSpawner
     [Button]
     public void SpawnAlly()
     {
-        var go = SpawnObjectWithName(HeroName.Ally);
+        var go = SpawnObjectWithName(HeroType.Ally);
         SetUpGo(go);
     }
 
     [Button]
     public void SpawnEnemy()
     {
-        var go = SpawnObjectWithName(HeroName.Enemy);
+        var go = SpawnObjectWithName(HeroType.Enemy);
         SetUpGo(go);
     }
 
@@ -44,6 +51,8 @@ public class CellHeroSpawner : TruongSpawner
         var hero = go.GetComponent<Hero>();
         hero.Init.AddCurrentCell(cell);
         hero.Init.Init();
+        hero.Init.AddId(count);
         HeroReference.Instance.heroes.Add(hero);
+        this.count++;
     }
 }

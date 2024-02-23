@@ -5,9 +5,9 @@ using DG.Tweening;
 
 public class Enemy : Hero
 {
-    public override void AddName()
+    public override void AddType()
     {
-        this.Init.SetName(HeroName.Enemy);
+        this.Init.SetType(HeroType.Enemy);
     }
 
     public override void AddColor()
@@ -17,21 +17,16 @@ public class Enemy : Hero
 
     public override Cell GetNextCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.cellToJumpOfEnemy);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.enemyNextCell);
     }
 
     public override Cell GetSubsequentCell()
     {
-        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.cellToJumpOfEnemy);
+        return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.enemyNextCell);
     }
 
-    public override string GetReserveCellType()
+    public override string GetReserveType()
     {
         return CellType.ReserveEnemy;
-    }
-
-    public override string GetSpawnPointCellType()
-    {
-        return CellType.EnemySpawnPoint;
     }
 }

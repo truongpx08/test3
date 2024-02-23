@@ -7,7 +7,7 @@ public class HeroInit : HeroRefAbstract
     public void Init()
     {
         AddPosition();
-        this.hero.AddName();
+        this.hero.AddType();
         this.hero.AddColor();
         AddHp();
         AddAtk();
@@ -25,10 +25,10 @@ public class HeroInit : HeroRefAbstract
         SetIsActive(false);
     }
 
-    public void SetName(string value)
+    public void SetType(string value)
     {
         Debug.Log("Setting name");
-        this.Data.name = value;
+        this.Data.type = value;
     }
 
     public void SetColor(Color red)
@@ -59,5 +59,10 @@ public class HeroInit : HeroRefAbstract
     public void SetIsActive(bool value)
     {
         this.Data.isActive = value;
+    }
+
+    public void AddId(int value)
+    {
+        this.Data.id = value;
     }
 }
