@@ -28,6 +28,9 @@ public abstract class TruongConstants
     public const string MODEL = "Model";
     public const string COMMON_GO_SPAWNER = "CommonGoSpawner";
     public const string Bullet = "Bullet";
+    public const string Path = "Path";
+    public const string PathHorizontal = "PathHorizontal";
+    public const string PathVertical = "PathVertical";
 }
 
 [System.Serializable]

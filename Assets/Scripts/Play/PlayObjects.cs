@@ -11,6 +11,8 @@ public class PlayObjects : TruongSingleton<PlayObjects>
 
     [SerializeField] private Time time;
     public Time Time => time;
+    [SerializeField] private PathSpawner pathSpawner;
+    public PathSpawner PathSpawner => pathSpawner;
 
     protected override void LoadComponents()
     {
@@ -18,6 +20,12 @@ public class PlayObjects : TruongSingleton<PlayObjects>
         LoadTileSpawner();
         LoadHeroState();
         LoadTime();
+        LoadPathSpawner();
+    }
+
+    private void LoadPathSpawner()
+    {
+        this.pathSpawner = GetComponentInChildren<PathSpawner>();
     }
 
     private void LoadTime()

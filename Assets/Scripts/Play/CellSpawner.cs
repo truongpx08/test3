@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -45,16 +46,41 @@ public class CellSpawner : SpawnerObj
         SpawnCells(Row, Column);
         SetAlliesNextCell();
         SetEnemiesNextCell();
-        SetNameCells();
-        this.allyPath.ForEach(c =>
+        AddNameCells();
+        AddReserveAllyCells();
+        AddReserveEnemyCells();
+        AddPath();
+    }
+
+    private void AddPath()
+    {
+        this.allyPath.ForEach(curCell =>
         {
-            if (c.Data.type == CellType.ReserveAlly) this.reserveAllyCells.Add(c);
-        });
-        this.enemyPath.ForEach(c =>
-        {
-            if (c.Data.type == CellType.ReserveEnemy) this.reserveEnemyCells.Add(c);
+            if (curCell == this.allyPath.Last()) return;
+            var nextCell = this.allyPath[this.allyPath.IndexOf(curCell) + 1];
+            if (curCell.Data.row == nextCell.Data.row)
+            {
+                var horPath = PlayObjects.Instance.PathSpawner.SpawnHorPath();
+                AddPosPath(horPath);
+                return;
+            }
+
+            var verticalPath = PlayObjects.Instance.PathSpawner.SpawnVerticalPath();
+            AddPosPath(verticalPath);
+
+            void AddPosPath(GameObject horPath)
+            {
+                horPath.transform.position = GetMidPoint();
+            }
+
+            Vector2 GetMidPoint()
+            {
+                Vector2 midpoint = (curCell.transform.position + nextCell.transform.position) / 2f;
+                return midpoint;
+            }
         });
     }
+
 
     private void SetAlliesNextCell()
     {
@@ -66,7 +92,7 @@ public class CellSpawner : SpawnerObj
         SetNextCell(HeroType.Enemy, enemyPath, 1);
     }
 
-    private void SetNameCells()
+    private void AddNameCells()
     {
         this.Cells.ForEach(c => c.AddName());
     }
@@ -264,5 +290,21 @@ public class CellSpawner : SpawnerObj
     public Cell GetCellWithType(string type)
     {
         return cells.Find(item => item.Data.type == type);
+    }
+
+    private void AddReserveEnemyCells()
+    {
+        this.enemyPath.ForEach(c =>
+        {
+            if (c.Data.type == CellType.ReserveEnemy) this.reserveEnemyCells.Add(c);
+        });
+    }
+
+    private void AddReserveAllyCells()
+    {
+        this.allyPath.ForEach(c =>
+        {
+            if (c.Data.type == CellType.ReserveAlly) this.reserveAllyCells.Add(c);
+        });
     }
 }
