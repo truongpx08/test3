@@ -36,6 +36,8 @@ public class HeroMovement : HeroAction
 
     public bool GetCanMove()
     {
+        if (this.Data.currentCell.Data.type == hero.Data.finishCellType) return false;
+
         this.Data.nextCell = this.hero.GetNextCell();
         if (this.Data.nextCell == null) return false;
         if (this.Data.nextCell.HeroSpawner.Holder.Items.Any(h => h.gameObject.activeSelf))
@@ -49,9 +51,6 @@ public class HeroMovement : HeroAction
 
             return false;
         }
-
-        if (this.Data.nextCell == PlayObjects.Instance.CellSpawner.GetLastCellOfHero(this.Data.type))
-            return true;
 
         this.Data.subsequentCell = this.hero.GetSubsequentCell();
         if (this.Data.subsequentCell == null) return false;

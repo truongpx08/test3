@@ -105,7 +105,7 @@ public abstract class Hero : PlaySubscriber
         {
             case HeroState.StateType.BeforeMove:
                 break;
-            
+
             case HeroState.StateType.Move:
                 this.Movement.TryMove();
                 break;
@@ -130,6 +130,13 @@ public abstract class Hero : PlaySubscriber
 
     public abstract void AddType();
     public abstract void AddColor();
+    public abstract void AddFinishCellType();
+
+    protected void SetFinishCellType(string value)
+    {
+        this.Data.finishCellType = value;
+    }
+
     public abstract Cell GetNextCell();
     public abstract Cell GetSubsequentCell();
     public abstract string GetReserveType();

@@ -15,6 +15,11 @@ public class Enemy : Hero
         this.Init.SetColor(Color.red);
     }
 
+    public override void AddFinishCellType()
+    {
+        SetFinishCellType(CellType.EnemyFinish);
+    }
+
     public override Cell GetNextCell()
     {
         return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.enemyNextCell);

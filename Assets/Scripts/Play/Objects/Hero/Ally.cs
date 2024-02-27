@@ -14,6 +14,12 @@ public class Ally : Hero
         this.Init.SetColor(Color.blue);
     }
 
+    public override void AddFinishCellType()
+    {
+        SetFinishCellType(CellType.AllyFinish);
+    }
+
+
     public override Cell GetNextCell()
     {
         return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.allyNextCell);

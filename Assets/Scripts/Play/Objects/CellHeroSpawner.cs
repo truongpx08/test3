@@ -29,7 +29,7 @@ public class CellHeroSpawner : TruongSpawner
 
     protected override void LoadPrefabInResource()
     {
-        LoadPrefabInResourceWithPrefabName("Hero");
+        LoadPrefabInResourceWithPrefabName(TruongConstants.Hero);
     }
 
     [Button]
@@ -52,7 +52,7 @@ public class CellHeroSpawner : TruongSpawner
         hero.Init.AddCurrentCell(cell);
         hero.Init.Init();
         hero.Init.AddId(count);
-        HeroReference.Instance.heroes.Add(hero);
+        HeroReference.Instance.Heroes.Add(hero);
         this.count++;
     }
 }

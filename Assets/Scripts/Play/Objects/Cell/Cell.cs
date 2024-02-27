@@ -124,13 +124,13 @@ public abstract class Cell : PlaySubscriber
 
         if (Data.row == 1 && Data.column == 0)
         {
-            SetType(CellType.EnemySpawnPoint);
+            SetType(CellType.AllyFinish);
             return;
         }
 
         if (Data.row == CellSpawner.Row - 2 && Data.column == 0)
         {
-            SetType(CellType.AllySpawnPoint);
+            SetType(CellType.EnemyFinish);
             return;
         }
 

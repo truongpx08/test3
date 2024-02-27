@@ -11,4 +11,6 @@ public class HeroData
     public bool isActive;
     public float durationAnim;
     public bool canMove;
+    public string finishCellType;
+    public bool isBoss;
 }

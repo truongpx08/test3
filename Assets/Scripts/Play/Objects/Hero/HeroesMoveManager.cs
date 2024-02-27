@@ -51,17 +51,16 @@ public class HeroesMoveManager : PlaySubscriber
     {
         return GetHeroListWithType(HeroType.Enemy);
     }
-    private List<Hero> GetHeroListWithType(string heroType)
 
+    private List<Hero> GetHeroListWithType(string heroType)
     {
         List<Hero> heroes = new List<Hero>();
 
-        HeroReference.Instance.heroes.ForEach(hero =>
+        HeroReference.Instance.Heroes.ForEach(hero =>
         {
-            if (hero.Data.type == heroType)
-            {
-                heroes.Add(hero);
-            }
+            if (hero.Data.type != heroType) return;
+            if (hero.Data.isBoss) return;
+            heroes.Add(hero);
         });
         return heroes;
     }

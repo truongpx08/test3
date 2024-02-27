@@ -9,6 +9,7 @@ public class HeroInit : HeroRefAbstract
         AddPosition();
         this.hero.AddType();
         this.hero.AddColor();
+        this.hero.AddFinishCellType();
         AddHp();
         AddAtk();
         AddDurationAnim();
@@ -64,5 +65,10 @@ public class HeroInit : HeroRefAbstract
     public void AddId(int value)
     {
         this.Data.id = value;
+    }
+
+    public void AddIsBoss(bool value)
+    {
+        this.Data.isBoss = value;
     }
 }

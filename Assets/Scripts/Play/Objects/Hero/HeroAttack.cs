@@ -8,6 +8,15 @@ public class HeroAttack : HeroAction
 {
     public void TryAttack()
     {
+        if (this.Data.isBoss) return;
+        if (this.Data.currentCell.Data.type == hero.Data.finishCellType)
+        {
+            var boss = HeroReference.Instance.GetBoss(this.Data.type);
+            if (boss.Data.hp <= 0) return;
+            Attack(boss);
+            return;
+        }
+
         this.Data.nextCell = this.hero.GetNextCell();
 
         if (this.Data.nextCell == null) return;
