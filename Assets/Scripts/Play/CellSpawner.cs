@@ -35,17 +35,12 @@ public class CellSpawner : SpawnerObj
         LoadPrefabInResourceWithPrefabName("Cell");
     }
 
-
-    protected override void OnTimeChange(int value)
-    {
-    }
-
     protected override void OnStateChange(string value)
     {
         if (value != GameState.OnStart) return;
         SpawnCells(Row, Column);
-        SetAlliesNextCell();
-        SetEnemiesNextCell();
+        AddAlliesNextCell();
+        AddEnemiesNextCell();
         AddNameCells();
         AddReserveAllyCells();
         AddReserveEnemyCells();
@@ -82,12 +77,12 @@ public class CellSpawner : SpawnerObj
     }
 
 
-    private void SetAlliesNextCell()
+    private void AddAlliesNextCell()
     {
         SetNextCell(HeroType.Ally, allyPath, -1);
     }
 
-    private void SetEnemiesNextCell()
+    private void AddEnemiesNextCell()
     {
         SetNextCell(HeroType.Enemy, enemyPath, 1);
     }

@@ -40,7 +40,13 @@ public abstract class SpawnerObj : TruongSpawner, IMessageHandler
     }
 
 
-    protected abstract void OnTimeChange(int value);
+    protected virtual void OnTimeChange(int value)
+    {
+        //For Override
+    }
 
-    protected abstract void OnStateChange(string value);
+    protected virtual void OnStateChange(string value)
+    {
+        //For Override
+    }
 }
