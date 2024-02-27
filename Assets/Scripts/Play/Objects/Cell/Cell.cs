@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
-public abstract class Cell : PlayObject
+public abstract class Cell : PlaySubscriber
 {
     [TitleGroup("Ref")]
     [SerializeField] private CellHeroSpawner heroSpawner;

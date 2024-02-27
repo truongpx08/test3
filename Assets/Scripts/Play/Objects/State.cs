@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class State : PlayObject
+public abstract class State : PlaySubscriber
 {
     [SerializeField] protected string currentState;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Time : PlayObject
+public class Time : PlaySubscriber
 {
     [SerializeField] private int time;
     [SerializeField] private int maxTime;

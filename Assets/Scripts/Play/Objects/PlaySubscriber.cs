@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class PlayObject : TruongMonoBehaviour, IMessageHandler
+public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
 {
     protected override void OnEnable()
     {

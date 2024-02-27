@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AmountAbstract : PlayObject
+public abstract class AmountAbstract : PlaySubscriber
 {
     [SerializeField] protected int amount;
     [SerializeField] protected int min;

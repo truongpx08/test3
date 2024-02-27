@@ -5,7 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public abstract class Hero : PlayObject
+public abstract class Hero : PlaySubscriber
 {
     [TitleGroup("Ref")]
     [SerializeField] protected SpriteRenderer model;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class HeroesMoveManager : PlayObject
+public class HeroesMoveManager : PlaySubscriber
 {
     protected override void OnHeroStateChange(HeroState.StateType value)
     {
