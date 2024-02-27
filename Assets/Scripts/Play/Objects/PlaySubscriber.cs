@@ -29,6 +29,8 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
         TruongObserver.Instance.AddSubscriber(MessageType.OnGameStateChange, this);
         TruongObserver.Instance.AddSubscriber(MessageType.OnTimeChange, this);
         TruongObserver.Instance.AddSubscriber(MessageType.OnHeroStateChange, this);
+        TruongObserver.Instance.AddSubscriber(MessageType.OnManaChange, this);
+        TruongObserver.Instance.AddSubscriber(MessageType.OnHpChange, this);
     }
 
     protected virtual void UnSubscribeObserver()
@@ -36,6 +38,8 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnGameStateChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnTimeChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnHeroStateChange, this);
+        TruongObserver.Instance.RemoveSubscriber(MessageType.OnManaChange, this);
+        TruongObserver.Instance.RemoveSubscriber(MessageType.OnHpChange, this);
     }
 
     public void HandleMessage(Message message)
@@ -54,7 +58,24 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
                 Enum.TryParse(message.data[0].ToString(), out HeroState.StateType value);
                 OnHeroStateChange(value);
                 break;
+            case MessageType.OnManaChange:
+                OnManaChange((int)message.data[0]);
+                break;
+
+            case MessageType.OnHpChange:
+                OnHpChange((int)message.data[0]);
+                break;
         }
+    }
+
+    protected virtual void OnHpChange(int value)
+    {
+        // For Override
+    }
+
+    protected virtual void OnManaChange(int value)
+    {
+        // For Override
     }
 
 

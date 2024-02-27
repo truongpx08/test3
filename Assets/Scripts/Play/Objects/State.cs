@@ -8,7 +8,7 @@ public abstract class State : PlaySubscriber
     [SerializeField] protected string currentState;
 
     [Button]
-    protected abstract void SendStateToSubscribers(string value);
+    protected abstract void NotifyToSubscribers(string value);
 
     protected void SetCurrentState(string value)
     {

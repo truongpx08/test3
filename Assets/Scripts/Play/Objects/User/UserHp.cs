@@ -1,26 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UserHp : AmountAbstract
 {
-    protected override void SetMaxAmount()
+    protected override void OnHpChange(int value)
+    {
+        base.OnHpChange(value);
+        SetAmount(value);
+    }
+
+    protected override void AddMaxAmount()
     {
         SetMaxAmount(10);
     }
 
-    protected override void SetMinAmount()
+    protected override void AddMinAmount()
     {
         SetMinAmount(0);
     }
 
-    protected override void OnAmountChange(int value)
+    protected override void AddMessageType()
     {
-        TruongObserver.Instance.Notify(MessageType.OnHpChange, new object[] { value });
+        SetMessageType(MessageType.OnHpChange);
     }
 
     protected override void SetAmountOnStart()
     {
-        SetAmount(this.max);
+        NotifyToSubscribers(this.max);
     }
 }

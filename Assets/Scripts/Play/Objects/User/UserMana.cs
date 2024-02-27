@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class UserMana : AmountAbstract
 {
-    protected override void OnAmountChange(int value)
+    protected override void OnManaChange(int value)
     {
-        TruongObserver.Instance.Notify(MessageType.OnManaChange, new object[] { value });
+        base.OnManaChange(value);
+        SetAmount(value);
+    }
+
+    protected override void AddMessageType()
+    {
+        SetMessageType(MessageType.OnManaChange);
     }
 
     protected override void SetAmountOnStart()
     {
-        SetAmount(this.min);
+        NotifyToSubscribers(this.min);
     }
 
-    protected override void SetMaxAmount()
+    protected override void AddMaxAmount()
     {
         SetMaxAmount(8);
     }
 
-    protected override void SetMinAmount()
+    protected override void AddMinAmount()
     {
         SetMinAmount(0);
     }
@@ -28,6 +34,6 @@ public class UserMana : AmountAbstract
     {
         base.OnTimeChange(value);
         if (this.amount >= this.max) return;
-        SetAmount(this.amount + 1);
+        NotifyToSubscribers(this.amount + 1);
     }
 }

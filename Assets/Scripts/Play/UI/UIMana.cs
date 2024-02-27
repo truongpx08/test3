@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class UITime : UIText
+public class UIMana : UIText
 {
-    protected override void OnTimeChange(int value)
+    protected override void OnManaChange(int value)
     {
-        base.OnTimeChange(value);
+        base.OnManaChange(value);
         SetText(value.ToString());
     }
 }

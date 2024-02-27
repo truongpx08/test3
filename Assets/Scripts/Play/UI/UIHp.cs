@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
-public class UITime : UIText
+public class UIHp : UIText
 {
-    protected override void OnTimeChange(int value)
+    protected override void OnHpChange(int value)
     {
-        base.OnTimeChange(value);
+        base.OnHpChange(value);
         SetText(value.ToString());
     }
 }

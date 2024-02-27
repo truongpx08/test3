@@ -31,6 +31,7 @@ public abstract class TruongConstants
     public const string Path = "Path";
     public const string PathHorizontal = "PathHorizontal";
     public const string PathVertical = "PathVertical";
+    public const string Button = "Button";
 }
 
 [System.Serializable]

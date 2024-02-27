@@ -56,7 +56,7 @@ public class HeroState : State
     private void TransitionToNextState()
     {
         StateType nextState = GetNextState();
-        SendStateToSubscribers(nextState.ToString());
+        NotifyToSubscribers(nextState.ToString());
     }
 
     [Button]
@@ -65,7 +65,7 @@ public class HeroState : State
         return HeroReference.Instance.heroes.All(hero => !hero.Data.isActive);
     }
 
-    protected override void SendStateToSubscribers(string value)
+    protected override void NotifyToSubscribers(string value)
     {
         TruongObserver.Instance.Notify(new Message(MessageType.OnHeroStateChange,
             new object[] { value }));

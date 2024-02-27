@@ -7,19 +7,28 @@ public abstract class AmountAbstract : PlaySubscriber
     [SerializeField] protected int amount;
     [SerializeField] protected int min;
     [SerializeField] protected int max;
+    private string messageType;
 
     protected override void SetVarToDefault()
     {
         base.SetVarToDefault();
-        SetMaxAmount();
-        SetMinAmount();
+        AddMaxAmount();
+        AddMinAmount();
+        AddMessageType();
     }
 
-    protected abstract void SetMaxAmount();
-    protected abstract void SetMinAmount();
+    protected abstract void AddMaxAmount();
 
-    protected override void OnTimeChange(int value)
+    protected void SetMaxAmount(int value)
     {
+        this.max = value;
+    }
+
+    protected abstract void AddMinAmount();
+
+    protected void SetMinAmount(int value)
+    {
+        this.min = value;
     }
 
     protected override void OnGameStateChange(string value)
@@ -28,23 +37,22 @@ public abstract class AmountAbstract : PlaySubscriber
         SetAmountOnStart();
     }
 
+    protected abstract void SetAmountOnStart();
 
     protected void SetAmount(int value)
     {
         this.amount = value;
-        OnAmountChange(value);
     }
 
-    protected abstract void OnAmountChange(int value);
-    protected abstract void SetAmountOnStart();
+    protected abstract void AddMessageType();
 
-    protected void SetMaxAmount(int value)
+    protected void SetMessageType(string onHpChange)
     {
-        this.max = value;
+        this.messageType = onHpChange;
     }
 
-    protected void SetMinAmount(int value)
+    protected void NotifyToSubscribers(int value)
     {
-        this.min = value;
+        TruongObserver.Instance.Notify(this.messageType, new object[] { value });
     }
 }

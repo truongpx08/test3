@@ -15,18 +15,18 @@ public class GameState : State
     {
         base.Start();
         //wait objects subscribe observer
-        DOVirtual.DelayedCall(0.5f, () => SendStateToSubscribers(OnStart));
+        DOVirtual.DelayedCall(0.5f, () => NotifyToSubscribers(OnStart));
     }
 
     protected override void OnTimeChange(int value)
     {
         if (value == PlayObjects.Instance.Time.MaxTime - 1)
         {
-            SendStateToSubscribers(OnUpdate);
+            NotifyToSubscribers(OnUpdate);
             return;
         }
 
-        if (value == 0) SendStateToSubscribers(OnEnd);
+        if (value == 0) NotifyToSubscribers(OnEnd);
     }
 
     protected override void OnGameStateChange(string value)
@@ -34,7 +34,7 @@ public class GameState : State
         SetCurrentState(value);
     }
 
-    protected override void SendStateToSubscribers(string value)
+    protected override void NotifyToSubscribers(string value)
     {
         TruongObserver.Instance.Notify(new Message(MessageType.OnGameStateChange,
             new object[] { value }));
