@@ -79,12 +79,12 @@ public class CellSpawner : SpawnerObj
 
     private void AddAlliesNextCell()
     {
-        SetNextCell(HeroType.Ally, allyPath, -1);
+        SetNextCell(PetType.Ally, allyPath, -1);
     }
 
     private void AddEnemiesNextCell()
     {
-        SetNextCell(HeroType.Enemy, enemyPath, 1);
+        SetNextCell(PetType.Enemy, enemyPath, 1);
     }
 
     private void AddNameCells()
@@ -172,11 +172,11 @@ public class CellSpawner : SpawnerObj
 
                 switch (heroType)
                 {
-                    case HeroType.Ally:
+                    case PetType.Ally:
                         if (c.Data.allyNextCell != CellData.DefaultNextCellId) return;
                         break;
 
-                    case HeroType.Enemy:
+                    case PetType.Enemy:
                         if (c.Data.enemyNextCell != CellData.DefaultNextCellId) return;
                         break;
                     default:
@@ -220,13 +220,13 @@ public class CellSpawner : SpawnerObj
             {
                 switch (heroType)
                 {
-                    case HeroType.Ally:
+                    case PetType.Ally:
                         if (nextCell != null)
                             cell.SetAllyNextCell(nextCell.Data.id);
                         cell.SetAllyPathId(countLoop);
                         break;
 
-                    case HeroType.Enemy:
+                    case PetType.Enemy:
                         if (nextCell != null)
                             cell.SetEnemyNextCell(nextCell.Data.id);
                         cell.SetEnemyPathId(countLoop);
@@ -246,11 +246,11 @@ public class CellSpawner : SpawnerObj
     {
         switch (heroType)
         {
-            case HeroType.Enemy:
+            case PetType.Enemy:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == 0 && cell.Data.column == Column - 1);
 
-            case HeroType.Ally:
+            case PetType.Ally:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == Row - 1 && cell.Data.column == Column - 1);
         }
@@ -263,11 +263,11 @@ public class CellSpawner : SpawnerObj
     {
         switch (heroType)
         {
-            case HeroType.Enemy:
+            case PetType.Enemy:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == Row - 1 && cell.Data.column == Column - 1);
 
-            case HeroType.Ally:
+            case PetType.Ally:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == 0 && cell.Data.column == Column - 1);
         }

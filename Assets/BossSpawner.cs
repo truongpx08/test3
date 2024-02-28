@@ -7,39 +7,39 @@ public class BossSpawner : SpawnerObj
 {
     protected override void LoadPrefabInResource()
     {
-        LoadPrefabInResourceWithPrefabName(TruongConstants.Hero);
+        LoadPrefabInResourceWithPrefabName(TruongConstants.Pet);
     }
 
     protected override void OnStateChange(string value)
     {
         if (value != GameState.OnStart) return;
-        SpawnAlly();
-        SpawnEnemy();
+        SpawnPlayerBoss();
+        SpawnBotBoss();
     }
 
     [Button]
-    public void SpawnAlly()
+    public void SpawnPlayerBoss()
     {
-        var go = SpawnObjectWithName(HeroType.Ally);
+        var go = SpawnObjectWithName(PetType.Ally);
         SetUpGo(go);
         go.transform.localPosition = new Vector3(0, -3.5f, 0);
-        HeroReference.Instance.AddAllyBoss(go.GetComponent<Hero>());
+        PetReference.Instance.AddAllyBoss(go.GetComponent<Pet>());
     }
 
     [Button]
-    public void SpawnEnemy()
+    public void SpawnBotBoss()
     {
-        var go = SpawnObjectWithName(HeroType.Enemy);
+        var go = SpawnObjectWithName(PetType.Enemy);
         SetUpGo(go);
         go.transform.localPosition = new Vector3(0, 3.5f, 0);
-        HeroReference.Instance.AddEnemyBoss(go.GetComponent<Hero>());
+        PetReference.Instance.AddEnemyBoss(go.GetComponent<Pet>());
     }
 
     private void SetUpGo(Transform go)
     {
-        var hero = go.GetComponent<Hero>();
+        var hero = go.GetComponent<Pet>();
         hero.Init.Init();
         hero.Init.AddIsBoss(true);
-        HeroReference.Instance.Heroes.Add(hero);
+        PetReference.Instance.Heroes.Add(hero);
     }
 }

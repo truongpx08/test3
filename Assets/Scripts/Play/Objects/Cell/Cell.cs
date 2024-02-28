@@ -8,10 +8,10 @@ using UnityEngine;
 public abstract class Cell : PlaySubscriber
 {
     [TitleGroup("Ref")]
-    [SerializeField] private CellHeroSpawner heroSpawner;
-    public CellHeroSpawner HeroSpawner => heroSpawner;
-    [SerializeField] private CellHeroDespawner heroDespawner;
-    public CellHeroDespawner HeroDespawner => heroDespawner;
+    [SerializeField] private CellPetSpawner petSpawner;
+    public CellPetSpawner PetSpawner => petSpawner;
+    [SerializeField] private CellPetDespawner petDespawner;
+    public CellPetDespawner PetDespawner => petDespawner;
 
     [SerializeField] public SpriteRenderer model;
     [SerializeField] private TextMeshPro tileAllyIdToJumpTMP;
@@ -20,8 +20,8 @@ public abstract class Cell : PlaySubscriber
     [TitleGroup("Data")]
     [SerializeField] private CellData data;
     public CellData Data => data;
-    public bool HasHero => heroSpawner.Holder.Items.Any(h => h.gameObject.activeSelf);
-    public Hero Hero => heroSpawner.Holder.Items.Find(h => h.gameObject.activeSelf).GetComponent<Hero>();
+    public bool HasHero => petSpawner.Holder.Items.Any(h => h.gameObject.activeSelf);
+    public Pet Pet => petSpawner.Holder.Items.Find(h => h.gameObject.activeSelf).GetComponent<Pet>();
 
     protected override void LoadComponents()
     {
@@ -42,12 +42,12 @@ public abstract class Cell : PlaySubscriber
 
     private void LoadHeroDespawner()
     {
-        this.heroDespawner = GetComponentInChildren<CellHeroDespawner>();
+        this.petDespawner = GetComponentInChildren<CellPetDespawner>();
     }
 
     private void LoadHeroSpawner()
     {
-        this.heroSpawner = GetComponentInChildren<CellHeroSpawner>();
+        this.petSpawner = GetComponentInChildren<CellPetSpawner>();
     }
 
     private void LoadEnemyTileIdToJump()

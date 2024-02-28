@@ -34,14 +34,14 @@ public class UICard : PlaySubscriber
     void UseEnemy()
     {
         var reserveCells = PlayObjects.Instance.CellSpawner.ReserveEnemyCells;
-        Use(HeroType.Enemy, reserveCells);
+        Use(PetType.Enemy, reserveCells);
     }
 
     [Button]
     void UseAlly()
     {
         var reserveCells = PlayObjects.Instance.CellSpawner.ReserveAllyCells;
-        Use(HeroType.Ally, reserveCells);
+        Use(PetType.Ally, reserveCells);
     }
 
     void Use(string heroType, List<Cell> reserveCells)
@@ -58,27 +58,27 @@ public class UICard : PlaySubscriber
             {
                 if (!cell.HasHero)
                 {
-                    SpawnHeroWithType(heroType, cell);
+                    SpawnPetWithType(heroType, cell);
                     break;
                 }
             }
 
             if (!cell.HasHero) continue;
             var previousCell = reserveCells[i - 1];
-            SpawnHeroWithType(heroType, previousCell);
+            SpawnPetWithType(heroType, previousCell);
             break;
         }
     }
 
-    private void SpawnHeroWithType(string heroType, Cell spawnOnCell)
+    private void SpawnPetWithType(string heroType, Cell spawnOnCell)
     {
         switch (heroType)
         {
-            case HeroType.Ally:
-                spawnOnCell.HeroSpawner.SpawnAlly();
+            case PetType.Ally:
+                spawnOnCell.PetSpawner.SpawnAlly();
                 break;
-            case HeroType.Enemy:
-                spawnOnCell.HeroSpawner.SpawnEnemy();
+            case PetType.Enemy:
+                spawnOnCell.PetSpawner.SpawnEnemy();
                 break;
         }
     }

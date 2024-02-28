@@ -28,7 +28,7 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
     {
         TruongObserver.Instance.AddSubscriber(MessageType.OnGameStateChange, this);
         TruongObserver.Instance.AddSubscriber(MessageType.OnTimeChange, this);
-        TruongObserver.Instance.AddSubscriber(MessageType.OnHeroStateChange, this);
+        TruongObserver.Instance.AddSubscriber(MessageType.OnPetStateChange, this);
         TruongObserver.Instance.AddSubscriber(MessageType.OnManaChange, this);
         TruongObserver.Instance.AddSubscriber(MessageType.OnHpChange, this);
     }
@@ -37,7 +37,7 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
     {
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnGameStateChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnTimeChange, this);
-        TruongObserver.Instance.RemoveSubscriber(MessageType.OnHeroStateChange, this);
+        TruongObserver.Instance.RemoveSubscriber(MessageType.OnPetStateChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnManaChange, this);
         TruongObserver.Instance.RemoveSubscriber(MessageType.OnHpChange, this);
     }
@@ -54,9 +54,9 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
                 OnTimeChange((int)message.data[0]);
                 break;
 
-            case MessageType.OnHeroStateChange:
-                Enum.TryParse(message.data[0].ToString(), out HeroState.StateType value);
-                OnHeroStateChange(value);
+            case MessageType.OnPetStateChange:
+                Enum.TryParse(message.data[0].ToString(), out PetState.StateType value);
+                OnPetStateChange(value);
                 break;
             case MessageType.OnManaChange:
                 OnManaChange((int)message.data[0]);
@@ -89,7 +89,7 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
         // For Override
     }
 
-    protected virtual void OnHeroStateChange(HeroState.StateType value)
+    protected virtual void OnPetStateChange(PetState.StateType value)
     {
         // For Override
     }

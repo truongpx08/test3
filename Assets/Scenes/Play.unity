@@ -2157,6 +2157,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heroes: []
+  allyBoss: {fileID: 0}
+  allyEnemy: {fileID: 0}
 --- !u!1 &2064296727
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,8 +6,8 @@ public class PlayObjects : TruongSingleton<PlayObjects>
 {
     [SerializeField] private CellSpawner cellSpawner;
     public CellSpawner CellSpawner => cellSpawner;
-    [SerializeField] private HeroState heroState;
-    public HeroState HeroState => heroState;
+    [SerializeField] private PetState petState;
+    public PetState PetState => petState;
 
     [SerializeField] private Time time;
     public Time Time => time;
@@ -35,7 +35,7 @@ public class PlayObjects : TruongSingleton<PlayObjects>
 
     private void LoadHeroState()
     {
-        this.heroState = GetComponentInChildren<HeroState>();
+        this.petState = GetComponentInChildren<PetState>();
     }
 
     private void LoadTileSpawner()
