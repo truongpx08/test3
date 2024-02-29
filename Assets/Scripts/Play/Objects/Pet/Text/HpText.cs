@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 using UnityEngine;
 
-public class HpText : PetText
+public class HpText : TMPTextHandler
 {
-    protected override void SaveData()
-    {
-        this.pet.Data.hp = int.Parse(text);
-    }
 }

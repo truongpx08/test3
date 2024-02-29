@@ -1,8 +1,8 @@
 public class CellType
 {
-    public const string AllyFinish = "AllyFinish";
-    public const string EnemyFinish = "EnemyFinish";
+    public const string BotFinish = "BotFinish";
+    public const string TopFinish = "TopFinish";
     public const string Combat = "Combat";
-    public const string ReserveEnemy = "ReserveEnemy";
-    public const string ReserveAlly = "ReserveAlly";
+    public const string TopReserve = "TopReserve";
+    public const string BotReserve = "BotReserve";
 }

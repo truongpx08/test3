@@ -15,7 +15,7 @@ MonoBehaviour:
   list:
   - id: 1
     icon: {fileID: 409840613, guid: e055242894d2e6245aea04f5c3a7c167, type: 3}
-    hp: 3
+    hp: 10
     atk: 2
   - id: 2
     icon: {fileID: 790128299, guid: e055242894d2e6245aea04f5c3a7c167, type: 3}

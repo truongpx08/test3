@@ -27,13 +27,13 @@ public abstract class PetAction : PetRefAbstract
     {
         return cell.PetSpawner.Holder.Items.Count != 0 &&
                cell.PetSpawner.Holder.Items.Any(h =>
-                   h.gameObject.activeSelf && h.GetComponent<Pet>().name != this.Data.type);
+                   h.gameObject.activeSelf && h.GetComponent<Pet>().Data.type != this.Data.type);
     }
 
     protected bool HasAllyAtCell(Cell cell)
     {
         return cell.PetSpawner.Holder.Items.Count != 0 &&
                cell.PetSpawner.Holder.Items.Any(h =>
-                   h.gameObject.activeSelf && h.GetComponent<Pet>().name == this.Data.type);
+                   h.gameObject.activeSelf && h.GetComponent<Pet>().Data.type == this.Data.type);
     }
 }

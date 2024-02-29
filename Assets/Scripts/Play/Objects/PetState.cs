@@ -64,7 +64,7 @@ public class PetState : State
     [Button]
     private bool ShouldTransitionToNextState()
     {
-        return PetReference.Instance.Heroes.All(hero => !hero.Data.isActive);
+        return PetReference.Instance.Pets.All(item => !item.Data.isActive);
     }
 
     protected override void NotifyToSubscribers(string value)

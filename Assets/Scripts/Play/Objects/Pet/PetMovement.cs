@@ -22,7 +22,7 @@ public class PetMovement : PetAction
                     this.Data.currentCell.PetSpawner.Holder.Items.Remove(this.pet.transform);
                     nextCell.PetSpawner.Holder.AddItem(this.pet.transform);
 
-                    this.pet.Init.AddCurrentCell(nextCell);
+                    this.pet.Init.SetCurrentCell(nextCell);
                     SetCanMove(false);
                     this.pet.Init.SetIsActive(false);
                 });
@@ -54,7 +54,7 @@ public class PetMovement : PetAction
 
         this.Data.subsequentCell = this.pet.GetSubsequentCell();
         if (this.Data.subsequentCell == null) return false;
-        if (this.Data.subsequentCell.HasHero)
+        if (this.Data.subsequentCell.HasPet)
         {
             if (pet.IsOpponent(this.Data.subsequentCell.Pet)) return false;
         }

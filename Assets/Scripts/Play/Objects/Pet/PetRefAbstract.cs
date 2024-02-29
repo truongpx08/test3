@@ -10,10 +10,10 @@ public class PetRefAbstract : TruongMonoBehaviour
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadHeroRef();
+        LoadPetRef();
     }
 
-    private void LoadHeroRef()
+    private void LoadPetRef()
     {
         this.pet = GetComponentInParent<Pet>();
     }

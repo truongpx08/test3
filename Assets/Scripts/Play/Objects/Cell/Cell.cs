@@ -7,6 +7,10 @@ using UnityEngine;
 
 public abstract class Cell : PlaySubscriber
 {
+    [TitleGroup("Data")]
+    [SerializeField] private CellData data;
+    public CellData Data => data;
+
     [TitleGroup("Ref")]
     [SerializeField] private CellPetSpawner petSpawner;
     public CellPetSpawner PetSpawner => petSpawner;
@@ -14,24 +18,16 @@ public abstract class Cell : PlaySubscriber
     public CellPetDespawner PetDespawner => petDespawner;
 
     [SerializeField] public SpriteRenderer model;
-    [SerializeField] private TextMeshPro tileAllyIdToJumpTMP;
-    [SerializeField] private TextMeshPro tileEnemyIdToJumpTMP;
-    [SerializeField] private TextMeshPro idTMP;
-    [TitleGroup("Data")]
-    [SerializeField] private CellData data;
-    public CellData Data => data;
-    public bool HasHero => petSpawner.Holder.Items.Any(h => h.gameObject.activeSelf);
+
+    public bool HasPet => petSpawner.Holder.Items.Any(h => h.gameObject.activeSelf);
     public Pet Pet => petSpawner.Holder.Items.Find(h => h.gameObject.activeSelf).GetComponent<Pet>();
 
     protected override void LoadComponents()
     {
         base.LoadComponents();
-        LoadAllyTileIdToJump();
-        LoadEnemyTileIdToJump();
-        LoadIdTMP();
         LoadModel();
-        LoadHeroSpawner();
-        LoadHeroDespawner();
+        LoadPetSpawner();
+        LoadPetDespawner();
     }
 
 
@@ -40,29 +36,14 @@ public abstract class Cell : PlaySubscriber
         this.model = transform.Find(TruongConstants.MODEL).GetComponent<SpriteRenderer>();
     }
 
-    private void LoadHeroDespawner()
+    private void LoadPetDespawner()
     {
         this.petDespawner = GetComponentInChildren<CellPetDespawner>();
     }
 
-    private void LoadHeroSpawner()
+    private void LoadPetSpawner()
     {
         this.petSpawner = GetComponentInChildren<CellPetSpawner>();
-    }
-
-    private void LoadEnemyTileIdToJump()
-    {
-        this.tileEnemyIdToJumpTMP = transform.Find("TileEnemyIdToJump").GetComponent<TextMeshPro>();
-    }
-
-    private void LoadIdTMP()
-    {
-        this.idTMP = transform.Find("IdTMP").GetComponent<TextMeshPro>();
-    }
-
-    private void LoadAllyTileIdToJump()
-    {
-        this.tileAllyIdToJumpTMP = transform.Find("TileAllyIdToJump").GetComponent<TextMeshPro>();
     }
 
     protected override void Start()
@@ -82,8 +63,7 @@ public abstract class Cell : PlaySubscriber
     public void AddName()
     {
         this.name =
-            $"Cell c{this.data.column}, r{this.data.row}, id{this.data.id}, allyPath{this.data.allyPathId}, enemyPath{this.data.enemyPathId}";
-        this.idTMP.text = this.data.id.ToString();
+            $"Cell c{this.data.column}, r{this.data.row}, id{this.data.id}";
     }
 
     private void SetType(string value)
@@ -91,16 +71,14 @@ public abstract class Cell : PlaySubscriber
         this.data.type = value;
     }
 
-    public void SetAllyNextCell(int value)
+    public void SetBotNextCell(int value)
     {
-        this.data.allyNextCell = value;
-        this.tileAllyIdToJumpTMP.text = value.ToString();
+        this.data.botNextCellId = value;
     }
 
-    public void SetEnemyNextCell(int value)
+    public void SetTopNextCell(int value)
     {
-        this.data.enemyNextCell = value;
-        this.tileEnemyIdToJumpTMP.text = value.ToString();
+        this.data.topNextCellId = value;
     }
 
     protected void AddColor(Color value)
@@ -112,38 +90,38 @@ public abstract class Cell : PlaySubscriber
     {
         if (Data.row == 0)
         {
-            SetType(CellType.ReserveEnemy);
+            SetType(CellType.TopReserve);
             return;
         }
 
         if (Data.row == CellSpawner.Row - 1)
         {
-            SetType(CellType.ReserveAlly);
+            SetType(CellType.BotReserve);
             return;
         }
 
         if (Data.row == 1 && Data.column == 0)
         {
-            SetType(CellType.AllyFinish);
+            SetType(CellType.BotFinish);
             return;
         }
 
         if (Data.row == CellSpawner.Row - 2 && Data.column == 0)
         {
-            SetType(CellType.EnemyFinish);
+            SetType(CellType.TopFinish);
             return;
         }
 
         SetType(CellType.Combat);
     }
 
-    public void SetAllyPathId(int value)
+    public void SetBotPathId(int value)
     {
-        this.Data.allyPathId = value;
+        this.Data.botPathId = value;
     }
 
-    public void SetEnemyPathId(int value)
+    public void SetTopPathId(int value)
     {
-        this.Data.enemyPathId = value;
+        this.Data.topPathId = value;
     }
 }

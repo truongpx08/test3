@@ -15,14 +15,14 @@ public class CellSpawner : SpawnerObj
     [SerializeField] private List<Cell> cells;
     public List<Cell> Cells => cells;
 
-    [SerializeField] private List<Cell> allyPath;
-    public List<Cell> AllyPath => allyPath;
-    [SerializeField] private List<Cell> enemyPath;
-    public List<Cell> EnemyPath => enemyPath;
-    [SerializeField] private List<Cell> reserveAllyCells;
-    public List<Cell> ReserveAllyCells => reserveAllyCells;
-    [SerializeField] private List<Cell> reserveEnemyCells;
-    public List<Cell> ReserveEnemyCells => reserveEnemyCells;
+    [SerializeField] private List<Cell> botPath;
+    public List<Cell> BotPath => botPath;
+    [SerializeField] private List<Cell> topPath;
+    public List<Cell> TopPath => topPath;
+    [SerializeField] private List<Cell> reserveBotCells;
+    public List<Cell> ReserveBotCells => reserveBotCells;
+    [SerializeField] private List<Cell> reserveTopCells;
+    public List<Cell> ReserveTopCells => reserveTopCells;
 
     protected override void SetVarToDefault()
     {
@@ -39,20 +39,20 @@ public class CellSpawner : SpawnerObj
     {
         if (value != GameState.OnStart) return;
         SpawnCells(Row, Column);
-        AddAlliesNextCell();
-        AddEnemiesNextCell();
+        AddBotNextCell();
+        AddTopNextCell();
         AddNameCells();
-        AddReserveAllyCells();
-        AddReserveEnemyCells();
+        AddReserveBotCells();
+        AddReserveTopCells();
         AddPath();
     }
 
     private void AddPath()
     {
-        this.allyPath.ForEach(curCell =>
+        this.botPath.ForEach(curCell =>
         {
-            if (curCell == this.allyPath.Last()) return;
-            var nextCell = this.allyPath[this.allyPath.IndexOf(curCell) + 1];
+            if (curCell == this.botPath.Last()) return;
+            var nextCell = this.botPath[this.botPath.IndexOf(curCell) + 1];
             if (curCell.Data.row == nextCell.Data.row)
             {
                 var horPath = PlayObjects.Instance.PathSpawner.SpawnHorPath();
@@ -77,14 +77,14 @@ public class CellSpawner : SpawnerObj
     }
 
 
-    private void AddAlliesNextCell()
+    private void AddBotNextCell()
     {
-        SetNextCell(PetType.Ally, allyPath, -1);
+        SetNextCell(PetType.Bot, botPath, -1);
     }
 
-    private void AddEnemiesNextCell()
+    private void AddTopNextCell()
     {
-        SetNextCell(PetType.Enemy, enemyPath, 1);
+        SetNextCell(PetType.Top, topPath, 1);
     }
 
     private void AddNameCells()
@@ -113,8 +113,8 @@ public class CellSpawner : SpawnerObj
                     id = count,
                     row = r,
                     column = c,
-                    allyNextCell = CellData.DefaultNextCellId,
-                    enemyNextCell = CellData.DefaultNextCellId
+                    botNextCellId = CellData.DefaultNextCellId,
+                    topNextCellId = CellData.DefaultNextCellId
                 });
                 cell.AddType();
 
@@ -146,11 +146,11 @@ public class CellSpawner : SpawnerObj
         obj.transform.position = new Vector3(c * spacing - left, r * -spacing + top, 0);
     }
 
-    private void SetNextCell(string heroType, List<Cell> cellPathList, int nextRow)
+    private void SetNextCell(string type, List<Cell> cellPathList, int nextRow)
     {
         cellPathList.Clear();
-        var firstCell = GetFirstCellOfHero(heroType);
-        var lastCell = GetLastCellOfHero(heroType);
+        var firstCell = GetFirstCellOfPet(type);
+        var lastCell = GetLastCellOfPet(type);
 
         int countLoop = 0;
         Loop(firstCell);
@@ -170,14 +170,14 @@ public class CellSpawner : SpawnerObj
                 if (c.Data.row != cell.Data.row) return;
                 if (c == cell) return;
 
-                switch (heroType)
+                switch (type)
                 {
-                    case PetType.Ally:
-                        if (c.Data.allyNextCell != CellData.DefaultNextCellId) return;
+                    case PetType.Bot:
+                        if (c.Data.botNextCellId != CellData.DefaultNextCellId) return;
                         break;
 
-                    case PetType.Enemy:
-                        if (c.Data.enemyNextCell != CellData.DefaultNextCellId) return;
+                    case PetType.Top:
+                        if (c.Data.topNextCellId != CellData.DefaultNextCellId) return;
                         break;
                     default:
                         Debug.LogError("Error");
@@ -218,18 +218,18 @@ public class CellSpawner : SpawnerObj
 
             void SetUpPath(Cell nextCell = null)
             {
-                switch (heroType)
+                switch (type)
                 {
-                    case PetType.Ally:
+                    case PetType.Bot:
                         if (nextCell != null)
-                            cell.SetAllyNextCell(nextCell.Data.id);
-                        cell.SetAllyPathId(countLoop);
+                            cell.SetBotNextCell(nextCell.Data.id);
+                        cell.SetBotPathId(countLoop);
                         break;
 
-                    case PetType.Enemy:
+                    case PetType.Top:
                         if (nextCell != null)
-                            cell.SetEnemyNextCell(nextCell.Data.id);
-                        cell.SetEnemyPathId(countLoop);
+                            cell.SetTopNextCell(nextCell.Data.id);
+                        cell.SetTopPathId(countLoop);
                         break;
                     default:
                         Debug.LogError("Error");
@@ -242,15 +242,15 @@ public class CellSpawner : SpawnerObj
         }
     }
 
-    private Cell GetFirstCellOfHero(string heroType)
+    private Cell GetFirstCellOfPet(string type)
     {
-        switch (heroType)
+        switch (type)
         {
-            case PetType.Enemy:
+            case PetType.Top:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == 0 && cell.Data.column == Column - 1);
 
-            case PetType.Ally:
+            case PetType.Bot:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == Row - 1 && cell.Data.column == Column - 1);
         }
@@ -259,15 +259,15 @@ public class CellSpawner : SpawnerObj
         return null;
     }
 
-    public Cell GetLastCellOfHero(string heroType)
+    public Cell GetLastCellOfPet(string type)
     {
-        switch (heroType)
+        switch (type)
         {
-            case PetType.Enemy:
+            case PetType.Top:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == Row - 1 && cell.Data.column == Column - 1);
 
-            case PetType.Ally:
+            case PetType.Bot:
                 return PlayObjects.Instance.CellSpawner.cells.Find(cell =>
                     cell.Data.row == 0 && cell.Data.column == Column - 1);
         }
@@ -287,19 +287,19 @@ public class CellSpawner : SpawnerObj
         return cells.Find(item => item.Data.type == type);
     }
 
-    private void AddReserveEnemyCells()
+    private void AddReserveTopCells()
     {
-        this.enemyPath.ForEach(c =>
+        this.topPath.ForEach(c =>
         {
-            if (c.Data.type == CellType.ReserveEnemy) this.reserveEnemyCells.Add(c);
+            if (c.Data.type == CellType.TopReserve) this.reserveTopCells.Add(c);
         });
     }
 
-    private void AddReserveAllyCells()
+    private void AddReserveBotCells()
     {
-        this.allyPath.ForEach(c =>
+        this.botPath.ForEach(c =>
         {
-            if (c.Data.type == CellType.ReserveAlly) this.reserveAllyCells.Add(c);
+            if (c.Data.type == CellType.BotReserve) this.reserveBotCells.Add(c);
         });
     }
 }

@@ -9,59 +9,59 @@ public class PetsMoveManager : PlaySubscriber
     {
         base.OnPetStateChange(value);
         if (value != PetState.StateType.BeforeMove) return;
-        CalculateMoveAllies();
-        CalculateMoveEnemies();
+        CalculateMovementOfBotPet();
+        CalculateMovementOfTopPet();
     }
 
-    private void CalculateMoveEnemies()
+    private void CalculateMovementOfTopPet()
     {
-        List<Pet> heroList = GetEnemies();
-        heroList = heroList.OrderBy(item => item.Data.currentCell.Data.enemyPathId).ToList();
-        CalculateMove(heroList);
+        List<Pet> list = GetTopPet();
+        list = list.OrderBy(item => item.Data.currentCell.Data.topPathId).ToList();
+        CalculateMove(list);
     }
 
-    private void CalculateMoveAllies()
+    private void CalculateMovementOfBotPet()
     {
-        List<Pet> heroList = GetAllies();
-        heroList = heroList.OrderByDescending(item => item.Data.currentCell.Data.allyPathId).ToList();
-        CalculateMove(heroList);
+        List<Pet> list = GetBotPet();
+        list = list.OrderByDescending(item => item.Data.currentCell.Data.botPathId).ToList();
+        CalculateMove(list);
     }
 
-    private void CalculateMove(List<Pet> heroList)
+    private void CalculateMove(List<Pet> petList)
     {
-        heroList.ForEach(hero =>
+        petList.ForEach(pet =>
         {
-            if (!hero.Movement.GetCanMove())
+            if (!pet.Movement.GetCanMove())
             {
-                hero.Movement.SetCanMove(false);
+                pet.Movement.SetCanMove(false);
                 return;
             }
 
-            hero.Movement.SetCanMove(true);
+            pet.Movement.SetCanMove(true);
         });
     }
 
-    private List<Pet> GetAllies()
+    private List<Pet> GetBotPet()
     {
-        return GetHeroListWithType(PetType.Ally);
+        return GetPetListWithType(PetType.Top);
     }
 
 
-    private List<Pet> GetEnemies()
+    private List<Pet> GetTopPet()
     {
-        return GetHeroListWithType(PetType.Enemy);
+        return GetPetListWithType(PetType.Bot);
     }
 
-    private List<Pet> GetHeroListWithType(string heroType)
+    private List<Pet> GetPetListWithType(string petType)
     {
-        List<Pet> heroes = new List<Pet>();
+        List<Pet> pets = new List<Pet>();
 
-        PetReference.Instance.Heroes.ForEach(hero =>
+        PetReference.Instance.Pets.ForEach(pet =>
         {
-            if (hero.Data.type != heroType) return;
-            if (hero.Data.isBoss) return;
-            heroes.Add(hero);
+            if (pet.Data.type != petType) return;
+            if (pet.Data.isBoss) return;
+            pets.Add(pet);
         });
-        return heroes;
+        return pets;
     }
 }

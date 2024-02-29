@@ -23,7 +23,7 @@ public class PetFaintness : PetAction
             this.Data.currentCell.PetSpawner.Holder.Items.Clear();
             var cell = PlayObjects.Instance.CellSpawner.GetCellWithType(this.pet.GetReserveType());
             cell.PetDespawner.DespawnObject(this.pet.transform);
-            PetReference.Instance.Heroes.Remove(this.pet);
+            PetReference.Instance.Pets.Remove(this.pet);
         });
     }
 }

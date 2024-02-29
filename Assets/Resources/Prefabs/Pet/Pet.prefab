@@ -173,7 +173,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ff1e495c3010fd49bf2c2264a3c8021, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hero: {fileID: 0}
+  pet: {fileID: 0}
 --- !u!1 &2871782838623601284
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,6 +183,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 138824370882388670}
+  - component: {fileID: -6514523962438128146}
   m_Layer: 0
   m_Name: Pet
   m_TagString: Untagged
@@ -215,6 +216,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-6514523962438128146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2871782838623601284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e7daf07ddcca9543a417b80fe2f508b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  model: {fileID: 0}
+  hpText: {fileID: 0}
+  atkText: {fileID: 0}
+  init: {fileID: 0}
+  movement: {fileID: 0}
+  attack: {fileID: 0}
+  injury: {fileID: 0}
+  faintness: {fileID: 0}
+  data:
+    id: 0
+    icon: {fileID: 0}
+    hp: 0
+    atk: 0
+    owner: 
+    currentCell: {fileID: 0}
+    nextCell: {fileID: 0}
+    subsequentCell: {fileID: 0}
+    isActive: 0
+    durationAnim: 0
+    canMove: 0
+    finishCellType: 
+    isBoss: 0
+  bulletSpawner: {fileID: 0}
+  bulletDespawner: {fileID: 0}
 --- !u!1 &3345734598245049981
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,7 +341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d98e1d3757815489576281e94bb74a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hero: {fileID: 0}
+  pet: {fileID: 0}
 --- !u!1 &4577705518486588584
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,7 +434,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2537a834fa8a31441ad3688ce8633b57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hero: {fileID: 0}
+  pet: {fileID: 0}
 --- !u!1 &7223262798527515623
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +479,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f4f086fd76f0444bb125a7dc04663f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hero: {fileID: 0}
+  pet: {fileID: 0}
   wasAttacked: 0
   damageReceived: 0
 --- !u!1 &7989255718214737433
@@ -537,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23ae550cc146c4e4e9114e5687d1e940, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hero: {fileID: 0}
+  pet: {fileID: 0}
 --- !u!1001 &3068575924334167769
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,8 +5,11 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public abstract class Pet : PlaySubscriber
+public class Pet : PlaySubscriber
 {
+    [TitleGroup("Data")]
+    [SerializeField] protected PetData data;
+    public PetData Data => data;
     [TitleGroup("Ref")]
     [SerializeField] protected SpriteRenderer model;
     public SpriteRenderer Model => model;
@@ -25,11 +28,8 @@ public abstract class Pet : PlaySubscriber
     [SerializeField] private PetFaintness faintness;
     public PetFaintness Faintness => faintness;
 
-    [TitleGroup("Data")]
-    [SerializeField] protected PetData data;
     [SerializeField] private PetBulletSpawner bulletSpawner;
     public PetBulletSpawner BulletSpawner => bulletSpawner;
-    public PetData Data => data;
     [SerializeField] private PetBulletDespawner bulletDespawner;
     public PetBulletDespawner BulletDespawner => bulletDespawner;
 
@@ -131,18 +131,47 @@ public abstract class Pet : PlaySubscriber
     }
 
 
-    public abstract void AddType();
-    public abstract void AddColor();
-    public abstract void AddFinishCellType();
-
-    protected void SetFinishCellType(string value)
+    public Cell GetNextCell()
     {
-        this.Data.finishCellType = value;
+        switch (this.Data.type)
+        {
+            case PetType.Bot:
+                return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.botNextCellId);
+
+            case PetType.Top:
+                return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.currentCell.Data.topNextCellId);
+        }
+
+        return null;
     }
 
-    public abstract Cell GetNextCell();
-    public abstract Cell GetSubsequentCell();
-    public abstract string GetReserveType();
+    public Cell GetSubsequentCell()
+    {
+        switch (this.Data.type)
+        {
+            case PetType.Bot:
+                return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.botNextCellId);
+
+            case PetType.Top:
+                return PlayObjects.Instance.CellSpawner.GetCellWithId(this.Data.nextCell.Data.topNextCellId);
+        }
+
+        return null;
+    }
+
+    public string GetReserveType()
+    {
+        switch (this.Data.type)
+        {
+            case PetType.Bot:
+                return CellType.BotReserve;
+
+            case PetType.Top:
+                return CellType.TopReserve;
+        }
+
+        return null;
+    }
 
     public bool IsTeammate(Pet pet)
     {
@@ -152,5 +181,17 @@ public abstract class Pet : PlaySubscriber
     public bool IsOpponent(Pet pet)
     {
         return this.Data.type != pet.Data.type;
+    }
+
+    public void AddDataWithPetId(int petId)
+    {
+        var petData = PlayData.Instance.PetsData.GetPetDataWithId(petId);
+        this.data = new PetData
+        {
+            id = petData.id,
+            icon = petData.icon,
+            hp = petData.hp,
+            atk = petData.atk,
+        };
     }
 }

@@ -18,7 +18,7 @@ public class PlayObjects : TruongSingleton<PlayObjects>
     {
         base.LoadComponents();
         LoadTileSpawner();
-        LoadHeroState();
+        LoadPetState();
         LoadTime();
         LoadPathSpawner();
     }
@@ -33,7 +33,7 @@ public class PlayObjects : TruongSingleton<PlayObjects>
         this.time = GetComponentInChildren<Time>();
     }
 
-    private void LoadHeroState()
+    private void LoadPetState()
     {
         this.petState = GetComponentInChildren<PetState>();
     }

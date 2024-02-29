@@ -1,5 +1,5 @@
 public class PetType
 {
-    public const string Ally = "Ally";
-    public const string Enemy = "Enemy";
+    public const string Bot = "Bottom";
+    public const string Top = "Top";
 }

@@ -7,13 +7,26 @@ public class PetInit : PetRefAbstract
     public void Init()
     {
         AddPosition();
-        this.pet.AddType();
-        this.pet.AddColor();
-        this.pet.AddFinishCellType();
-        AddHp();
-        AddAtk();
+        AddIsActive();
+        AddColor();
+        AddFinishCellType();
         AddDurationAnim();
-        AddIsInStatus();
+        AddAtk();
+        AddHp();
+    }
+
+    private void AddColor()
+    {
+        switch (this.Data.type)
+        {
+            case PetType.Bot:
+                SetColor(Color.blue);
+                break;
+
+            case PetType.Top:
+                SetColor(Color.red);
+                break;
+        }
     }
 
     private void AddPosition()
@@ -21,14 +34,13 @@ public class PetInit : PetRefAbstract
         this.pet.transform.localPosition = Vector3.zero;
     }
 
-    private void AddIsInStatus()
+    private void AddIsActive()
     {
         SetIsActive(false);
     }
 
     public void SetType(string value)
     {
-        Debug.Log("Setting name");
         this.Data.type = value;
     }
 
@@ -37,19 +49,19 @@ public class PetInit : PetRefAbstract
         this.pet.Model.color = red;
     }
 
-    public void AddCurrentCell(Cell value)
+    public void SetCurrentCell(Cell value)
     {
         this.Data.currentCell = value;
     }
 
     private void AddAtk()
     {
-        this.pet.AtkText.UpdateText(Random.Range(2, 4).ToString());
+        this.pet.AtkText.UpdateText(this.Data.atk.ToString());
     }
 
     private void AddHp()
     {
-        this.pet.HpText.UpdateText(Random.Range(10, 15).ToString());
+        this.pet.HpText.UpdateText(this.Data.hp.ToString());
     }
 
     private void AddDurationAnim()
@@ -62,13 +74,27 @@ public class PetInit : PetRefAbstract
         this.Data.isActive = value;
     }
 
-    public void AddId(int value)
-    {
-        this.Data.id = value;
-    }
-
     public void AddIsBoss(bool value)
     {
         this.Data.isBoss = value;
+    }
+
+    private void AddFinishCellType()
+    {
+        switch (this.Data.type)
+        {
+            case PetType.Bot:
+                SetFinishCellType(CellType.BotFinish);
+                break;
+
+            case PetType.Top:
+                SetFinishCellType(CellType.TopFinish);
+                break;
+        }
+    }
+
+    private void SetFinishCellType(string value)
+    {
+        this.Data.finishCellType = value;
     }
 }

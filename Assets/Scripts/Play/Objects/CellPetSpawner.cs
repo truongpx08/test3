@@ -6,14 +6,8 @@ using UnityEngine;
 
 public class CellPetSpawner : TruongSpawner
 {
-    private Cell cell;
-    [SerializeField] private int count;
-
-    protected override void SetVarToDefault()
-    {
-        base.SetVarToDefault();
-        count = 0;
-    }
+    [SerializeField] private Cell cell;
+    public Cell Cell => cell;
 
     protected override void LoadComponents()
     {
@@ -31,27 +25,8 @@ public class CellPetSpawner : TruongSpawner
         LoadPrefabInResourceWithPrefabName(TruongConstants.Pet);
     }
 
-    [Button]
-    public void SpawnAlly()
+    public Pet SpawnPet()
     {
-        var go = SpawnObjectWithName(PetType.Ally);
-        SetUpGo(go);
-    }
-
-    [Button]
-    public void SpawnEnemy()
-    {
-        var go = SpawnObjectWithName(PetType.Enemy);
-        SetUpGo(go);
-    }
-
-    private void SetUpGo(Transform go)
-    {
-        var hero = go.GetComponent<Pet>();
-        hero.Init.AddCurrentCell(cell);
-        hero.Init.Init();
-        hero.Init.AddId(count);
-        PetReference.Instance.Heroes.Add(hero);
-        this.count++;
+        return SpawnDefaultObject().GetComponent<Pet>();
     }
 }

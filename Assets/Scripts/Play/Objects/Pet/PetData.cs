@@ -1,6 +1,8 @@
 [System.Serializable]
 public class PetData : PetsData.PetData
 {
+    public const int BossId = 1;
+    
     public string type;
     public Cell currentCell;
     public Cell nextCell;

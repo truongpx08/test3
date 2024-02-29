@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
@@ -6,7 +7,15 @@ using UnityEngine.UI;
 
 public class UICard : PlaySubscriber
 {
+    [Serializable] public class CardData
+    {
+        public int id;
+        public int petId;
+        public string type;
+    }
+
     [SerializeField] private Button button;
+    [SerializeField] private CardData data;
 
     protected override void LoadComponents()
     {
@@ -17,7 +26,13 @@ public class UICard : PlaySubscriber
     protected override void Start()
     {
         base.Start();
-        this.button.onClick.AddListener(OnClickButton); 
+        this.button.onClick.AddListener(OnClickButton);
+        this.data = new CardData
+        {
+            id = 1,
+            petId = 2,
+            type = PetType.Bot,
+        };
     }
 
     private void LoadButton()
@@ -27,59 +42,58 @@ public class UICard : PlaySubscriber
 
     private void OnClickButton()
     {
-        UseAlly();
+        UseBotCard();
     }
 
     [Button]
-    void UseEnemy()
+    void UseBotCard()
     {
-        var reserveCells = PlayObjects.Instance.CellSpawner.ReserveEnemyCells;
-        Use(PetType.Enemy, reserveCells);
+        var reserveCells = PlayObjects.Instance.CellSpawner.ReserveBotCells;
+        Use(reserveCells);
     }
 
-    [Button]
-    void UseAlly()
+    void Use(List<Cell> reserveCells)
     {
-        var reserveCells = PlayObjects.Instance.CellSpawner.ReserveAllyCells;
-        Use(PetType.Ally, reserveCells);
+        Cell cell = GetCellToSummon(reserveCells);
+        SummonPet(cell);
     }
 
-    void Use(string heroType, List<Cell> reserveCells)
+    private Cell GetCellToSummon(List<Cell> reserveCells)
     {
         for (int i = 0; i < reserveCells.Count; i++)
         {
             var cell = reserveCells[i];
             if (i == 0)
             {
-                if (cell.HasHero) break;
+                if (cell.HasPet) break;
             }
 
             if (i == reserveCells.Count - 1)
             {
-                if (!cell.HasHero)
+                if (!cell.HasPet)
                 {
-                    SpawnPetWithType(heroType, cell);
-                    break;
+                    return cell;
                 }
             }
 
-            if (!cell.HasHero) continue;
+            if (!cell.HasPet) continue;
             var previousCell = reserveCells[i - 1];
-            SpawnPetWithType(heroType, previousCell);
-            break;
+            return previousCell;
         }
+
+        return null;
     }
 
-    private void SpawnPetWithType(string heroType, Cell spawnOnCell)
+    private void SummonPet(Cell cellToSummon)
     {
-        switch (heroType)
-        {
-            case PetType.Ally:
-                spawnOnCell.PetSpawner.SpawnAlly();
-                break;
-            case PetType.Enemy:
-                spawnOnCell.PetSpawner.SpawnEnemy();
-                break;
-        }
+        if (cellToSummon == null) return;
+
+        Pet pet = cellToSummon.PetSpawner.SpawnPet();
+        pet.AddDataWithPetId(this.data.petId);
+        pet.Init.SetType(this.data.type);
+        pet.Init.Init();
+        pet.Init.SetCurrentCell(cellToSummon);
+
+        PetReference.Instance.Pets.Add(pet);
     }
 }

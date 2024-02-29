@@ -316,11 +316,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f5c282c5cfd6a41960acd579d28e37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabName: Hero
-  prefabPath: Prefabs\Hero
+  prefabName: Pet
+  prefabPath: Prefabs\Pet
   items:
-  - {fileID: 6910739313901093078, guid: f4f996c3c473a1c4ea72ac119cf519e2, type: 3}
-  - {fileID: 6910739313901093078, guid: 6ed48d8cf0497c04593edd33b3be6b68, type: 3}
   - {fileID: 138824370882388670, guid: b354b912bbdec184ab1770eeb9dbade4, type: 3}
 --- !u!1 &229020729
 GameObject:
@@ -333,7 +331,7 @@ GameObject:
   - component: {fileID: 229020730}
   - component: {fileID: 229020731}
   m_Layer: 0
-  m_Name: HeroState
+  m_Name: PetState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -367,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 
-  stateOrder: 0000000001000000020000000300000004000000
+  stateOrder: 00000000010000000200000003000000040000000500000006000000
 --- !u!1 &391879535
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,6 +407,7 @@ Transform:
   - {fileID: 1125599978}
   - {fileID: 658364454}
   - {fileID: 1201883197}
+  - {fileID: 843329624}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -437,7 +436,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSpawner: {fileID: 1735533323}
-  heroState: {fileID: 229020731}
+  petState: {fileID: 229020731}
   time: {fileID: 1488900549}
   pathSpawner: {fileID: 658364455}
 --- !u!1 &464624449
@@ -492,6 +491,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1231514724}
+  data:
+    id: 0
+    petId: 0
+    type: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,6 +719,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 
+--- !u!1 &843329623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 843329624}
+  - component: {fileID: 843329626}
+  - component: {fileID: 843329625}
+  m_Layer: 0
+  m_Name: Data
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &843329624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843329623}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 391879536}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &843329625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843329623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d9c3c91936e9d24bba2fadd4d63d898, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &843329626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843329623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ff1f96eb6d82f4db17e5826c435347, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  petsData: {fileID: 11400000, guid: 97d880bfe9c5dae4ca917d26632ad417, type: 2}
 --- !u!1 &950948672
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,7 +994,7 @@ GameObject:
   - component: {fileID: 1125599978}
   - component: {fileID: 1125599979}
   m_Layer: 0
-  m_Name: HeroesMovement
+  m_Name: PetsMovement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1991,10 +2052,10 @@ MonoBehaviour:
   left: 0
   count: 0
   cells: []
-  allyPath: []
-  enemyPath: []
-  reserveAllyCells: []
-  reserveEnemyCells: []
+  botPath: []
+  topPath: []
+  reserveBotCells: []
+  reserveTopCells: []
 --- !u!1 &1807131511
 GameObject:
   m_ObjectHideFlags: 0
@@ -2111,7 +2172,7 @@ GameObject:
   - component: {fileID: 1982511970}
   - component: {fileID: 1982511969}
   m_Layer: 0
-  m_Name: HeroReference
+  m_Name: PetReference
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2156,9 +2217,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 314859fcf6e48944181e6da3d734eadc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heroes: []
-  allyBoss: {fileID: 0}
-  allyEnemy: {fileID: 0}
+  pets: []
+  botBoss: {fileID: 0}
+  topBoss: {fileID: 0}
 --- !u!1 &2064296727
 GameObject:
   m_ObjectHideFlags: 0
@@ -2206,7 +2267,6 @@ MonoBehaviour:
   prefabName: Cell
   prefabPath: Prefabs\Cell
   items:
-  - {fileID: 7647495603582160457, guid: 04162f08155fd7f439ea8a311c38981f, type: 3}
   - {fileID: 7647495603582160457, guid: f7904d47cd415e94fa4ff85afca99b64, type: 3}
   - {fileID: 2747531320779051829, guid: e32507a84cae8d54fb37a04a9923d4ca, type: 3}
   - {fileID: 7208556683125913848, guid: c969d87c3be8ede4586e95258cb04b1b, type: 3}

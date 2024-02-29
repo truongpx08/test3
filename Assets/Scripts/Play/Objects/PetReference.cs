@@ -4,33 +4,33 @@ using UnityEngine;
 
 public class PetReference : TruongSingleton<PetReference>
 {
-    [SerializeField] private List<Pet> heroes;
-    public List<Pet> Heroes => heroes;
-    [SerializeField] private Pet allyBoss;
-    public Pet AllyBoss => allyBoss;
-    [SerializeField] private Pet allyEnemy;
-    public Pet AllyEnemy => allyEnemy;
+    [SerializeField] private List<Pet> pets;
+    public List<Pet> Pets => pets;
+    [SerializeField] private Pet botBoss;
+    public Pet BotBoss => botBoss;
+    [SerializeField] private Pet topBoss;
+    public Pet TopBoss => topBoss;
 
     public Pet GetBoss(string dataType)
     {
         switch (dataType)
         {
-            case PetType.Ally:
-                return AllyEnemy;
-            case PetType.Enemy:
-                return AllyBoss;
+            case PetType.Bot:
+                return TopBoss;
+            case PetType.Top:
+                return BotBoss;
         }
 
         return null;
     }
 
-    public void AddEnemyBoss(Pet value)
+    public void AddTopBoss(Pet value)
     {
-        this.allyEnemy = value;
+        this.topBoss = value;
     }
 
-    public void AddAllyBoss(Pet value)
+    public void AddBotBoss(Pet value)
     {
-        this.allyBoss = value;
+        this.botBoss = value;
     }
 }
