@@ -18,8 +18,7 @@ public class PetInjury : PetAction
     {
         CallActionWithDelay(() =>
         {
-            this.pet.Data.hp = Mathf.Clamp(this.Data.hp - this.damageReceived, 0, 50);
-            this.pet.HpText.UpdateText(this.pet.Data.hp.ToString());
+            this.pet.Hp.ChangeValue(this.PetData.hp - this.damageReceived);
             this.wasAttacked = false;
         });
     }

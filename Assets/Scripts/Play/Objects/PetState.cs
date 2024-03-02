@@ -20,16 +20,18 @@ public class PetState : State
         None = 0,
         BeforeMove = 1,
         Move = 2,
-        Attack = 3,
-        Injury = 4,
-        Faint = 5,
-        AfterFaint = 6,
+        AfterMove = 3,
+        Attack = 4,
+        Injury = 5,
+        Faint = 6,
+        AfterFaint = 7,
     }
 
-    protected override void OnPetStateChange(PetState.StateType value)
+    protected override void OnPetStateChange(PetState.StateType state)
     {
-        base.OnPetStateChange(value);
-        SetCurrentState(value.ToString());
+        base.OnPetStateChange(state);
+        SetCurrentState(state.ToString());
+        // Debug.Log("SetCurrentState: " + state);
     }
 
     protected override void OnGameStateChange(string value)
@@ -50,7 +52,7 @@ public class PetState : State
         while (true)
         {
             yield return null; //1 frame
-            if (!ShouldTransitionToNextState()) continue;
+            if (!CanTransitionToNextState()) continue;
             TransitionToNextState();
         }
     }
@@ -62,9 +64,12 @@ public class PetState : State
     }
 
     [Button]
-    private bool ShouldTransitionToNextState()
+    private bool CanTransitionToNextState()
     {
-        return PetReference.Instance.Pets.All(item => !item.Data.isActive);
+        if (PetReference.Instance.Pets.Any(item => item.Data.isActive)) return false;
+        if (PetReference.Instance.BotBoss.Data.isActive) return false;
+        if (PetReference.Instance.TopBoss.Data.isActive) return false;
+        return true;
     }
 
     protected override void NotifyToSubscribers(string value)

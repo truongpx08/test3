@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5889834387764934260, guid: d28ee494fb57f094894d8e8f90b628c6, type: 3}
       propertyPath: m_Name
-      value: HpText
+      value: Hp
       objectReference: {fileID: 0}
     - target: {fileID: 7181261595385211847, guid: d28ee494fb57f094894d8e8f90b628c6, type: 3}
       propertyPath: m_Pivot.x
@@ -127,4 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 2150649437360017817}
   text: 
-  hero: {fileID: 0}
+  pet: {fileID: 0}

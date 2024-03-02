@@ -13,10 +13,10 @@ public class Pet : PlaySubscriber
     [TitleGroup("Ref")]
     [SerializeField] protected SpriteRenderer model;
     public SpriteRenderer Model => model;
-    [SerializeField] protected HpText hpText;
-    public HpText HpText => hpText;
-    [SerializeField] protected AtkText atkText;
-    public AtkText AtkText => atkText;
+    [SerializeField] protected PetHp hp;
+    public PetHp Hp => hp;
+    [SerializeField] protected PetAtk atk;
+    public PetAtk Atk => atk;
     [SerializeField] private PetInit init;
     public PetInit Init => init;
     [SerializeField] private PetMovement movement;
@@ -32,6 +32,8 @@ public class Pet : PlaySubscriber
     public PetBulletSpawner BulletSpawner => bulletSpawner;
     [SerializeField] private PetBulletDespawner bulletDespawner;
     public PetBulletDespawner BulletDespawner => bulletDespawner;
+    [SerializeField] private PetAbility ability;
+    public PetAbility Ability => ability;
 
     protected override void LoadComponents()
     {
@@ -85,12 +87,12 @@ public class Pet : PlaySubscriber
 
     private void LoadAtkText()
     {
-        this.atkText = GetComponentInChildren<AtkText>();
+        this.atk = GetComponentInChildren<PetAtk>();
     }
 
     private void LoadHpText()
     {
-        this.hpText = GetComponentInChildren<HpText>();
+        this.hp = GetComponentInChildren<PetHp>();
     }
 
     private void LoadModel()
@@ -98,12 +100,30 @@ public class Pet : PlaySubscriber
         this.model = this.transform.Find(TruongChildName.Model).GetComponent<SpriteRenderer>();
     }
 
-    protected override void OnPetStateChange(PetState.StateType value)
+    public void AddDataWithPetId(int petId)
     {
-        base.OnPetStateChange(value);
-        switch (value)
+        var petData = PlayData.Instance.PetsData.GetPetDataWithId(petId);
+        this.data = new PetData
         {
-            case PetState.StateType.BeforeMove:
+            id = petData.id,
+            icon = petData.icon,
+            ability = petData.ability,
+            hp = petData.hp,
+            atk = petData.atk,
+        };
+    }
+
+    public void AddAbility()
+    {
+        this.ability = Instantiate(this.Data.ability, transform);
+    }
+
+    protected override void OnPetStateChange(PetState.StateType state)
+    {
+        base.OnPetStateChange(state);
+        switch (state)
+        {
+            case PetState.StateType.None:
                 break;
 
             case PetState.StateType.Move:
@@ -122,11 +142,14 @@ public class Pet : PlaySubscriber
                 this.Faintness.TryFaint();
                 break;
 
-            case PetState.StateType.None:
             case PetState.StateType.AfterFaint:
+            case PetState.StateType.BeforeMove:
+            case PetState.StateType.AfterMove:
+                if (this.ability == null) break;
+                this.Ability.TryUse(state, this);
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(value), value, null);
+                throw new ArgumentOutOfRangeException(nameof(state), state, null);
         }
     }
 
@@ -181,17 +204,5 @@ public class Pet : PlaySubscriber
     public bool IsOpponent(Pet pet)
     {
         return this.Data.type != pet.Data.type;
-    }
-
-    public void AddDataWithPetId(int petId)
-    {
-        var petData = PlayData.Instance.PetsData.GetPetDataWithId(petId);
-        this.data = new PetData
-        {
-            id = petData.id,
-            icon = petData.icon,
-            hp = petData.hp,
-            atk = petData.atk,
-        };
     }
 }

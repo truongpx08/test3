@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Sirenix.OdinInspector;
-using UnityEditor;
 
 [CreateAssetMenu(fileName = "AbilitiesData", menuName = "ScriptableObjects/SpawnAbilitiesData", order = 1)]
 public class AbilitiesData : ScriptableObject
 {
-    [SerializeField] private List<AbilityData> list;
-    public List<AbilityData> List => list;
+    [SerializeField] private List<Data> list;
+    public List<Data> List => list;
 
-    [Serializable] public class AbilityData
+    [Serializable] public class Data
     {
         public int id;
         public PetState.StateType triggerEvent;
@@ -19,7 +18,7 @@ public class AbilitiesData : ScriptableObject
     }
 
     [Button]
-    public AbilityData GetDataWithId(int id)
+    public Data GetDataWithId(int id)
     {
         return list.Find(item => item.id == id);
     }

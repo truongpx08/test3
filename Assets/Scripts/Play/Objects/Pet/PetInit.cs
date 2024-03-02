@@ -17,7 +17,7 @@ public class PetInit : PetRefAbstract
 
     private void AddColor()
     {
-        switch (this.Data.type)
+        switch (this.PetData.type)
         {
             case PetType.Bot:
                 SetColor(Color.blue);
@@ -41,7 +41,7 @@ public class PetInit : PetRefAbstract
 
     public void SetType(string value)
     {
-        this.Data.type = value;
+        this.PetData.type = value;
     }
 
     public void SetColor(Color red)
@@ -51,37 +51,38 @@ public class PetInit : PetRefAbstract
 
     public void SetCurrentCell(Cell value)
     {
-        this.Data.currentCell = value;
+        this.PetData.currentCell = value;
     }
 
     private void AddAtk()
     {
-        this.pet.AtkText.UpdateText(this.Data.atk.ToString());
+        this.pet.Atk.UpdateText(this.PetData.atk.ToString());
     }
 
     private void AddHp()
     {
-        this.pet.HpText.UpdateText(this.Data.hp.ToString());
+        this.pet.Hp.UpdateText(this.PetData.hp.ToString());
     }
 
     private void AddDurationAnim()
     {
-        this.Data.durationAnim = 0.5f;
+        this.PetData.durationAnim = 0.5f;
     }
 
     public void SetIsActive(bool value)
     {
-        this.Data.isActive = value;
+        // Debug.Log($"debug {this.PetData.id} {value}");
+        this.PetData.isActive = value;
     }
 
     public void AddIsBoss(bool value)
     {
-        this.Data.isBoss = value;
+        this.PetData.isBoss = value;
     }
 
     private void AddFinishCellType()
     {
-        switch (this.Data.type)
+        switch (this.PetData.type)
         {
             case PetType.Bot:
                 SetFinishCellType(CellType.BotFinish);
@@ -95,6 +96,6 @@ public class PetInit : PetRefAbstract
 
     private void SetFinishCellType(string value)
     {
-        this.Data.finishCellType = value;
+        this.PetData.finishCellType = value;
     }
 }

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   list:
   - id: 1
-    triggerEvent: 6
+    triggerEvent: 1
     description: Gain 1 mana

@@ -12,7 +12,6 @@ public abstract class State : PlaySubscriber
 
     protected void SetCurrentState(string value)
     {
-        // Debug.Log("SetCurrentState: " + value);
         this.currentState = value;
     }
 }

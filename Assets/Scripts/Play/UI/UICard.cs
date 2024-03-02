@@ -15,7 +15,7 @@ public class UICard : PlaySubscriber
     }
 
     [SerializeField] private Button button;
-    [SerializeField] private CardData data;
+    [SerializeField] private CardData cardData;
 
     protected override void LoadComponents()
     {
@@ -27,7 +27,7 @@ public class UICard : PlaySubscriber
     {
         base.Start();
         this.button.onClick.AddListener(OnClickButton);
-        this.data = new CardData
+        this.cardData = new CardData
         {
             id = 1,
             petId = 2,
@@ -89,8 +89,9 @@ public class UICard : PlaySubscriber
         if (cellToSummon == null) return;
 
         Pet pet = cellToSummon.PetSpawner.SpawnPet();
-        pet.AddDataWithPetId(this.data.petId);
-        pet.Init.SetType(this.data.type);
+        pet.AddDataWithPetId(this.cardData.petId);
+        pet.AddAbility();
+        pet.Init.SetType(this.cardData.type);
         pet.Init.Init();
         pet.Init.SetCurrentCell(cellToSummon);
 

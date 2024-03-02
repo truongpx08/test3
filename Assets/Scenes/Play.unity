@@ -491,7 +491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 1231514724}
-  data:
+  cardData:
     id: 0
     petId: 0
     type: 

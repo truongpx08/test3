@@ -89,7 +89,7 @@ public abstract class PlaySubscriber : TruongMonoBehaviour, IMessageHandler
         // For Override
     }
 
-    protected virtual void OnPetStateChange(PetState.StateType value)
+    protected virtual void OnPetStateChange(PetState.StateType state)
     {
         // For Override
     }

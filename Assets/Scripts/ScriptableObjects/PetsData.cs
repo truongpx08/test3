@@ -15,6 +15,7 @@ public class PetsData : ScriptableObject
     {
         public int id;
         public Sprite icon;
+        public PetAbility ability;
         public int hp;
         public int atk;
     }

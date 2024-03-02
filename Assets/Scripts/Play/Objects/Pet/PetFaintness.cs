@@ -6,8 +6,8 @@ public class PetFaintness : PetAction
 {
     public void TryFaint()
     {
-        if (this.Data.hp > 0) return;
-        if (this.Data.isBoss)
+        if (this.PetData.hp > 0) return;
+        if (this.PetData.isBoss)
         {
             // Todo GameOver
             return;
@@ -20,7 +20,7 @@ public class PetFaintness : PetAction
     {
         CallActionWithDelay(() =>
         {
-            this.Data.currentCell.PetSpawner.Holder.Items.Clear();
+            this.PetData.currentCell.PetSpawner.Holder.Items.Clear();
             var cell = PlayObjects.Instance.CellSpawner.GetCellWithType(this.pet.GetReserveType());
             cell.PetDespawner.DespawnObject(this.pet.transform);
             PetReference.Instance.Pets.Remove(this.pet);

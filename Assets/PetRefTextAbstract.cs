@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class PetRefAbstract : TruongMonoBehaviour
+public class PetRefTextAbstract : TMPTextHandler
 {
     [SerializeField] protected Pet pet;
     protected PetData PetData => this.pet.Data;
@@ -23,12 +22,5 @@ public class PetRefAbstract : TruongMonoBehaviour
     {
         if (this.pet != null) return;
         this.pet = value;
-    }
-
-    [Button]
-    protected void ReloadPetRef()
-    {
-        if (this.pet != null) return;
-        LoadPetRef();
     }
 }

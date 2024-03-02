@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class PetsMoveManager : PlaySubscriber
 {
-    protected override void OnPetStateChange(PetState.StateType value)
+    protected override void OnPetStateChange(PetState.StateType state)
     {
-        base.OnPetStateChange(value);
-        if (value != PetState.StateType.BeforeMove) return;
+        base.OnPetStateChange(state);
+        if (state != PetState.StateType.BeforeMove) return;
         CalculateMovementOfBotPet();
         CalculateMovementOfTopPet();
     }
